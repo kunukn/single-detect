@@ -11,6 +11,10 @@ using SingleDetectLibrary.Code.MathUtil;
 
 namespace SingleDetectLibrary.Code
 {
+    /// <summary>
+    /// Author: Kunuk Nykjaer    
+    /// MIT license        
+    /// </summary>
     public class SingleDetectAlgorithm : ISingleDetectAlgorithm
     {        
         private readonly Rectangle _rect;

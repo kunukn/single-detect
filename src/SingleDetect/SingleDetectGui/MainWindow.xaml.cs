@@ -17,8 +17,8 @@ using SingleDetectLibrary.Code.MathUtil;
 
 namespace SingleDetectGui
 {
-    /// <summary>
-    /// Author: Kunuk Nykjaer
+    /// <summary>   
+    /// Author: Kunuk Nykjaer    
     /// MIT license        
     /// </summary>
     public partial class MainWindow

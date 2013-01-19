@@ -7,6 +7,10 @@ using SingleDetectLibrary.Code.Data;
 
 namespace SingleDetectConsole
 {
+    /// <summary>
+    /// Author: Kunuk Nykjaer    
+    /// MIT license        
+    /// </summary>
     class Program
     {
         private static readonly Action<object> WL = Console.WriteLine;
