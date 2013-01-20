@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using SingleDetectLibrary.Code.Data;
 
 namespace SingleDetectLibrary.Code.Grid
@@ -8,27 +9,28 @@ namespace SingleDetectLibrary.Code.Grid
         private Grid Grid { get; set; }
         private double DX { get; set; } // delta x
         private double DY { get; set; } // delta y
-        private readonly Rectangle _rect;        
+        private readonly Rectangle _rect;
 
-        public GridContainer(int x, int y, double delta, IEnumerable<P> points, Rectangle rect)
+        public GridContainer(Rectangle rect, IEnumerable<P> points)
         {
-            _rect = rect;            
-            DX = delta;
-            DY = delta;
-            Grid = new Grid(x, y);            
+            _rect = rect;
+            DX = rect.Square;
+            DY = rect.Square;
+            Grid = new Grid(rect.XGrid, rect.YGrid);
             foreach (var p in points) Update(p);
         }
 
-        private GridIndex Delta(XY a)
+        protected GridIndex Delta(XY a)
         {
             return new GridIndex { X = (int)(a.X / DX), Y = (int)(a.Y / DY) };
         }
 
-        private MySet<P> GetSet(P p)
+        protected MySet<P> GetSet(P p)
         {
             return this.Grid.Get(p.GridIndex);
         }
 
+        // Single detect
         public List<P> GetGridNeighborContent(P p)
         {
             var i = p.GridIndex;
@@ -113,6 +115,72 @@ namespace SingleDetectLibrary.Code.Grid
         public List<P> GetGridSingles()
         {
             return this.Grid.GetSingles(this);
+        }
+
+        // K nearest neighbor
+        public void UpdateKnnGridStrategy(NearestNeighbor nn, double square, int max)
+        {
+            var currRing = new List<PDist>();
+            var nextRing = new List<PDist>();
+
+            for (var i = 1; i <= max; i++)
+            {
+                var temp = new List<PDist>();
+                foreach (var p in nextRing)
+                {
+                    if (p.Distance < i * square) currRing.Add(p);
+                    else temp.Add(p);
+                }
+                if (currRing.Count >= nn.K) break;
+
+                nextRing.Clear();
+                nextRing.AddRange(temp);
+
+                var list = GetRing(nn.Origin, i);
+
+                // First 9 squares, dont include origin
+                if (i == 1) list.AddRange(GetSet(nn.Origin).Where(a => !a.Equals(nn.Origin)).ToList());
+
+                foreach (var p in list)
+                {
+                    var dist = nn.Origin.Distance(p);
+                    if (dist < i * square) currRing.Add(new PDist { Point = p, Distance = dist });
+                    else nextRing.Add(new PDist { Point = p, Distance = dist });
+                }
+            }
+
+
+            if (currRing.Count < nn.K)
+            {
+                currRing.AddRange(nextRing);
+            }
+
+            currRing.Sort();
+            nn.NNs = currRing.Count > nn.K ? currRing.Take(nn.K).ToList() : currRing.ToList();
+        }
+
+        protected List<P> GetRing(P p, int ring)
+        {
+            if (ring == 0) return GetSet(p).ToList();
+
+            var center = p.GridIndex;
+
+            var indexes = new HashSet<GridIndex>();
+            for (var i = -ring; i <= ring; i++)
+            {
+                // add horizontal
+                indexes.Add(new GridIndex { X = center.X + i, Y = center.Y - ring });
+                indexes.Add(new GridIndex { X = center.X + i, Y = center.Y + ring });
+
+                // add vertical
+                indexes.Add(new GridIndex { X = center.X - ring, Y = center.Y + i });
+                indexes.Add(new GridIndex { X = center.X + ring, Y = center.Y + i });
+            }
+
+            var list = new List<P>();
+            foreach (var i in indexes.Where(IsValidGridIndex)) list.AddRange(Grid.Get(i));
+
+            return list;
         }
     }
 }

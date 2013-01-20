@@ -15,7 +15,7 @@ using SingleDetectLibrary.Code.Contract;
 using SingleDetectLibrary.Code.Data;
 using SingleDetectLibrary.Code.Logging;
 
-namespace SingleDetectGui
+namespace KNearestNeighborGui
 {
     /// <summary>   
     /// Author: Kunuk Nykjaer    
@@ -32,7 +32,7 @@ namespace SingleDetectGui
         readonly DrawingVisual _drawingVisual = new DrawingVisual();
 
         private readonly string _elapsedAlgoInit;
-        private string _elapsedAlgoSingleDetect;
+        private string _elapsedAlgoUpdateKnn;
         public readonly Random Rand = new Random();
         readonly ISingleDetectAlgorithm _algorithm;
         private readonly Animation _animation;
@@ -42,9 +42,10 @@ namespace SingleDetectGui
 
         #region ** config **
 
-        public const int DotsCount = 50; // dots        
-        public static readonly int DotsMovingCount = 10; // moving dots per frame
-        const int Dotsize = 4; // draw dot size    
+        public const int K = 100; // K nearest neighbors
+        public const int DotsCount = 1000; // dots      
+        public static readonly int DotsMovingCount = 100; // moving dots per frame
+        const int Dotsize = 1; // draw dot size    
 
         // View port
         private static readonly Rectangle Rect = new Rectangle
@@ -52,12 +53,13 @@ namespace SingleDetectGui
                                                          XMin = 0, YMin = 0, 
                                                          XMax = 600, YMax = 500,
 
-    // For Single detect: Dots where nearest neighbor has distance larger than this are single dots
-    // For KNN: Defining the grid length
-                                                         MaxDistance = 45,
+        // For Single detect: Dots where nearest neighbor has distance larger than this are single dots
+        // For KNN: Defining the grid length
+                                                         MaxDistance = 10,
                                                      };
-        private const bool IsDrawEnabled = true;            
-        
+
+        private const bool IsDrawEnabled = true;     
+      
         #endregion  ** config **
 
         static readonly int W = (int)Rect.Width;
@@ -93,7 +95,7 @@ namespace SingleDetectGui
         }
         public static readonly DependencyProperty SliderBottomProperty =
             DependencyProperty.Register("SliderBottom", typeof(int), typeof(MainWindow),
-            new UIPropertyMetadata(3)); // default value
+            new UIPropertyMetadata(10)); // default value
 
         // Show Grid
         public int SliderLeft
@@ -103,7 +105,7 @@ namespace SingleDetectGui
         }
         public static readonly DependencyProperty SliderLeftProperty =
             DependencyProperty.Register("SliderLeft", typeof(int), typeof(MainWindow),
-            new UIPropertyMetadata(1)); // default value
+            new UIPropertyMetadata(0)); // default value
 
         #endregion sliders
 
@@ -132,7 +134,7 @@ namespace SingleDetectGui
         public MainWindow()
         {
             try
-            {                
+            {
                 Init();
 
                 Img = _renderTargetBitmap;  // Set up the image source
@@ -140,8 +142,8 @@ namespace SingleDetectGui
 
                 InitializeComponent(); // wpf
 
-                // Random points
-                var points = new List<P>();
+                var points = new List<P>();                
+                points.Add(new P{X = W/2,Y = H/2,});
                 var rand = new Random();
                 for (var i = 0; i < DotsCount; i++)
                 {
@@ -151,6 +153,7 @@ namespace SingleDetectGui
                         Y = rand.Next((int)Rect.YMin, (int)Rect.YMax),
                     });
                 }
+
 
                 _stopwatch.Start();
                 _algorithm = new SingleDetectAlgorithm(points, Rect, StrategyType.Grid, _log);
@@ -187,16 +190,16 @@ namespace SingleDetectGui
             var max = SliderBottom;
             var min = -max;
 
-            _stopwatch.Reset();
             _stopwatch.Start();
 
             // Draw on the drawing context
             using (DrawingContext dc = _drawingVisual.RenderOpen())
-            {                
+            {
                 _animation.SelectMovingDots(DotsMovingCount);
-
-                // Clear prev frame singles
-                DrawUtil.RedrawDots(dc, _algorithm.Singles, ShapeType.Single);
+                
+                // Clear prev frame knn
+                DrawUtil.RedrawDots(dc, new[] { _algorithm.Knn.Origin }, ShapeType.Selected);
+                DrawUtil.RedrawDots(dc, _algorithm.Knn.GetNNs(), ShapeType.NearestNeighbor);
 
                 // Clear prev frame moving dots                
                 DrawUtil.ClearDots(dc, _animation.Moving);
@@ -207,11 +210,13 @@ namespace SingleDetectGui
                 // Draw updated pos                                
                 DrawUtil.DrawDots(dc, _animation.Moving);
 
-                // Update single detection
-                _elapsedAlgoSingleDetect = string.Format("msec {0}", _algorithm.UpdateSingles());
-                
-                // Draw updated singles                                
-                DrawUtil.DrawDots(dc, _algorithm.Singles, ShapeType.Single);
+                // Update KNN
+                var origin = _algorithm.Points[0]; // first item as origin
+                _elapsedAlgoUpdateKnn = string.Format("msec {0}", _algorithm.UpdateKnn(origin, K));
+
+                // Draw updated KNN                            
+                DrawUtil.DrawDots(dc, new[] { origin }, ShapeType.Selected);
+                DrawUtil.DrawDots(dc, _algorithm.Knn.GetNNs(), ShapeType.NearestNeighbor);
 
                 var showGrid = SliderLeft == 1; // toggle                
                 DrawUtil.DrawGrid(dc, showGrid, W, H, Rect.XGrid, Rect.YGrid);
@@ -222,9 +227,12 @@ namespace SingleDetectGui
             _stopwatch.Stop();
 
             var sb = new StringBuilder();
-            sb.AppendFormat("\n\nDetect Singles: \n\n");
+            sb.AppendFormat("\n\nK Nearest Neighbors: \n\n");
             sb.AppendFormat("{0}\n", _algorithm.Strategy.Name);
-            sb.AppendFormat("Singles: {0}\n", _algorithm.Singles.Count);
+            sb.AppendFormat("Origin: {0}\n", _algorithm.Knn.Origin);
+            //sb.AppendFormat(_algorithm.Knn.NNs.Aggregate("", (a, b) => a + b + "\n"));
+            sb.AppendFormat("K: {0}\n", _algorithm.Knn.K);
+            sb.AppendFormat("NNs: {0}\n", _algorithm.Knn.NNs.Count);
             sb.AppendFormat("MaxDistance: {0}\n", _algorithm.Rect.MaxDistance);
             sb.AppendFormat("Square: {0}\n\n", _algorithm.Rect.Square);
             sb.AppendFormat("SliderTop\nmsec per frame: {0}\n\n", SliderTop);
@@ -235,13 +243,15 @@ namespace SingleDetectGui
             sb.AppendFormat("grid: {0};{1}\n", _algorithm.Rect.XGrid, _algorithm.Rect.YGrid);
             sb.AppendFormat("Draw enabled: {0}\n", DrawUtil.IsDrawEnabled);
             sb.AppendFormat("\nElapsed Algo Init: \n{0}\n", _elapsedAlgoInit);
-            sb.AppendFormat("\nElapsed Algo Single detect: \n{0}\n", _elapsedAlgoSingleDetect);
+            sb.AppendFormat("\nElapsed Algo update Knn: \n{0}\n", _elapsedAlgoUpdateKnn);
             sb.AppendFormat("\n\nTime per frame: \n{0}\n", _stopwatch.Elapsed.ToString());
+
             _textBlock.Text = sb.ToString();
 
             _dispatcherTimer.Interval = TimeSpan.FromMilliseconds(SliderTop); // update
             _renderTargetBitmap.Render(_drawingVisual); // Render the drawing to the bitmap
-            
+
+            _stopwatch.Reset();            
             _isRunningFrameUpdate = false;
         }
     }

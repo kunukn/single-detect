@@ -18,20 +18,20 @@ namespace SingleDetectLibrary.Code.Data
         
         public override bool Equals(object obj)
         {
-            var other = obj as P;
-            if (other == null) { return false; }
-            return Id == other.Id;
+            var o = obj as P;
+            if (o == null) { return false; }
+            return GetHashCode() == o.GetHashCode();
         }
         public override int GetHashCode()
         {
             return Id.GetHashCode();
         }
-               
-        public double Distance(P p)
+
+        public virtual double Distance(P p)
         {
             return Distance(p.X, p.Y);            
         }
-        public double Distance(double x, double y)
+        public virtual double Distance(double x, double y)
         {
             var dx = X - x;
             var dy = Y - y;
@@ -42,7 +42,7 @@ namespace SingleDetectLibrary.Code.Data
         }
         public override string ToString()
         {
-            return string.Format("Id: {0}, {1}",Id, base.ToString());            
+            return string.Format("Id: {0}, X: {1}, Y: {2}",Id, X, Y);
         }
     }
 }

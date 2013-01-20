@@ -32,6 +32,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="C5">
+      <HintPath>..\packages\C5.2.1.4492.18142\lib\C5.dll</HintPath>
+    </Reference>
+    <Reference Include="MathNet.Numerics">
+      <HintPath>..\packages\MathNet.Numerics.2.3.0\lib\net40\MathNet.Numerics.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
@@ -43,22 +49,36 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Code\Contract\ILog2.cs" />
+    <Compile Include="Code\Data\NearestNeighbor.cs" />
+    <Compile Include="Code\Data\PDist.cs" />
     <Compile Include="Code\Data\Rectangle.cs" />
+    <Compile Include="Code\Enum.cs" />
+    <Compile Include="Code\Grid\GridContainer.cs" />
     <Compile Include="Code\Logging\NoLog.cs" />
-    <Compile Include="Code\SingleDetectAlgorithm.cs" />
     <Compile Include="Code\Contract\ISingleDetectAlgorithm.cs" />
     <Compile Include="Code\Data\GridIndex.cs" />
     <Compile Include="Code\Data\MySet.cs" />
     <Compile Include="Code\Data\P.cs" />
     <Compile Include="Code\Data\XY.cs" />
     <Compile Include="Code\Grid\Grid.cs" />
-    <Compile Include="Code\Grid\GridContainer.cs" />
     <Compile Include="Code\MathUtil\M.cs" />
+    <Compile Include="Code\SingleDetectAlgorithm.cs" />
+    <Compile Include="Code\StrategyPattern\AlgorithmStrategy.cs" />
+    <Compile Include="Code\StrategyPattern\GridStrategy.cs" />
+    <Compile Include="Code\StrategyPattern\KdTreeStrategy.cs" />
+    <Compile Include="Code\StrategyPattern\NaiveStrategy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Readme.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\KdTree\KdTree.csproj">
+      <Project>{858934D9-A310-4478-A00B-4EA2729DC8BF}</Project>
+      <Name>KdTree</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

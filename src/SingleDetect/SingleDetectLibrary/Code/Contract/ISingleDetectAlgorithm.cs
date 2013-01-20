@@ -1,17 +1,26 @@
 ﻿using System.Collections.Generic;
 using SingleDetectLibrary.Code.Data;
+using SingleDetectLibrary.Code.Grid;
+using SingleDetectLibrary.Code.StrategyPattern;
 
 namespace SingleDetectLibrary.Code.Contract
 {
     public interface ISingleDetectAlgorithm
     {
-        long UpdateSingles();
-        void UpdateGrid(P p);
+        // Shared
         List<P> Points { get; }
+        Rectangle Rect { get; }        
+        void UpdateGrid(P p);
+        GridContainer GridContainer { get; }
+        AlgorithmStrategy Strategy { get; }
+        void SetAlgorithmStrategy(AlgorithmStrategy algorithmStrategy);
+
+        // Single select
+        long UpdateSingles();
         List<P> Singles { get; }
-        int XGrid { get; }
-        int YGrid { get; }
-        double MaxDistance { get; }
-        double Square { get; }
+
+        // KNN
+        long UpdateKnn(P p, int k);                        
+        NearestNeighbor Knn { get;}        
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using SingleDetectLibrary.Code.Contract;
 using SingleDetectLibrary.Code.Data;
 
-namespace SingleDetectGui.Code.Gui
+namespace SingleDetectGuiCore.Code.Gui
 {
     public class Animation
     {        

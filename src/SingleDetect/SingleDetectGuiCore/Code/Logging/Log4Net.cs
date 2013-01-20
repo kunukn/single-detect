@@ -4,7 +4,7 @@ using SingleDetectLibrary.Code.Contract;
 
 [assembly: log4net.Config.XmlConfigurator(ConfigFile = "log4net.config", Watch = true)]
 
-namespace SingleDetectGui.Code.Logging
+namespace SingleDetectGuiCore.Code.Logging
 {
     public class Log4Net : ILog2
     {       

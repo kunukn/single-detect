@@ -2,20 +2,21 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
+using System.Linq;
 using System.Threading;
 using SingleDetectLibrary.Code;
 using SingleDetectLibrary.Code.Contract;
 using SingleDetectLibrary.Code.Data;
 using SingleDetectLibrary.Code.StrategyPattern;
 
-namespace SingleDetectConsole
+namespace KNearestNeighborConsole
 {
     /// <summary>
     /// Author: Kunuk Nykjaer    
     /// MIT license        
     /// </summary>
     class Program
-    {
+    {        
         private static readonly Action<object> WL = Console.WriteLine;
 
         private static void Main(string[] args)
@@ -26,28 +27,29 @@ namespace SingleDetectConsole
             sw.Start();
 
             Run();
-            
+
             sw.Stop();
 
             WL(string.Format("\nElapsed: {0}", sw.Elapsed.ToString()));
             WL(string.Format("\nPress a key to exit ... "));
             Console.ReadKey();
-        }         
+        }
 
         static void Run()
         {
             // Config
-            var rect = new Rectangle
-                           {
-                               XMin = 0, XMax = 400, 
-                               YMin = 0, YMax = 500,
-                               MaxDistance = 10,
-                           };       
-     
+            var rect = new Rectangle 
+            {
+                XMin = 0, XMax = 400, 
+                YMin = 0, YMax = 500,
+                MaxDistance = 33.3,
+            };
+            const int k = 4;
+            
             // Random points
             var points = new List<P>();
             var rand = new Random();
-            for (var i = 0; i < 5000; i++)
+            for (var i = 0; i < 100000; i++)
             {
                 points.Add(new P
                 {
@@ -61,23 +63,25 @@ namespace SingleDetectConsole
                 new SingleDetectAlgorithm(points, rect, StrategyType.Grid);
 
             // Use algo
-            var duration = algo.UpdateSingles();
+            var origin = points.First();
+            var duration = algo.UpdateKnn(origin, k);
 
             // Print result
             WL(string.Format("\n{0} msec. {1}:", algo.Strategy.Name, duration));
-            WL("Singles:\n");
-            algo.Singles.ForEach(WL);
+            WL("K Nearest Neighbors:\n");
+            WL(string.Format("Origin: {0}\n",origin));            
+            algo.Knn.NNs.ForEach(WL);
 
             // Update strategy
             algo.SetAlgorithmStrategy(new NaiveStrategy());
 
             // Use algo
-            duration = algo.UpdateSingles();
-
+            duration = algo.UpdateKnn(origin, k);
+            
             // Print result
-            WL(string.Format("\n{0} msec. {1}:", algo.Strategy.Name, duration));
-            WL("Singles:\n");
-            algo.Singles.ForEach(WL);
+            WL(string.Format("\n{0} msec. {1}:", algo.Strategy.Name,duration));
+            WL("K Nearest Neighbors:\n");
+            algo.Knn.NNs.ForEach(WL);
         }
     }
 }
