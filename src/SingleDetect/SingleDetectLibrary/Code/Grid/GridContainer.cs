@@ -25,7 +25,7 @@ namespace SingleDetectLibrary.Code.Grid
             return new GridIndex { X = (int)(a.X / DX), Y = (int)(a.Y / DY) };
         }
 
-        protected MySet<P> GetSet(P p)
+        public MySet<P> GetSet(P p)
         {
             return this.Grid.Get(p.GridIndex);
         }
@@ -116,50 +116,8 @@ namespace SingleDetectLibrary.Code.Grid
         {
             return this.Grid.GetSingles(this);
         }
-
-        // K nearest neighbor
-        public void UpdateKnnGridStrategy(NearestNeighbor nn, double square, int max)
-        {
-            var currRing = new List<PDist>();
-            var nextRing = new List<PDist>();
-
-            for (var i = 1; i <= max; i++)
-            {
-                var temp = new List<PDist>();
-                foreach (var p in nextRing)
-                {
-                    if (p.Distance < i * square) currRing.Add(p);
-                    else temp.Add(p);
-                }
-                if (currRing.Count >= nn.K) break;
-
-                nextRing.Clear();
-                nextRing.AddRange(temp);
-
-                var list = GetRing(nn.Origin, i);
-
-                // First 9 squares, dont include origin
-                if (i == 1) list.AddRange(GetSet(nn.Origin).Where(a => !a.Equals(nn.Origin)).ToList());
-
-                foreach (var p in list)
-                {
-                    var dist = nn.Origin.Distance(p);
-                    if (dist < i * square) currRing.Add(new PDist { Point = p, Distance = dist });
-                    else nextRing.Add(new PDist { Point = p, Distance = dist });
-                }
-            }
-
-
-            if (currRing.Count < nn.K)
-            {
-                currRing.AddRange(nextRing);
-            }
-
-            currRing.Sort();
-            nn.NNs = currRing.Count > nn.K ? currRing.Take(nn.K).ToList() : currRing.ToList();
-        }
-
-        protected List<P> GetRing(P p, int ring)
+                
+        public List<P> GetRing(P p, int ring)
         {
             if (ring == 0) return GetSet(p).ToList();
 
