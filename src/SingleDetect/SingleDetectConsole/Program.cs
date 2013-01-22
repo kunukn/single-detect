@@ -30,7 +30,7 @@ namespace SingleDetectConsole
             sw.Stop();
 
             WL(string.Format("\nElapsed: {0}", sw.Elapsed.ToString()));
-            WL(string.Format("\nPress a key to exit ... "));
+            WL(string.Format("Press a key to exit ... "));
             Console.ReadKey();
         }         
 
@@ -64,7 +64,7 @@ namespace SingleDetectConsole
             var duration = algo.UpdateSingles();
 
             // Print result
-            WL(string.Format("\n{0} msec. {1}:", algo.Strategy.Name, duration));
+            WL(string.Format("{0} msec. {1}:", algo.Strategy.Name, duration));
             WL("Singles:\n");
             algo.Singles.ForEach(WL);
 

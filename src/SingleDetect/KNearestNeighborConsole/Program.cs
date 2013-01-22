@@ -31,7 +31,7 @@ namespace KNearestNeighborConsole
             sw.Stop();
 
             WL(string.Format("\nElapsed: {0}", sw.Elapsed.ToString()));
-            WL(string.Format("\nPress a key to exit ... "));
+            WL(string.Format("Press a key to exit ... "));
             Console.ReadKey();
         }
 
@@ -67,9 +67,10 @@ namespace KNearestNeighborConsole
             var duration = algo.UpdateKnn(origin, k);
 
             // Print result
-            WL(string.Format("\n{0} msec. {1}:", algo.Strategy.Name, duration));
-            WL("K Nearest Neighbors:\n");
-            WL(string.Format("Origin: {0}\n",origin));            
+            WL(string.Format("{0} msec. {1}:", algo.Strategy.Name, duration));
+            WL("K Nearest Neighbors:");
+            WL(string.Format("Origin: {0}",origin));
+            WL(string.Format("Distance sum: {0}", algo.Knn.GetDistanceSum()));
             algo.Knn.NNs.ForEach(WL);
 
             // Update strategy
@@ -80,7 +81,8 @@ namespace KNearestNeighborConsole
             
             // Print result
             WL(string.Format("\n{0} msec. {1}:", algo.Strategy.Name,duration));
-            WL("K Nearest Neighbors:\n");
+            WL("K Nearest Neighbors:");
+            WL(string.Format("Distance sum: {0}", algo.Knn.GetDistanceSum()));
             algo.Knn.NNs.ForEach(WL);
         }
     }

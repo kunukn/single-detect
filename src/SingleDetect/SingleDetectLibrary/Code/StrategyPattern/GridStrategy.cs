@@ -72,8 +72,7 @@ namespace SingleDetectLibrary.Code.StrategyPattern
                     if (p.Distance < i * square) currRing.Add(p);
                     else temp.Add(p);
                 }
-                if (currRing.Count >= nn.K) break;
-
+                
                 nextRing.Clear();
                 nextRing.AddRange(temp);
 
@@ -88,6 +87,8 @@ namespace SingleDetectLibrary.Code.StrategyPattern
                     if (dist < i * square) currRing.Add(new PDist { Point = p, Distance = dist });
                     else nextRing.Add(new PDist { Point = p, Distance = dist });
                 }
+
+                if (currRing.Count >= nn.K) break;
             }
 
 

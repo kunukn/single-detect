@@ -19,7 +19,7 @@ namespace SingleDetectLibrary.Code.Data
             return NNs.Select(i => i.Point).ToList();            
         }
 
-        public double GetDistance()
+        public double GetDistanceSum()
         {            
             return NNs.Aggregate(0d, (a, b) => (a + b.Distance) );            
         }
