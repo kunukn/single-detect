@@ -61,7 +61,14 @@ namespace SingleDetectLibrary.Code.Grid
 
         public MySet<P> Get(int x, int y)
         {
-            return Set[x, y];
+            try
+            {
+                return Set[x, y];
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
     }
 }

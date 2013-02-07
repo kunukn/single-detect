@@ -7,6 +7,7 @@ using SingleDetectLibrary.Code;
 using SingleDetectLibrary.Code.Contract;
 using SingleDetectLibrary.Code.Data;
 using SingleDetectLibrary.Code.StrategyPattern;
+using System.Linq;
 
 namespace SingleDetectConsole
 {
@@ -39,8 +40,8 @@ namespace SingleDetectConsole
             // Config
             var rect = new Rectangle
                            {
-                               XMin = 0, XMax = 400, 
-                               YMin = 0, YMax = 500,
+                               XMin = -300, XMax = 300, 
+                               YMin = -200, YMax = 200,
                                MaxDistance = 10,
                            };
             rect.Validate();
@@ -52,8 +53,8 @@ namespace SingleDetectConsole
             {
                 points.Add(new P
                 {
-                    X = rand.Next((int)rect.Width),
-                    Y = rand.Next((int)rect.Height),
+                    X = rand.Next((int)(rect.XMin), (int)(rect.XMax)),
+                    Y = rand.Next((int)(rect.YMin), (int)(rect.YMax)),
                 });
             }
 
@@ -67,7 +68,7 @@ namespace SingleDetectConsole
             // Print result
             WL(string.Format("{0} msec. {1}:", algo.Strategy.Name, duration));
             WL("Singles:\n");
-            algo.Singles.ForEach(WL);
+            algo.Singles.OrderBy(i => i.Id).ToList().ForEach(WL);
 
             // Update strategy
             algo.SetAlgorithmStrategy(new NaiveStrategy());
@@ -78,7 +79,7 @@ namespace SingleDetectConsole
             // Print result
             WL(string.Format("\n{0} msec. {1}:", algo.Strategy.Name, duration));
             WL("Singles:\n");
-            algo.Singles.ForEach(WL);
+            algo.Singles.OrderBy(i => i.Id).ToList().ForEach(WL);
         }
     }
 }

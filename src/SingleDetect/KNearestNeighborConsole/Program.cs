@@ -8,6 +8,7 @@ using SingleDetectLibrary.Code;
 using SingleDetectLibrary.Code.Contract;
 using SingleDetectLibrary.Code.Data;
 using SingleDetectLibrary.Code.StrategyPattern;
+using System.Linq;
 
 namespace KNearestNeighborConsole
 {
@@ -40,8 +41,8 @@ namespace KNearestNeighborConsole
             // Config
             var rect = new Rectangle 
             {
-                XMin = 0, XMax = 400, 
-                YMin = 0, YMax = 500,
+                XMin = -300, XMax = 300,
+                YMin = -200, YMax = 200,
                 MaxDistance = 33.3,
             };
             rect.Validate();
@@ -55,8 +56,8 @@ namespace KNearestNeighborConsole
             {
                 points.Add(new P
                 {
-                    X = rand.Next((int)rect.Width),
-                    Y = rand.Next((int)rect.Height),
+                    X = rand.Next((int)(rect.XMin), (int)(rect.XMax)),
+                    Y = rand.Next((int)(rect.YMin), (int)(rect.YMax)),
                 });
             }
 
@@ -73,7 +74,8 @@ namespace KNearestNeighborConsole
             WL("K Nearest Neighbors:");
             WL(string.Format("Origin: {0}",origin));
             WL(string.Format("Distance sum: {0}", algo.Knn.GetDistanceSum()));
-            algo.Knn.NNs.ForEach(WL);
+            algo.Knn.NNs.OrderBy(i => i.Distance).ToList().ForEach(WL);
+            
 
             // Update strategy
             algo.SetAlgorithmStrategy(new NaiveStrategy());
@@ -85,7 +87,7 @@ namespace KNearestNeighborConsole
             WL(string.Format("\n{0} msec. {1}:", algo.Strategy.Name,duration));
             WL("K Nearest Neighbors:");
             WL(string.Format("Distance sum: {0}", algo.Knn.GetDistanceSum()));
-            algo.Knn.NNs.ForEach(WL);
+            algo.Knn.NNs.OrderBy(i => i.Distance).ToList().ForEach(WL);
         }
     }
 }

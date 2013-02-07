@@ -55,7 +55,7 @@ namespace KNearestNeighborGui
 
         // For Single detect: Dots where nearest neighbor has distance larger than this are single dots
         // For KNN: Defining the grid length
-                                                         MaxDistance = 50,
+                                                         MaxDistance = 20,
                                                      };        
         private const bool IsDrawEnabled = true;     
       
