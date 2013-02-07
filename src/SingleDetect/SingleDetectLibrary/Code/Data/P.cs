@@ -8,6 +8,8 @@ namespace SingleDetectLibrary.Code.Data
         public int Id { get; private set; }        
         public bool Visible { get; set; }
         public GridIndex GridIndex { get; set; }
+
+        public object Data { get; set; } // Data container for anything, use it as you like
               
         public P()
         {
@@ -44,5 +46,7 @@ namespace SingleDetectLibrary.Code.Data
         {
             return string.Format("Id: {0}, X: {1}, Y: {2}",Id, X, Y);
         }
+
+        
     }
 }
