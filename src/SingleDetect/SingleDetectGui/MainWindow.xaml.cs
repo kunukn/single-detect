@@ -28,7 +28,7 @@ namespace SingleDetectGui
 
         readonly DispatcherTimer _dispatcherTimer;
         readonly RenderTargetBitmap _renderTargetBitmap =
-            new RenderTargetBitmap(W, H, 96, 96, PixelFormats.Pbgra32);
+            new RenderTargetBitmap((int)Rect.Width, (int)Rect.Height, 96, 96, PixelFormats.Pbgra32);
         readonly DrawingVisual _drawingVisual = new DrawingVisual();
 
         private readonly string _elapsedAlgoInit;
@@ -59,9 +59,6 @@ namespace SingleDetectGui
         private const bool IsDrawEnabled = true;            
         
         #endregion  ** config **
-
-        static readonly int W = (int)Rect.Width;
-        static readonly int H = (int)Rect.Height;
 
         #region ** img **
         public ImageSource Img
@@ -109,6 +106,7 @@ namespace SingleDetectGui
 
         static void Init()
         {
+            Rect.Validate();
             DrawUtil.IsDrawEnabled = IsDrawEnabled;
             DrawUtil.Init(Dotsize);
         }
@@ -119,10 +117,10 @@ namespace SingleDetectGui
             using (DrawingContext dc = _drawingVisual.RenderOpen())
             {
                 // Clear background                
-                DrawUtil.ClearBackground(dc, (int)Rect.XMin, (int)Rect.YMin, W, H);
+                DrawUtil.ClearBackground(dc, Rect);
 
                 // Draw all points                
-                DrawUtil.DrawDots(dc, _algorithm.Points);
+                DrawUtil.DrawDots(dc, _algorithm.Points, Rect);
 
                 dc.Close();
             }
@@ -196,25 +194,25 @@ namespace SingleDetectGui
                 _animation.SelectMovingDots(DotsMovingCount);
 
                 // Clear prev frame singles
-                DrawUtil.RedrawDots(dc, _algorithm.Singles, ShapeType.Single);
+                DrawUtil.RedrawDots(dc, _algorithm.Singles, Rect, ShapeType.Single);
 
                 // Clear prev frame moving dots                
-                DrawUtil.ClearDots(dc, _animation.Moving);
+                DrawUtil.ClearDots(dc, _animation.Moving, Rect);
 
                 // Update moving pos                
                 _animation.UpdateMovingPosition(min, max);
 
                 // Draw updated pos                                
-                DrawUtil.DrawDots(dc, _animation.Moving);
+                DrawUtil.DrawDots(dc, _animation.Moving, Rect);
 
                 // Update single detection
                 _elapsedAlgoSingleDetect = string.Format("msec {0}", _algorithm.UpdateSingles());
                 
                 // Draw updated singles                                
-                DrawUtil.DrawDots(dc, _algorithm.Singles, ShapeType.Single);
+                DrawUtil.DrawDots(dc, _algorithm.Singles, Rect, ShapeType.Single);
 
                 var showGrid = SliderLeft == 1; // toggle                
-                DrawUtil.DrawGrid(dc, showGrid, W, H, Rect.XGrid, Rect.YGrid);
+                DrawUtil.DrawGrid(dc, showGrid, Rect);
 
                 dc.Close();
             }

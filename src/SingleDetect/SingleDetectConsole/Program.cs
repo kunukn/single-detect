@@ -42,7 +42,8 @@ namespace SingleDetectConsole
                                XMin = 0, XMax = 400, 
                                YMin = 0, YMax = 500,
                                MaxDistance = 10,
-                           };       
+                           };
+            rect.Validate();
      
             // Random points
             var points = new List<P>();

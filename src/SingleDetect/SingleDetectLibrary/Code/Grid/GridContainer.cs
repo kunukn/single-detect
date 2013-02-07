@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using SingleDetectLibrary.Code.Data;
 
 namespace SingleDetectLibrary.Code.Grid
@@ -22,7 +24,11 @@ namespace SingleDetectLibrary.Code.Grid
 
         protected GridIndex Delta(XY a)
         {
-            return new GridIndex { X = (int)(a.X / DX), Y = (int)(a.Y / DY) };
+            var x = (int)((_rect.XO + a.X) / DX);
+            var y = (int)((_rect.YO + a.Y) / DY);
+            if (x < 0 || y < 0) throw new ApplicationException(string.Format("Algo error: {0}", MethodBase.GetCurrentMethod()));
+
+            return new GridIndex { X = x, Y = y };
         }
 
         public MySet<P> GetSet(P p)
@@ -31,6 +37,7 @@ namespace SingleDetectLibrary.Code.Grid
         }
 
         // Single detect
+        // 20 nearest boxes
         public List<P> GetGridNeighborContent(P p)
         {
             var i = p.GridIndex;
@@ -92,6 +99,7 @@ namespace SingleDetectLibrary.Code.Grid
             if (IsValidGridIndex(gi = ww)) list.AddRange(Grid.Get(gi));
             if (IsValidGridIndex(gi = nww)) list.AddRange(Grid.Get(gi));
 
+
             return list;
         }
 
@@ -116,7 +124,7 @@ namespace SingleDetectLibrary.Code.Grid
         {
             return this.Grid.GetSingles(this);
         }
-                
+
         public List<P> GetRing(P p, int ring)
         {
             if (ring == 0) return GetSet(p).ToList();

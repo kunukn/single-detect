@@ -1,4 +1,6 @@
-﻿using SingleDetectLibrary.Code.MathUtil;
+﻿using System;
+using System.Reflection;
+using SingleDetectLibrary.Code.MathUtil;
 using Math = System.Math;
 
 namespace SingleDetectLibrary.Code.Data
@@ -13,7 +15,7 @@ namespace SingleDetectLibrary.Code.Data
         public double Width { get { return XMax - XMin; } }
         public double Height { get { return YMax - YMin; } }
 
-        public double MaxDistance { get; set; }        
+        public double MaxDistance { get; set; }
         public double Square
         {
             get { return M.CtoA(MaxDistance); }
@@ -26,7 +28,31 @@ namespace SingleDetectLibrary.Code.Data
         {
             get { return (int)(Math.Ceiling(Height / Square)); }
         }
-    
+
+        // Only draw on positive space, offset
+        public double XO
+        {
+            get
+            {
+                if (XMin < 0) return -XMin;
+                return 0;
+            }
+        }
+        // Only draw on positive space, offset
+        public double YO
+        {
+            get
+            {
+                if (YMin < 0) return -YMin;
+                return 0;
+            }
+        }
+
+        public void Validate()
+        {
+            if (XMin > XMax || YMin > YMax) throw new ApplicationException(MethodBase.GetCurrentMethod().ToString());
+        }
+
         public override string ToString()
         {
             return string.Format("{0}; {1}; {2}; {3}; {4}; {5}; {6}; {7}",

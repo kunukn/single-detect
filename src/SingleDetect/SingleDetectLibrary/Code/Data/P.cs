@@ -8,7 +8,7 @@ namespace SingleDetectLibrary.Code.Data
         public int Id { get; private set; }        
         public bool Visible { get; set; }
         public GridIndex GridIndex { get; set; }
-
+              
         public P()
         {
             Id = ++_counter;                       

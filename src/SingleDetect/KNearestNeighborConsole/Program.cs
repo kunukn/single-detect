@@ -44,6 +44,8 @@ namespace KNearestNeighborConsole
                 YMin = 0, YMax = 500,
                 MaxDistance = 33.3,
             };
+            rect.Validate();
+
             const int k = 4;
             
             // Random points

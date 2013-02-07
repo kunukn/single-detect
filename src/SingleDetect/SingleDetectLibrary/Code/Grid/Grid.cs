@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using SingleDetectLibrary.Code.Data;
 
@@ -8,12 +9,12 @@ namespace SingleDetectLibrary.Code.Grid
     {
         public MySet<P>[,] Set { get; private set; }
         public readonly int X;
-        public readonly int Y;        
+        public readonly int Y;
 
         public Grid(int x, int y)
         {
             X = x;
-            Y = y;            
+            Y = y;
 
             Set = new MySet<P>[X, Y];
             for (var i = 0; i < X; i++)
