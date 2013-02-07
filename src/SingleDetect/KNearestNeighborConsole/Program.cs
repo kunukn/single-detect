@@ -17,7 +17,7 @@ namespace KNearestNeighborConsole
     /// MIT license        
     /// </summary>
     class Program
-    {        
+    {
         private static readonly Action<object> WL = Console.WriteLine;
 
         private static void Main(string[] args)
@@ -39,52 +39,57 @@ namespace KNearestNeighborConsole
         static void Run()
         {
             // Config
-            var rect = new Rectangle 
+            var rect = new Rectangle
             {
-                XMin = -300, XMax = 300,
-                YMin = -200, YMax = 200,
-                MaxDistance = 33.3,
+                XMin = -180,
+                XMax = 180,
+                YMin = -90,
+                YMax = 90,
+                MaxDistance = 20,
             };
             rect.Validate();
 
-            const int k = 4;
-            
+            const int k = 3;
+
             // Random points
-            var points = new List<P>();
+            IPoints points = new Points();
             var rand = new Random();
-            for (var i = 0; i < 100000; i++)
+            for (var i = 0; i < 100; i++)
             {
-                points.Add(new P
+                var x = rect.XMin + rand.NextDouble() * rect.Width;
+                var y = rect.YMin + rand.NextDouble() * rect.Height;
+                points.Data.Add(new P
                 {
-                    X = rand.Next((int)(rect.XMin), (int)(rect.XMax)),
-                    Y = rand.Next((int)(rect.YMin), (int)(rect.YMax)),
+                    X = x,
+                    Y = y,
                 });
             }
+            points.Round(3);
 
             // Init algo
             ISingleDetectAlgorithm algo =
-                new SingleDetectAlgorithm(new Points { Data = points }, rect, StrategyType.Grid);
+                new SingleDetectAlgorithm(new Points { Data = points.Data }, rect, StrategyType.Grid);
 
             // Use algo
-            var origin = points.First();
+            var origin = points.Data.First();
             var duration = algo.UpdateKnn(origin, k);
 
             // Print result
             WL(string.Format("{0} msec. {1}:", algo.Strategy.Name, duration));
             WL("K Nearest Neighbors:");
-            WL(string.Format("Origin: {0}",origin));
+            WL(string.Format("Origin: {0}", origin));
             WL(string.Format("Distance sum: {0}", algo.Knn.GetDistanceSum()));
             algo.Knn.NNs.Data.OrderBy(i => i.Distance).ToList().ForEach(WL);
-            
+
 
             // Update strategy
             algo.SetAlgorithmStrategy(new NaiveStrategy());
 
             // Use algo
             duration = algo.UpdateKnn(origin, k);
-            
+
             // Print result
-            WL(string.Format("\n{0} msec. {1}:", algo.Strategy.Name,duration));
+            WL(string.Format("\n{0} msec. {1}:", algo.Strategy.Name, duration));
             WL("K Nearest Neighbors:");
             WL(string.Format("Distance sum: {0}", algo.Knn.GetDistanceSum()));
             algo.Knn.NNs.Data.OrderBy(i => i.Distance).ToList().ForEach(WL);

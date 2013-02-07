@@ -4,21 +4,20 @@ using SingleDetectLibrary.Code.Contract;
 namespace SingleDetectLibrary.Code.Data
 {
     public class P : XY, IP
-    {        
+    {
         private static int _counter;
-        public int Id { get; private set; }        
+        public int Uid { get; private set; }
         public bool Visible { get; set; }
         public GridIndex GridIndex { get; set; }
+        public object Data { get; set; }
 
-        public object Data { get; set; } // Data container for anything, use it as you like
-              
         public P()
         {
-            Id = ++_counter;                       
+            Uid = ++_counter;
             GridIndex = new GridIndex();
             Visible = true;
         }
-        
+
         public override bool Equals(object obj)
         {
             var o = obj as P;
@@ -27,12 +26,12 @@ namespace SingleDetectLibrary.Code.Data
         }
         public override int GetHashCode()
         {
-            return Id.GetHashCode();
+            return Uid.GetHashCode();
         }
 
         public virtual double Distance(P p)
         {
-            return Distance(p.X, p.Y);            
+            return Distance(p.X, p.Y);
         }
 
         // Euclidean distance
@@ -40,16 +39,20 @@ namespace SingleDetectLibrary.Code.Data
         {
             var dx = X - x;
             var dy = Y - y;
-            var dist = (dx * dx) + (dy * dy);            
+            var dist = (dx * dx) + (dy * dy);
             dist = Math.Sqrt(dist);
             //dist = Math.Round(dist, 6);
             return dist;
         }
         public override string ToString()
         {
-            return string.Format("Id: {0}, X: {1}, Y: {2}",Id, X, Y);
+            return string.Format("Id: {0}, X: {1}, Y: {2}", Uid, X, Y);
         }
 
-        
+        public virtual void Round(int decimals)
+        {
+            X = Math.Round(X, decimals);
+            Y = Math.Round(Y, decimals);
+        }
     }
 }

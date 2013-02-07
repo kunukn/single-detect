@@ -19,5 +19,10 @@ namespace SingleDetectLibrary.Code.Data
             foreach (var p in Data) sb.Append(string.Format("[{0}] ",p));            
             return sb.ToString();
         }
+
+        public void Round(int decimals)
+        {
+            foreach (var p in Data) p.Round(decimals);
+        }
     }
 }

@@ -47,20 +47,23 @@ namespace SingleDetectConsole
             rect.Validate();
      
             // Random points
-            var points = new List<P>();
+            IPoints points = new Points();
             var rand = new Random();
             for (var i = 0; i < 5000; i++)
             {
-                points.Add(new P
+                var x = rect.XMin + rand.NextDouble() * rect.Width;
+                var y = rect.YMin + rand.NextDouble() * rect.Height;
+                points.Data.Add(new P
                 {
-                    X = rand.Next((int)(rect.XMin), (int)(rect.XMax)),
-                    Y = rand.Next((int)(rect.YMin), (int)(rect.YMax)),
+                    X = x,
+                    Y = y,
                 });
             }
+            points.Round(3);
 
             // Init algo
             ISingleDetectAlgorithm algo =
-                new SingleDetectAlgorithm(new Points{Data = points}, rect, StrategyType.Grid);
+                new SingleDetectAlgorithm(new Points{Data = points.Data}, rect, StrategyType.Grid);
 
             // Use algo
             var duration = algo.UpdateSingles();
@@ -68,7 +71,7 @@ namespace SingleDetectConsole
             // Print result
             WL(string.Format("{0} msec. {1}:", algo.Strategy.Name, duration));
             WL("Singles:\n");
-            algo.Singles.OrderBy(i => i.Id).ToList().ForEach(WL);
+            algo.Singles.OrderBy(i => i.Uid).ToList().ForEach(WL);
 
             // Update strategy
             algo.SetAlgorithmStrategy(new NaiveStrategy());
@@ -79,7 +82,7 @@ namespace SingleDetectConsole
             // Print result
             WL(string.Format("\n{0} msec. {1}:", algo.Strategy.Name, duration));
             WL("Singles:\n");
-            algo.Singles.OrderBy(i => i.Id).ToList().ForEach(WL);
+            algo.Singles.OrderBy(i => i.Uid).ToList().ForEach(WL);
         }
     }
 }

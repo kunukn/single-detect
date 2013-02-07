@@ -25,11 +25,11 @@ namespace SingleDetectLibrary.Code.Data
         }
         public override int GetHashCode()
         {
-            return Point.Id.GetHashCode();
+            return Point.Uid.GetHashCode();
         }
         public override string ToString()
         {
-            return string.Format("{0}, Distance: {1}", Point, Distance);
+            return string.Format("{0}, Distance: {1}", Point, Math.Round(Distance,4));
         }
     }
 }
