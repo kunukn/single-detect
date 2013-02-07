@@ -9,7 +9,7 @@ namespace SingleDetectLibrary.Code.Contract
     {
         // Shared
         List<P> Points { get; }
-        Rectangle Rect { get; }        
+        Rectangle Rect_ { get; }        
         void UpdateGrid(P p);
         GridContainer GridContainer { get; }
         AlgorithmStrategy Strategy { get; }

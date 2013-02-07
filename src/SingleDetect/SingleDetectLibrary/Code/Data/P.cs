@@ -1,8 +1,9 @@
 ﻿using System;
+using SingleDetectLibrary.Code.Contract;
 
 namespace SingleDetectLibrary.Code.Data
 {
-    public class P : XY
+    public class P : XY, IP
     {        
         private static int _counter;
         public int Id { get; private set; }        
@@ -33,6 +34,8 @@ namespace SingleDetectLibrary.Code.Data
         {
             return Distance(p.X, p.Y);            
         }
+
+        // Euclidean distance
         public virtual double Distance(double x, double y)
         {
             var dx = X - x;

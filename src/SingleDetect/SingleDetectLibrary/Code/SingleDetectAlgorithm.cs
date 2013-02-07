@@ -14,7 +14,7 @@ namespace SingleDetectLibrary.Code
     /// </summary>
     public class SingleDetectAlgorithm : ISingleDetectAlgorithm
     {        
-        public Rectangle Rect { get; private set; }
+        public Rectangle Rect_ { get; private set; }
         private readonly ILog2 _log;
         public List<P> Points { get; private set; }
         public List<P> Singles { get; private set; }
@@ -23,15 +23,15 @@ namespace SingleDetectLibrary.Code
         public AlgorithmStrategy Strategy { get; private set; }
 
         public SingleDetectAlgorithm(
-            List<P> points, Rectangle rect, StrategyType type = StrategyType.Grid, ILog2 log = null)
+            IPoints points, Rectangle rect, StrategyType type = StrategyType.Grid, ILog2 log = null)
         {
             _log = log ?? new NoLog();
-            Rect = rect;           
-            Points = points;          
+            Rect_ = rect;           
+            Points = points.Data;          
             Singles = new List<P>();
             Knn = new NearestNeighbor();
 
-            GridContainer = new GridContainer(Rect, Points);
+            GridContainer = new GridContainer(Rect_, Points);
 
             switch (type)
             {

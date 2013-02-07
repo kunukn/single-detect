@@ -33,7 +33,7 @@ namespace SingleDetectLibrary.Code.StrategyPattern
                 var neighbors = s.GridContainer.GetGridNeighborContent(p);
                 var add = neighbors
                     .Select(p.Distance)
-                    .All(dist => dist > s.Rect.MaxDistance);
+                    .All(dist => dist > s.Rect_.MaxDistance);
 
                 if (add) s.Singles.Add(p);
             }
@@ -47,12 +47,12 @@ namespace SingleDetectLibrary.Code.StrategyPattern
         {
             var sw = new Stopwatch();
             sw.Start();
-            var max = Math.Max(s.Rect.XGrid, s.Rect.YGrid);
+            var max = Math.Max(s.Rect_.XGrid, s.Rect_.YGrid);
 
             s.Knn.Clear();
             s.Knn.Origin = p;
             s.Knn.K = k;            
-            UpdateKnnGridStrategy(s.GridContainer,s.Knn,s.Rect.Square,max);
+            UpdateKnnGridStrategy(s.GridContainer,s.Knn,s.Rect_.Square,max);
 
             sw.Stop();
             return sw.ElapsedMilliseconds;
@@ -97,8 +97,8 @@ namespace SingleDetectLibrary.Code.StrategyPattern
                 currRing.AddRange(nextRing);
             }
 
-            currRing.Sort();
-            nn.NNs = currRing.Count > nn.K ? currRing.Take(nn.K).ToList() : currRing.ToList();
+            currRing.Sort();            
+            nn.NNs = new DistPoints { Data = currRing.Count > nn.K ? currRing.Take(nn.K).ToList() : currRing.ToList() };
         }
     }
 }

@@ -60,7 +60,7 @@ namespace SingleDetectConsole
 
             // Init algo
             ISingleDetectAlgorithm algo =
-                new SingleDetectAlgorithm(points, rect, StrategyType.Grid);
+                new SingleDetectAlgorithm(new Points{Data = points}, rect, StrategyType.Grid);
 
             // Use algo
             var duration = algo.UpdateSingles();

@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Reflection;
+using SingleDetectLibrary.Code.Contract;
 using SingleDetectLibrary.Code.MathUtil;
 using Math = System.Math;
 
 namespace SingleDetectLibrary.Code.Data
 {
-    public class Rectangle
+    public class Rectangle : IRectangle
     {
         public double XMin { get; set; }
         public double XMax { get; set; }
@@ -28,8 +29,7 @@ namespace SingleDetectLibrary.Code.Data
         {
             get { return (int)(Math.Ceiling(Height / Square)); }
         }
-
-        // Only draw on positive space, offset
+        
         public double XO
         {
             get
@@ -38,7 +38,7 @@ namespace SingleDetectLibrary.Code.Data
                 return 0;
             }
         }
-        // Only draw on positive space, offset
+        
         public double YO
         {
             get

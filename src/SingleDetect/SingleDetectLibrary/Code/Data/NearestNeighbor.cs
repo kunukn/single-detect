@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using SingleDetectLibrary.Code.Contract;
 
 namespace SingleDetectLibrary.Code.Data
 {
@@ -7,27 +8,27 @@ namespace SingleDetectLibrary.Code.Data
     {
         public P Origin { get; set; } // origin
         public int K { get; set; }  // k nearest   
-        public List<PDist> NNs { get; set; } // nearest neighbor
+        public IDistPoints NNs { get; set; } // nearest neighbor
 
         public NearestNeighbor()
         {
-            NNs = new List<PDist>();
+            NNs = new DistPoints{};                
         }
 
         public List<P> GetNNs()
         {            
-            return NNs.Select(i => i.Point).ToList();            
+            return NNs.Data.Select(i => i.Point).ToList();            
         }
 
         public double GetDistanceSum()
         {            
-            return NNs.Aggregate(0d, (a, b) => (a + b.Distance) );            
+            return NNs.Data.Aggregate(0d, (a, b) => (a + b.Distance) );            
         }
         
         public void Clear()
         {
             Origin = null;
-            NNs.Clear();
+            NNs.Data.Clear();
             K = 0;
         }
     }
