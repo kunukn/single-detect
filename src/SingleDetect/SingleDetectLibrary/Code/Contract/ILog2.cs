@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace SingleDetectLibrary.Code.Contract
+namespace Kunukn.SingleDetectLibrary.Code.Contract
 {
     public interface ILog2
     {

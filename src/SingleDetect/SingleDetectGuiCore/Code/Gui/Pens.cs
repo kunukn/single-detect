@@ -1,6 +1,6 @@
 ﻿using System.Windows.Media;
 
-namespace SingleDetectGuiCore.Code.Gui
+namespace Kunukn.SingleDetectGuiCore.Code.Gui
 {
     public static class Pens
     {    

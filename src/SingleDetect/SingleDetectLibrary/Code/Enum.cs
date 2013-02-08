@@ -1,4 +1,4 @@
-﻿namespace SingleDetectLibrary.Code
+﻿namespace Kunukn.SingleDetectLibrary.Code
 {    
     public enum StrategyType
     {

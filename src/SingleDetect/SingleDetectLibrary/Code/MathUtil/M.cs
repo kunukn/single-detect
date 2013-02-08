@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SingleDetectLibrary.Code.MathUtil
+namespace Kunukn.SingleDetectLibrary.Code.MathUtil
 {
     /// <summary>
     /// MathUtil

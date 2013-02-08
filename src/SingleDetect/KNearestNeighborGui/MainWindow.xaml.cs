@@ -7,15 +7,15 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
-using SingleDetectGuiCore.Code;
-using SingleDetectGuiCore.Code.Gui;
-using SingleDetectGuiCore.Code.Logging;
-using SingleDetectLibrary.Code;
-using SingleDetectLibrary.Code.Contract;
-using SingleDetectLibrary.Code.Data;
-using SingleDetectLibrary.Code.Logging;
+using Kunukn.SingleDetectGuiCore.Code;
+using Kunukn.SingleDetectGuiCore.Code.Gui;
+using Kunukn.SingleDetectGuiCore.Code.Logging;
+using Kunukn.SingleDetectLibrary.Code;
+using Kunukn.SingleDetectLibrary.Code.Contract;
+using Kunukn.SingleDetectLibrary.Code.Data;
+using Kunukn.SingleDetectLibrary.Code.Logging;
 
-namespace KNearestNeighborGui
+namespace Kunukn.KNearestNeighborGui
 {
     /// <summary>   
     /// Author: Kunuk Nykjaer    
@@ -106,7 +106,7 @@ namespace KNearestNeighborGui
         #endregion sliders
 
         static void Init()
-        {
+        {            
             Rect.Validate();
             DrawUtil.IsDrawEnabled = IsDrawEnabled;
             DrawUtil.Init(Dotsize);

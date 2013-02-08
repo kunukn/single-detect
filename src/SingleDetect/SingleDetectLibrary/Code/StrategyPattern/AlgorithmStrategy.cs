@@ -1,6 +1,6 @@
-﻿using SingleDetectLibrary.Code.Contract;
+﻿using Kunukn.SingleDetectLibrary.Code.Contract;
 
-namespace SingleDetectLibrary.Code.StrategyPattern
+namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
 {
     public abstract class AlgorithmStrategy
     {

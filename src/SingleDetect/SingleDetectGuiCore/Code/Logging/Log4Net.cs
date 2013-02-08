@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Reflection;
-using SingleDetectLibrary.Code.Contract;
+using Kunukn.SingleDetectLibrary.Code.Contract;
 
 [assembly: log4net.Config.XmlConfigurator(ConfigFile = "log4net.config", Watch = true)]
 
-namespace SingleDetectGuiCore.Code.Logging
+namespace Kunukn.SingleDetectGuiCore.Code.Logging
 {
     public class Log4Net : ILog2
     {       

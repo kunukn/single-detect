@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Threading;
-using SingleDetectLibrary.Code;
-using SingleDetectLibrary.Code.Contract;
-using SingleDetectLibrary.Code.Data;
-using SingleDetectLibrary.Code.StrategyPattern;
+using Kunukn.SingleDetectLibrary.Code;
+using Kunukn.SingleDetectLibrary.Code.Contract;
+using Kunukn.SingleDetectLibrary.Code.Data;
+using Kunukn.SingleDetectLibrary.Code.StrategyPattern;
 using System.Linq;
 
-namespace SingleDetectConsole
+namespace Kunukn.SingleDetectConsole
 {
     /// <summary>
     /// Author: Kunuk Nykjaer    

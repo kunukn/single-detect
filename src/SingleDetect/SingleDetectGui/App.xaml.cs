@@ -1,6 +1,8 @@
-﻿namespace SingleDetectGui
+﻿using System.Windows;
+
+namespace SingleDetectGui
 {
-    public partial class App
+    public partial class App : Application
     {        
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace SingleDetectGuiCore.Code
+﻿namespace Kunukn.SingleDetectGuiCore.Code
 {    
     public enum ShapeType
     {

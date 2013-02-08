@@ -8,8 +8,8 @@
     <ProjectGuid>{1DB7F089-0FAD-4740-A3F4-289CCDA39E3B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SingleDetectLibrary</RootNamespace>
-    <AssemblyName>SingleDetectLibrary</AssemblyName>
+    <RootNamespace>Kunukn.SingleDetectLibrary</RootNamespace>
+    <AssemblyName>Kunukn.SingleDetectLibrary</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>

@@ -8,8 +8,8 @@
     <ProjectGuid>{4E0C98B8-0103-4613-A2DF-B9B73CB218CA}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SingleDetectGui</RootNamespace>
-    <AssemblyName>SingleDetectGui</AssemblyName>
+    <RootNamespace>Kunukn.SingleDetectGui</RootNamespace>
+    <AssemblyName>Kunukn.SingleDetectGui</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>

@@ -8,8 +8,8 @@
     <ProjectGuid>{ED6A9570-BB64-4ED6-8D0B-A6A109501EB6}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SingleDetectConsole</RootNamespace>
-    <AssemblyName>SingleDetectConsole</AssemblyName>
+    <RootNamespace>Kunukn.SingleDetectConsole</RootNamespace>
+    <AssemblyName>Kunukn.SingleDetectConsole</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>

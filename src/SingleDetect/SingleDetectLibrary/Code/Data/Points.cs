@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using SingleDetectLibrary.Code.Contract;
+using Kunukn.SingleDetectLibrary.Code.Contract;
 
-namespace SingleDetectLibrary.Code.Data
+namespace Kunukn.SingleDetectLibrary.Code.Data
 {
     public class Points : IPoints
     {

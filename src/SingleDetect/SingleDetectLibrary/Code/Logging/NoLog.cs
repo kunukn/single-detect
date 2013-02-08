@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Reflection;
-using SingleDetectLibrary.Code.Contract;
+using Kunukn.SingleDetectLibrary.Code.Contract;
 
-namespace SingleDetectLibrary.Code.Logging
+namespace Kunukn.SingleDetectLibrary.Code.Logging
 {
     public class NoLog : ILog2
     {

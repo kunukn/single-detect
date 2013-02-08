@@ -1,9 +1,9 @@
 ﻿using System.Diagnostics;
 using System.Linq;
-using SingleDetectLibrary.Code.Contract;
-using SingleDetectLibrary.Code.Data;
+using Kunukn.SingleDetectLibrary.Code.Contract;
+using Kunukn.SingleDetectLibrary.Code.Data;
 
-namespace SingleDetectLibrary.Code.StrategyPattern
+namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
 {
     public class NaiveStrategy : AlgorithmStrategy
     {

@@ -3,11 +3,11 @@ using System.Diagnostics;
 using System.Linq;
 using MathNet.Numerics.LinearAlgebra.Double;
 using MathNet.Numerics.LinearAlgebra.Generic;
-using SingleDetectLibrary.Code.Contract;
-using SingleDetectLibrary.Code.Data;
+using Kunukn.SingleDetectLibrary.Code.Contract;
+using Kunukn.SingleDetectLibrary.Code.Data;
 using KdTree;
 
-namespace SingleDetectLibrary.Code.StrategyPattern
+namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
 {
     public class KdTreeStrategy : AlgorithmStrategy
     {

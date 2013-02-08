@@ -8,8 +8,8 @@
     <ProjectGuid>{A5B56FD7-FE26-4F09-AEF7-97487ED66142}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>KNearestNeighborGui</RootNamespace>
-    <AssemblyName>KNearestNeighborGui</AssemblyName>
+    <RootNamespace>Kunukn.KNearestNeighborGui</RootNamespace>
+    <AssemblyName>Kunukn.KNearestNeighborGui</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>

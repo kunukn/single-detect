@@ -8,8 +8,8 @@
     <ProjectGuid>{FCEB8E05-D527-424D-9586-DFF6C5848B35}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>KNearestNeighborConsole</RootNamespace>
-    <AssemblyName>KNearestNeighborConsole</AssemblyName>
+    <RootNamespace>Kunukn.KNearestNeighborConsole</RootNamespace>
+    <AssemblyName>Kunukn.KNearestNeighborConsole</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>

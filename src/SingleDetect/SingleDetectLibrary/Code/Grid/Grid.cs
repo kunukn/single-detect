@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using SingleDetectLibrary.Code.Contract;
-using SingleDetectLibrary.Code.Data;
+using Kunukn.SingleDetectLibrary.Code.Contract;
+using Kunukn.SingleDetectLibrary.Code.Data;
 
-namespace SingleDetectLibrary.Code.Grid
+namespace Kunukn.SingleDetectLibrary.Code.Grid
 {
     public class Grid
     {

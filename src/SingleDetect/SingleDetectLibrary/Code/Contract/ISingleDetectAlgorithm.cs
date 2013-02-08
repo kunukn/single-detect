@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using SingleDetectLibrary.Code.Data;
-using SingleDetectLibrary.Code.Grid;
-using SingleDetectLibrary.Code.StrategyPattern;
+using Kunukn.SingleDetectLibrary.Code.Data;
+using Kunukn.SingleDetectLibrary.Code.Grid;
+using Kunukn.SingleDetectLibrary.Code.StrategyPattern;
 
-namespace SingleDetectLibrary.Code.Contract
+namespace Kunukn.SingleDetectLibrary.Code.Contract
 {
     public interface ISingleDetectAlgorithm
     {

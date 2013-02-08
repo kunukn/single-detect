@@ -1,4 +1,4 @@
-﻿namespace SingleDetectLibrary.Code.Contract
+﻿namespace Kunukn.SingleDetectLibrary.Code.Contract
 {
     public interface IRectangle
     {

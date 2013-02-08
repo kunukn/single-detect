@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Reflection;
-using SingleDetectLibrary.Code.Contract;
-using SingleDetectLibrary.Code.MathUtil;
+using Kunukn.SingleDetectLibrary.Code.Contract;
+using Kunukn.SingleDetectLibrary.Code.MathUtil;
 using Math = System.Math;
 
-namespace SingleDetectLibrary.Code.Data
+namespace Kunukn.SingleDetectLibrary.Code.Data
 {
     public class Rectangle : IRectangle
     {

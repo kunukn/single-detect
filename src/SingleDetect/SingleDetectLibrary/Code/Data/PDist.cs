@@ -1,7 +1,7 @@
 ﻿using System;
-using SingleDetectLibrary.Code.Contract;
+using Kunukn.SingleDetectLibrary.Code.Contract;
 
-namespace SingleDetectLibrary.Code.Data
+namespace Kunukn.SingleDetectLibrary.Code.Data
 {
     /// <summary>
     /// Used for Grid K Nearest Neighbor

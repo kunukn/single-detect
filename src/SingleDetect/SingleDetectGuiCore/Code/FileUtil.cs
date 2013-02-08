@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 
 
-namespace SingleDetectGuiCore.Code
+namespace Kunukn.SingleDetectGuiCore.Code
 {
     /// <summary>
     /// Author: Kunuk Nykjaer

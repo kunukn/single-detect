@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using SingleDetectLibrary.Code.Contract;
-using SingleDetectLibrary.Code.Data;
-using SingleDetectLibrary.Code.Grid;
-using SingleDetectLibrary.Code.Logging;
-using SingleDetectLibrary.Code.StrategyPattern;
+using Kunukn.SingleDetectLibrary.Code.Contract;
+using Kunukn.SingleDetectLibrary.Code.Data;
+using Kunukn.SingleDetectLibrary.Code.Grid;
+using Kunukn.SingleDetectLibrary.Code.Logging;
+using Kunukn.SingleDetectLibrary.Code.StrategyPattern;
 
-namespace SingleDetectLibrary.Code
+namespace Kunukn.SingleDetectLibrary.Code
 {
     /// <summary>
     /// Author: Kunuk Nykjaer    

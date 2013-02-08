@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SingleDetectLibrary.Code.Contract
+namespace Kunukn.SingleDetectLibrary.Code.Contract
 {
     public interface IDistPoints
     {

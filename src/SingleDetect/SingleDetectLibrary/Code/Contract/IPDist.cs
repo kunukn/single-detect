@@ -1,7 +1,7 @@
 ﻿using System;
-using SingleDetectLibrary.Code.Data;
+using Kunukn.SingleDetectLibrary.Code.Data;
 
-namespace SingleDetectLibrary.Code.Contract
+namespace Kunukn.SingleDetectLibrary.Code.Contract
 {
     public interface IPDist : IComparable
     {

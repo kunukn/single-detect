@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SingleDetectLibrary.Code.Data
+namespace Kunukn.SingleDetectLibrary.Code.Data
 {
     public class MySet<T> : HashSet<T>
     {

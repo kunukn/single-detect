@@ -1,4 +1,4 @@
-﻿namespace SingleDetectLibrary.Code.Data
+﻿namespace Kunukn.SingleDetectLibrary.Code.Data
 {
     public class GridIndex
     {

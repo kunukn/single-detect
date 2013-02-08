@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("SingleDetectLibrary")]
+[assembly: AssemblyTitle("Kunukn.SingleDetectLibrary")]
 [assembly: AssemblyDescription("Library for single detection")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("SingleDetectLibrary")]
+[assembly: AssemblyProduct("Kunukn.SingleDetectLibrary")]
 [assembly: AssemblyCopyright("Kunukn 2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

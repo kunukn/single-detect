@@ -8,8 +8,8 @@
     <ProjectGuid>{387C8C84-3654-4CFF-B7FC-5127AAF36EB9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SingleDetectGuiCore</RootNamespace>
-    <AssemblyName>SingleDetectGuiCore</AssemblyName>
+    <RootNamespace>Kunukn.SingleDetectGuiCore</RootNamespace>
+    <AssemblyName>Kunukn.SingleDetectGuiCore</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using SingleDetectLibrary.Code.Contract;
-using SingleDetectLibrary.Code.Data;
+using Kunukn.SingleDetectLibrary.Code.Contract;
+using Kunukn.SingleDetectLibrary.Code.Data;
 
-namespace SingleDetectGuiCore.Code.Gui
+namespace Kunukn.SingleDetectGuiCore.Code.Gui
 {
     public class Animation
     {        
