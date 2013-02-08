@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using SingleDetectLibrary.Code.Contract;
 using SingleDetectLibrary.Code.Data;
 
 namespace SingleDetectLibrary.Code.Grid
@@ -13,7 +14,7 @@ namespace SingleDetectLibrary.Code.Grid
         private double DY { get; set; } // delta y
         private readonly Rectangle _rect;
 
-        public GridContainer(Rectangle rect, IEnumerable<P> points)
+        public GridContainer(Rectangle rect, IEnumerable<IP> points)
         {
             _rect = rect;
             DX = rect.Square;
@@ -22,7 +23,7 @@ namespace SingleDetectLibrary.Code.Grid
             foreach (var p in points) Update(p);
         }
 
-        protected GridIndex Delta(XY a)
+        protected GridIndex Delta(IP a)
         {
             var x = (int)((_rect.XO + a.X) / DX);
             var y = (int)((_rect.YO + a.Y) / DY);
@@ -31,14 +32,14 @@ namespace SingleDetectLibrary.Code.Grid
             return new GridIndex { X = x, Y = y };
         }
 
-        public MySet<P> GetSet(P p)
+        public MySet<IP> GetSet(IP p)
         {
             return this.Grid.Get(p.GridIndex);
         }
 
         // Single detect
         // 20 nearest boxes
-        public List<P> GetGridNeighborContent(P p)
+        public List<IP> GetGridNeighborContent(IP p)
         {
             var i = p.GridIndex;
 
@@ -72,7 +73,7 @@ namespace SingleDetectLibrary.Code.Grid
             var ww = new GridIndex { X = i.X - 2, Y = i.Y };
             var nww = new GridIndex { X = i.X - 2, Y = i.Y + 1 };
 
-            var list = new List<P>();
+            var list = new List<IP>();
             GridIndex gi;
             if (IsValidGridIndex(gi = n)) list.AddRange(Grid.Get(gi));
             if (IsValidGridIndex(gi = ne)) list.AddRange(Grid.Get(gi));
@@ -110,7 +111,7 @@ namespace SingleDetectLibrary.Code.Grid
             return true;
         }
 
-        public void Update(P p)
+        public void Update(IP p)
         {
             var set = GetSet(p);
             var b = set.Remove(p); // remove
@@ -120,12 +121,12 @@ namespace SingleDetectLibrary.Code.Grid
             set.Add(p);  // add
         }
 
-        public List<P> GetGridSingles()
+        public List<IP> GetGridSingles()
         {
             return this.Grid.GetSingles(this);
         }
 
-        public List<P> GetRing(P p, int ring)
+        public List<IP> GetRing(IP p, int ring)
         {
             if (ring == 0) return GetSet(p).ToList();
 
@@ -143,7 +144,7 @@ namespace SingleDetectLibrary.Code.Grid
                 indexes.Add(new GridIndex { X = center.X + ring, Y = center.Y + i });
             }
 
-            var list = new List<P>();
+            var list = new List<IP>();
             foreach (var i in indexes.Where(IsValidGridIndex)) list.AddRange(Grid.Get(i));
 
             return list;

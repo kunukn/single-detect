@@ -11,13 +11,13 @@ namespace SingleDetectGuiCore.Code.Gui
         private readonly Rectangle _rect;
         readonly Random _rand = new Random();
 
-        public HashSet<P> Moving { get; private set; }
+        public HashSet<IP> Moving { get; private set; }
 
         public Animation(ISingleDetectAlgorithm algorithm, Rectangle rect)
         {
             _algo = algorithm;
             _rect = rect;            
-            Moving = new HashSet<P>();
+            Moving = new HashSet<IP>();
         }
         
         public void SelectMovingDots(int n)

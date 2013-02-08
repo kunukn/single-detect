@@ -18,7 +18,7 @@ namespace SingleDetectLibrary.Code.StrategyPattern
             get { return "KdTree Strategy"; }
         }
 
-        public KdTreeStrategy(IEnumerable<P> points)
+        public KdTreeStrategy(IEnumerable<IP> points)
         {
             var vectors = points.Select(p => new DenseVector(new[] { p.X, p.Y })).ToList();
             Tree = KdTree<Vector<double>, double>.Construct(2, vectors.ToArray());
@@ -59,7 +59,7 @@ namespace SingleDetectLibrary.Code.StrategyPattern
         /// <param name="origin"></param>
         /// <param name="k"></param>
         /// <returns></returns>
-        public override long UpdateKnn(ISingleDetectAlgorithm s, P origin, int k)
+        public override long UpdateKnn(ISingleDetectAlgorithm s, IP origin, int k)
         {
             var sw = new Stopwatch();
             sw.Start();

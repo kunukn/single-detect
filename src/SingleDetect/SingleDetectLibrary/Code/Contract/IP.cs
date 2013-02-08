@@ -4,7 +4,9 @@ namespace SingleDetectLibrary.Code.Contract
 {
     public interface IP
     {
-        double Distance(P p);
+        double X { get; set; }
+        double Y { get; set; }
+        double Distance(IP p);
         double Distance(double x, double y);
         void Round(int decimals);
         int Uid { get; }

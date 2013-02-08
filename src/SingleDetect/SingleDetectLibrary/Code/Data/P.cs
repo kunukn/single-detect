@@ -29,7 +29,7 @@ namespace SingleDetectLibrary.Code.Data
             return Uid.GetHashCode();
         }
 
-        public virtual double Distance(P p)
+        public virtual double Distance(IP p)
         {
             return Distance(p.X, p.Y);
         }

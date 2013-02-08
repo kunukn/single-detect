@@ -139,7 +139,7 @@ namespace SingleDetectGui
                 InitializeComponent(); // wpf
 
                 // Random points
-                var points = new List<P>();
+                var points = new List<IP>();
                 var rand = new Random();
                 for (var i = 0; i < DotsCount; i++)
                 {

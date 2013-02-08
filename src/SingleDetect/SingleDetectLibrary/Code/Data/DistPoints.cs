@@ -7,10 +7,24 @@ namespace SingleDetectLibrary.Code.Data
 {
     public class DistPoints : IDistPoints
     {
-        public List<PDist> Data { get; set; }
+        public List<IPDist> Data { get; set; }
+
+        public int Count { get { return Data.Count; } }
+
+        public IPDist this[int i]
+        {
+            get { return Data[i]; }
+            set { Data[i] = value; }
+        }
+
+        public void Add(IPDist p)
+        {
+            Data.Add(p);
+        }
+
         public DistPoints()
         {
-            Data = new List<PDist>();
+            Data = new List<IPDist>();
         }
 
         public override string ToString()

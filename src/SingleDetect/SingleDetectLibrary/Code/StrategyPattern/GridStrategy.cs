@@ -28,7 +28,7 @@ namespace SingleDetectLibrary.Code.StrategyPattern
             var gridSingles = s.GridContainer.GetGridSingles();
             s.Singles.Clear();
 
-            foreach (var p in gridSingles)
+            foreach (IP p in gridSingles)
             {
                 var neighbors = s.GridContainer.GetGridNeighborContent(p);
                 var add = neighbors
@@ -43,7 +43,7 @@ namespace SingleDetectLibrary.Code.StrategyPattern
         }
 
         // O(n * m) where m is grid cells
-        public override long UpdateKnn(ISingleDetectAlgorithm s, P p, int k)
+        public override long UpdateKnn(ISingleDetectAlgorithm s, IP p, int k)
         {
             var sw = new Stopwatch();
             sw.Start();
@@ -61,12 +61,12 @@ namespace SingleDetectLibrary.Code.StrategyPattern
         // K nearest neighbor
         protected void UpdateKnnGridStrategy(GridContainer g, NearestNeighbor nn, double square, int max)
         {            
-            var currRing = new List<PDist>();
-            var nextRing = new List<PDist>();
+            var currRing = new List<IPDist>();
+            var nextRing = new List<IPDist>();
 
             for (var i = 1; i <= max; i++)
             {
-                var temp = new List<PDist>();
+                var temp = new List<IPDist>();
                 foreach (var p in nextRing)
                 {
                     if (p.Distance < i * square) currRing.Add(p);

@@ -8,19 +8,19 @@ namespace SingleDetectLibrary.Code.Contract
     public interface ISingleDetectAlgorithm
     {
         // Shared
-        List<P> Points { get; }
+        List<IP> Points { get; }
         Rectangle Rect_ { get; }        
-        void UpdateGrid(P p);
+        void UpdateGrid(IP p);
         GridContainer GridContainer { get; }
         AlgorithmStrategy Strategy { get; }
         void SetAlgorithmStrategy(AlgorithmStrategy algorithmStrategy);
 
         // Single select
         long UpdateSingles();
-        List<P> Singles { get; }
+        List<IP> Singles { get; }
 
         // KNN
-        long UpdateKnn(P p, int k);                        
+        long UpdateKnn(IP p, int k);                        
         NearestNeighbor Knn { get;}        
     }
 }

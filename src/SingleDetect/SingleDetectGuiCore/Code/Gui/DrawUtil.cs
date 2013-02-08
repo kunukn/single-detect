@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
+using SingleDetectLibrary.Code.Contract;
 using SingleDetectLibrary.Code.Data;
 using SingleDetectLibrary.Code.MathUtil;
 
@@ -17,7 +18,7 @@ namespace SingleDetectGuiCore.Code.Gui
             PSize = psize;
         }
 
-        static System.Windows.Rect GetShape(P p, Rectangle rect, ShapeType st = ShapeType.Default)
+        static System.Windows.Rect GetShape(IP p, Rectangle rect, ShapeType st = ShapeType.Default)
         {
             switch (st)
             {
@@ -32,7 +33,7 @@ namespace SingleDetectGuiCore.Code.Gui
             }
         }
 
-        static SolidColorBrush GetColor(P p, ShapeType st = ShapeType.Default)
+        static SolidColorBrush GetColor(ShapeType st = ShapeType.Default)
         {
             switch (st)
             {
@@ -48,19 +49,19 @@ namespace SingleDetectGuiCore.Code.Gui
             }
         }
       
-        public static void RedrawDots(DrawingContext dc, ICollection<P> dots, Rectangle rect, ShapeType t = ShapeType.Default)
+        public static void RedrawDots(DrawingContext dc, ICollection<IP> dots, Rectangle rect, ShapeType t = ShapeType.Default)
         {
             if (!IsDrawEnabled) return;
 
             foreach (var p in dots.Where(p => p != null && p.Visible))
             {
                 dc.DrawRectangle(Pens.BackgroundColor, null, GetShape(p, rect, t));
-                dc.DrawRectangle(GetColor(p, ShapeType.Default), null, GetShape(p, rect, ShapeType.Default));
+                dc.DrawRectangle(GetColor(ShapeType.Default), null, GetShape(p, rect, ShapeType.Default));
             }
         }
 
 
-        public static void ClearDots(DrawingContext dc, ICollection<P> dots, Rectangle rect, ShapeType t = ShapeType.Default)
+        public static void ClearDots(DrawingContext dc, ICollection<IP> dots, Rectangle rect, ShapeType t = ShapeType.Default)
         {
             if (!IsDrawEnabled) return;
 
@@ -77,13 +78,13 @@ namespace SingleDetectGuiCore.Code.Gui
             dc.DrawRectangle(Pens.BackgroundColor, null, new System.Windows.Rect(0, 0, (int)rect.Width, (int)rect.Height));
         }
 
-        public static void DrawDots(DrawingContext dc, ICollection<P> dots, Rectangle rect, ShapeType t = ShapeType.Default)
+        public static void DrawDots(DrawingContext dc, ICollection<IP> dots, Rectangle rect, ShapeType t = ShapeType.Default)
         {
             if (!IsDrawEnabled) return;
 
             foreach (var p in dots.Where(p => p != null && p.Visible))
             {
-                dc.DrawRectangle(GetColor(p, t), null, GetShape(p, rect, t));
+                dc.DrawRectangle(GetColor(t), null, GetShape(p, rect, t));
             }
         }
 

@@ -6,7 +6,7 @@ namespace SingleDetectLibrary.Code.Data
 {
     public class NearestNeighbor
     {
-        public P Origin { get; set; } // origin
+        public IP Origin { get; set; } // origin
         public int K { get; set; }  // k nearest   
         public IDistPoints NNs { get; set; } // nearest neighbor
 
@@ -15,9 +15,9 @@ namespace SingleDetectLibrary.Code.Data
             NNs = new DistPoints{};                
         }
 
-        public List<P> GetNNs()
-        {            
-            return NNs.Data.Select(i => i.Point).ToList();            
+        public List<IP> GetNNs()
+        {
+            return NNs.Data.Select(i => i.Point).ToList();
         }
 
         public double GetDistanceSum()

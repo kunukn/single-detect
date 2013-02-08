@@ -1,25 +1,26 @@
 ﻿using System;
+using SingleDetectLibrary.Code.Contract;
 
 namespace SingleDetectLibrary.Code.Data
 {
     /// <summary>
     /// Used for Grid K Nearest Neighbor
     /// </summary>
-    public class PDist : IComparable
+    public class PDist : IPDist, IComparable
     {
-        public P Point { get; set; }
+        public IP Point { get; set; }
         public double Distance { get; set; }
 
         public int CompareTo(object obj)
         {
-            var o = obj as PDist;
+            var o = obj as IPDist;
             if (o == null) return -1;
                         
             return Distance.CompareTo(o.Distance);            
         }
         public override bool Equals(object obj)
         {
-            var o = obj as PDist;
+            var o = obj as IPDist;
             if (o == null) { return false; }
             return GetHashCode() == o.GetHashCode();
         }

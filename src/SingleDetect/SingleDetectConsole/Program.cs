@@ -42,7 +42,7 @@ namespace SingleDetectConsole
                            {
                                XMin = -300, XMax = 300, 
                                YMin = -200, YMax = 200,
-                               MaxDistance = 10,
+                               MaxDistance = 11,
                            };
             rect.Validate();
      

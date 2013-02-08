@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Code\Contract\IPDist.cs" />
     <Compile Include="Code\Contract\IDistPoints.cs" />
     <Compile Include="Code\Contract\IRectangle.cs" />
     <Compile Include="Code\Contract\IPoints.cs" />

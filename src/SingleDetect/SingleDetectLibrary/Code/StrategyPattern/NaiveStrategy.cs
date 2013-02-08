@@ -55,7 +55,7 @@ namespace SingleDetectLibrary.Code.StrategyPattern
         /// <param name="p"></param>
         /// <param name="k"></param>
         /// <returns></returns>
-        public override long UpdateKnn(ISingleDetectAlgorithm s, P p, int k)
+        public override long UpdateKnn(ISingleDetectAlgorithm s, IP p, int k)
         {
             var sw = new Stopwatch();
             sw.Start();

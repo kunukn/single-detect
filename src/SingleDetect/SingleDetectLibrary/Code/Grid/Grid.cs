@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using SingleDetectLibrary.Code.Contract;
 using SingleDetectLibrary.Code.Data;
 
 namespace SingleDetectLibrary.Code.Grid
 {
     public class Grid
     {
-        public MySet<P>[,] Set { get; private set; }
+        public MySet<IP>[,] Set { get; private set; }
         public readonly int X;
         public readonly int Y;
 
@@ -16,12 +17,12 @@ namespace SingleDetectLibrary.Code.Grid
             X = x;
             Y = y;
 
-            Set = new MySet<P>[X, Y];
+            Set = new MySet<IP>[X, Y];
             for (var i = 0; i < X; i++)
             {
                 for (var j = 0; j < Y; j++)
                 {
-                    Set[i, j] = new MySet<P>();
+                    Set[i, j] = new MySet<IP>();
                 }
             }
         }
@@ -37,9 +38,9 @@ namespace SingleDetectLibrary.Code.Grid
             }
         }
 
-        public List<P> GetSingles(GridContainer gc)
+        public List<IP> GetSingles(GridContainer gc)
         {
-            var singles = new List<P>();
+            var singles = new List<IP>();
             for (var i = 0; i < X; i++)
             {
                 for (var j = 0; j < Y; j++)
@@ -54,12 +55,12 @@ namespace SingleDetectLibrary.Code.Grid
             return singles;
         }
 
-        public MySet<P> Get(GridIndex i)
+        public MySet<IP> Get(GridIndex i)
         {
             return Get(i.X, i.Y);
         }
 
-        public MySet<P> Get(int x, int y)
+        public MySet<IP> Get(int x, int y)
         {
             try
             {

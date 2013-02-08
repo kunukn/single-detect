@@ -139,7 +139,7 @@ namespace KNearestNeighborGui
 
                 InitializeComponent(); // wpf
 
-                var points = new List<P>();
+                var points = new List<IP>();
                 
                 // Center p as origin for nearest neighbors
                 points.Add(new P { X = Rect.XMin + (int)Rect.Width / 2, Y = Rect.YMin + (int)Rect.Height / 2, });

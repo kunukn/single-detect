@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using SingleDetectLibrary.Code.Data;
 
 namespace SingleDetectLibrary.Code.Contract
 {
     public interface IDistPoints
     {
-        List<PDist> Data { get; set; }
+        List<IPDist> Data { get; set; }
+        int Count { get; }        
+        IPDist this[int i] { get; set; }
+        void Add(IPDist p);
     }
 }

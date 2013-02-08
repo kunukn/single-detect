@@ -16,8 +16,8 @@ namespace SingleDetectLibrary.Code
     {        
         public Rectangle Rect_ { get; private set; }
         private readonly ILog2 _log;
-        public List<P> Points { get; private set; }
-        public List<P> Singles { get; private set; }
+        public List<IP> Points { get; private set; }
+        public List<IP> Singles { get; private set; }
         public NearestNeighbor Knn { get; private set; }               
         public GridContainer GridContainer { get; private set; }
         public AlgorithmStrategy Strategy { get; private set; }
@@ -28,7 +28,7 @@ namespace SingleDetectLibrary.Code
             _log = log ?? new NoLog();
             Rect_ = rect;           
             Points = points.Data;          
-            Singles = new List<P>();
+            Singles = new List<IP>();
             Knn = new NearestNeighbor();
 
             GridContainer = new GridContainer(Rect_, Points);
@@ -61,13 +61,13 @@ namespace SingleDetectLibrary.Code
             return Strategy.UpdateSingles(this);            
         }
        
-        public long UpdateKnn(P p, int k)
+        public long UpdateKnn(IP p, int k)
         {
             return Strategy.UpdateKnn(this, p, k);            
         }
 
         // Used when p position has been updated
-        public void UpdateGrid(P p)
+        public void UpdateGrid(IP p)
         {
             GridContainer.Update(p);
         }

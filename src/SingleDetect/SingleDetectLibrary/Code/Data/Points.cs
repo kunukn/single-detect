@@ -7,11 +7,25 @@ namespace SingleDetectLibrary.Code.Data
 {
     public class Points : IPoints
     {
-        public List<P> Data { get; set; }        
+        public List<IP> Data { get; set; }        
         public Points()
         {
-            Data = new List<P>();
+            Data = new List<IP>();
         }
+
+        public IP this[int i]
+        {
+            get { return Data[i]; }
+            set { Data[i] = value; }
+        }
+
+        public void Add(IP p)
+        {
+            Data.Add(p);
+        }
+
+        public int Count { get { return Data.Count; } }
+
 
         public override string ToString()
         {
