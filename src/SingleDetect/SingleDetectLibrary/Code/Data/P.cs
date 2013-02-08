@@ -3,13 +3,17 @@ using SingleDetectLibrary.Code.Contract;
 
 namespace SingleDetectLibrary.Code.Data
 {
-    public class P : XY, IP
+    public class P : IP
     {
         private static int _counter;
-        public int Uid { get; private set; }
-        public bool Visible { get; set; }
-        public GridIndex GridIndex { get; set; }
-        public object Data { get; set; }
+
+        public virtual int Uid { get; private set; }
+        public virtual bool Visible { get; set; }
+        public virtual GridIndex GridIndex { get; set; }
+        public virtual double X { get; set; }
+        public virtual double Y { get; set; }
+
+        public virtual object Data { get; set; }
 
         public P()
         {

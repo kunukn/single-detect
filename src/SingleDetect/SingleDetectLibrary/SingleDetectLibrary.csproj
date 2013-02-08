@@ -66,7 +66,6 @@
     <Compile Include="Code\Data\GridIndex.cs" />
     <Compile Include="Code\Data\MySet.cs" />
     <Compile Include="Code\Data\P.cs" />
-    <Compile Include="Code\Data\XY.cs" />
     <Compile Include="Code\Grid\Grid.cs" />
     <Compile Include="Code\MathUtil\M.cs" />
     <Compile Include="Code\SingleDetectAlgorithm.cs" />

@@ -12,6 +12,7 @@ namespace SingleDetectLibrary.Code.Contract
         int Uid { get; }
         bool Visible { get; set; }
         GridIndex GridIndex { get; set; }
+
         object Data { get; set; } // Data container for anything, use it as you like
     }
 }
