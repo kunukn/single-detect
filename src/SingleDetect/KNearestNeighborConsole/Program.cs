@@ -6,9 +6,11 @@ using System.Linq;
 using System.Threading;
 using Kunukn.SingleDetectLibrary.Code;
 using Kunukn.SingleDetectLibrary.Code.Contract;
-using Kunukn.SingleDetectLibrary.Code.Data;
 using Kunukn.SingleDetectLibrary.Code.StrategyPattern;
 using System.Linq;
+using P = Kunukn.SingleDetectLibrary.Code.Data.P;
+using Points = Kunukn.SingleDetectLibrary.Code.Data.Points;
+using Rectangle = Kunukn.SingleDetectLibrary.Code.Data.Rectangle;
 
 namespace Kunukn.KNearestNeighborConsole
 {
@@ -37,14 +39,14 @@ namespace Kunukn.KNearestNeighborConsole
         }
 
         static void Run()
-        {
+        {                      
             // Config
             var rect = new Rectangle
             {
-                XMin = -180,
-                XMax = 180,
-                YMin = -90,
-                YMax = 90,
+                XMin = -200,
+                XMax = 200,
+                YMin = -100,
+                YMax = 100,
                 MaxDistance = 20,
             };
             rect.Validate();
@@ -71,7 +73,8 @@ namespace Kunukn.KNearestNeighborConsole
                 new SingleDetectAlgorithm(points, rect, StrategyType.Grid);
 
             // Use algo
-            var origin = points.Data.First();
+            
+            var origin = new P { X = 0, Y = 0 };                        
             var duration = algo.UpdateKnn(origin, k);
 
             // Print result

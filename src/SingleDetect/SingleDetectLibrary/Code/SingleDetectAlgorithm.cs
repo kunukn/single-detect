@@ -63,13 +63,19 @@ namespace Kunukn.SingleDetectLibrary.Code
        
         public long UpdateKnn(IP p, int k)
         {
+            UpdateIndex(p);
             return Strategy.UpdateKnn(this, p, k);            
         }
 
         // Used when p position has been updated
-        public void UpdateGrid(IP p)
+        public void UpdatePosition(IP p)
         {
-            GridContainer.Update(p);
+            this.GridContainer.UpdatePosition(p);
+        }
+
+        public void UpdateIndex(IP p)
+        {
+            this.GridContainer.UpdateIndex(p);
         }
     }
 }

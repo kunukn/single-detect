@@ -49,7 +49,7 @@ namespace Kunukn.SingleDetectGuiCore.Code.Gui
                 if (p.X >= _rect.XMax) { p.X = _rect.XMax - 1; }
                 if (p.Y >= _rect.YMax) { p.Y = _rect.YMax - 1; }
 
-                _algo.UpdateGrid(p);
+                _algo.UpdatePosition(p);
             }
         }
     }

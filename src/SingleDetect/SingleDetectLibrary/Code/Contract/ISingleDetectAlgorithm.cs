@@ -10,7 +10,8 @@ namespace Kunukn.SingleDetectLibrary.Code.Contract
         // Shared
         List<IP> Points { get; }
         Rectangle Rect_ { get; }        
-        void UpdateGrid(IP p);
+        void UpdatePosition(IP p);
+        void UpdateIndex(IP p);
         GridContainer GridContainer { get; }
         AlgorithmStrategy Strategy { get; }
         void SetAlgorithmStrategy(AlgorithmStrategy algorithmStrategy);
@@ -20,7 +21,7 @@ namespace Kunukn.SingleDetectLibrary.Code.Contract
         List<IP> Singles { get; }
 
         // KNN
-        long UpdateKnn(IP p, int k);                        
-        NearestNeighbor Knn { get;}        
+        long UpdateKnn(IP p, int k);
+        NearestNeighbor Knn { get;}
     }
 }

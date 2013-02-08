@@ -20,7 +20,7 @@ namespace Kunukn.SingleDetectLibrary.Code.Grid
             DX = rect.Square;
             DY = rect.Square;
             Grid = new Grid(rect.XGrid, rect.YGrid);
-            foreach (var p in points) Update(p);
+            foreach (var p in points) UpdatePosition(p);
         }
 
         protected GridIndex Delta(IP a)
@@ -111,15 +111,28 @@ namespace Kunukn.SingleDetectLibrary.Code.Grid
             return true;
         }
 
-        public void Update(IP p)
-        {
+        // Primarily used for updating position, insert p into grid
+        public void UpdatePosition(IP p)
+        {            
+            var b = Remove(p);  // remove prev position          
+            UpdateIndex(p);  // update ref
             var set = GetSet(p);
-            var b = set.Remove(p); // remove
+            set.Add(p);  // add new position
+        }
+
+        // Don't insert p into grid, only update
+        public void UpdateIndex(IP p)
+        {
             var d = Delta(p);
             p.GridIndex = d; // update ref
-            set = GetSet(p);
-            set.Add(p);  // add
         }
+
+        public bool Remove(IP p)
+        {            
+            var set = GetSet(p);
+            return set.Remove(p); // remove                        
+        }
+
 
         public List<IP> GetGridSingles()
         {
