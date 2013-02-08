@@ -1,8 +1,10 @@
-﻿using Kunukn.SingleDetectLibrary.Code.Data;
+﻿using System;
+using System.Runtime.Serialization;
+using Kunukn.SingleDetectLibrary.Code.Data;
 
 namespace Kunukn.SingleDetectLibrary.Code.Contract
-{
-    public interface IP
+{    
+    public interface IP : ISerializable
     {
         int Uid { get; }   
         double X { get; set; }

@@ -232,7 +232,7 @@ namespace Kunukn.KNearestNeighborGui
             sb.AppendFormat("Origin: {0}\n", _algorithm.Knn.Origin);
             //sb.AppendFormat(_algorithm.Knn.NNs.Aggregate("", (a, b) => a + b + "\n"));
             sb.AppendFormat("K: {0}\n", _algorithm.Knn.K);
-            sb.AppendFormat("NNs: {0}\n", _algorithm.Knn.NNs.Data.Count);
+            sb.AppendFormat("NNs: {0}\n", _algorithm.Knn.NNs.Count);
             sb.AppendFormat("MaxDistance: {0}\n", _algorithm.Rect_.MaxDistance);
             sb.AppendFormat("Square: {0}\n\n", _algorithm.Rect_.Square);
             sb.AppendFormat("SliderTop\nmsec per frame: {0}\n\n", SliderTop);

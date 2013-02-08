@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Runtime.Serialization;
 using Kunukn.SingleDetectLibrary.Code.Contract;
 
 namespace Kunukn.SingleDetectLibrary.Code.Data
 {
-    public class P : IP
+    public class P : IP, ISerializable
     {
         private static int _counter;
 
@@ -29,7 +30,7 @@ namespace Kunukn.SingleDetectLibrary.Code.Data
         public override int GetHashCode()
         {
             return Uid.GetHashCode();
-        }
+        }      
 
         // Euclidean distance
         public virtual double Distance(double x, double y)
@@ -44,6 +45,13 @@ namespace Kunukn.SingleDetectLibrary.Code.Data
         public override string ToString()
         {
             return string.Format("Id: {0}, X: {1}, Y: {2}", Uid, X, Y);
-        }      
+        }
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("Uid", this.Uid);
+            info.AddValue("X", this.X);
+            info.AddValue("Y", this.Y);
+        }
     }
 }

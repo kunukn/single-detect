@@ -71,12 +71,12 @@ namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
                 if (p.Equals(p1)) continue;
 
                 var dist = p.Distance(p1.X, p1.Y);
-                s.Knn.NNs.Data.Add(new PDist { Point = p1, Distance = dist });
+                s.Knn.NNs.Add(new PDist { Point = p1, Distance = dist });
             }
 
-            s.Knn.NNs.Data.Sort();
+            s.Knn.NNs = s.Knn.NNs.OrderBy(i => i.Distance).ToList();
             k = k > n ? n : k;
-            s.Knn.NNs.Data = s.Knn.NNs.Data.Take(k).ToList();
+            s.Knn.NNs = s.Knn.NNs.Take(k).ToList();
 
             sw.Stop();
             return sw.ElapsedMilliseconds;

@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Text;
 using Kunukn.SingleDetectLibrary.Code.Contract;
 
 namespace Kunukn.SingleDetectLibrary.Code.Data
 {
-    public class Points : IPoints
+    public class Points : IPoints, ISerializable
     {
         public List<IP> Data { get; set; }
         public Points()
@@ -33,7 +34,7 @@ namespace Kunukn.SingleDetectLibrary.Code.Data
             foreach (var p in Data) sb.Append(string.Format("[{0}] ", p));
             return sb.ToString();
         }
-
+       
         public void Round(int decimals)
         {
             foreach (var p in Data)
@@ -42,5 +43,11 @@ namespace Kunukn.SingleDetectLibrary.Code.Data
                 p.Y = Math.Round(p.Y, decimals);
             }
         }
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("Data", this.Data);
+        }
+
     }
 }

@@ -1,9 +1,9 @@
 ﻿using System;
-using Kunukn.SingleDetectLibrary.Code.Data;
+using System.Runtime.Serialization;
 
 namespace Kunukn.SingleDetectLibrary.Code.Contract
 {
-    public interface IPDist : IComparable
+    public interface IPDist : IComparable, ISerializable
     {
         IP Point { get; set; }
         double Distance { get; set; }

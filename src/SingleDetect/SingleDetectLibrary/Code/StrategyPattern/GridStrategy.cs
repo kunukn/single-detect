@@ -98,7 +98,7 @@ namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
             }
 
             currRing.Sort();            
-            nn.NNs = new DistPoints { Data = currRing.Count > nn.K ? currRing.Take(nn.K).ToList() : currRing.ToList() };
+            nn.NNs = currRing.Count > nn.K ? currRing.Take(nn.K).ToList() : currRing.ToList();
         }
     }
 }

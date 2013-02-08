@@ -8,27 +8,27 @@ namespace Kunukn.SingleDetectLibrary.Code.Data
     {
         public IP Origin { get; set; } // origin
         public int K { get; set; }  // k nearest   
-        public IDistPoints NNs { get; set; } // nearest neighbor
+        public IList<IPDist> NNs { get; set; } // nearest neighbor
 
         public NearestNeighbor()
         {
-            NNs = new DistPoints{};                
+            NNs = new List<IPDist>();
         }
 
         public List<IP> GetNNs()
         {
-            return NNs.Data.Select(i => i.Point).ToList();
+            return NNs.Select(i => i.Point).ToList();
         }
 
         public double GetDistanceSum()
         {            
-            return NNs.Data.Aggregate(0d, (a, b) => (a + b.Distance) );            
+            return NNs.Aggregate(0d, (a, b) => (a + b.Distance) );            
         }
         
         public void Clear()
         {
             Origin = null;
-            NNs.Data.Clear();
+            NNs.Clear();
             K = 0;
         }
     }

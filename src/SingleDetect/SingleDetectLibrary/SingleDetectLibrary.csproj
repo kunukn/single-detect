@@ -49,12 +49,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Code\Contract\IPDist.cs" />
-    <Compile Include="Code\Contract\IDistPoints.cs" />
     <Compile Include="Code\Contract\IRectangle.cs" />
     <Compile Include="Code\Contract\IPoints.cs" />
     <Compile Include="Code\Contract\IP.cs" />
     <Compile Include="Code\Contract\ILog2.cs" />
-    <Compile Include="Code\Data\DistPoints.cs" />
     <Compile Include="Code\Data\Points.cs" />
     <Compile Include="Code\Data\NearestNeighbor.cs" />
     <Compile Include="Code\Data\PDist.cs" />

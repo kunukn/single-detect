@@ -74,7 +74,7 @@ namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
             {
                 var p = new P { X = i[0], Y = i[1] };
                 var dist = origin.Distance(p.X,p.Y);
-                s.Knn.NNs.Data.Add(new PDist {Point = p, Distance = dist});
+                s.Knn.NNs.Add(new PDist {Point = p, Distance = dist});
             }
 
             sw.Stop();
