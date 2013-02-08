@@ -6,6 +6,7 @@ using Kunukn.SingleDetectLibrary.Code.Contract;
 
 namespace Kunukn.SingleDetectLibrary.Code.Data
 {
+    [Serializable]
     public class Points : IPoints, ISerializable
     {
         public List<IP> Data { get; set; }

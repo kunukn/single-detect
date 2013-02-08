@@ -4,6 +4,7 @@ using Kunukn.SingleDetectLibrary.Code.Contract;
 
 namespace Kunukn.SingleDetectLibrary.Code.Data
 {
+    [Serializable]
     public class P : IP, ISerializable
     {
         private static int _counter;

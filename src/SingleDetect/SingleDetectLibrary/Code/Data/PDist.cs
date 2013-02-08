@@ -7,6 +7,7 @@ namespace Kunukn.SingleDetectLibrary.Code.Data
     /// <summary>
     /// Used for Grid K Nearest Neighbor
     /// </summary>    
+    /// 
     [Serializable]
     public class PDist : IPDist, IComparable, ISerializable
     {
