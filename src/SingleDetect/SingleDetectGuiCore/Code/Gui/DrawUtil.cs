@@ -53,7 +53,7 @@ namespace SingleDetectGuiCore.Code.Gui
         {
             if (!IsDrawEnabled) return;
 
-            foreach (var p in dots.Where(p => p != null && p.Visible))
+            foreach (var p in dots.Where(p => p != null))
             {
                 dc.DrawRectangle(Pens.BackgroundColor, null, GetShape(p, rect, t));
                 dc.DrawRectangle(GetColor(ShapeType.Default), null, GetShape(p, rect, ShapeType.Default));
@@ -65,7 +65,7 @@ namespace SingleDetectGuiCore.Code.Gui
         {
             if (!IsDrawEnabled) return;
 
-            foreach (var p in dots.Where(p => p != null && p.Visible))
+            foreach (var p in dots.Where(p => p != null))
             {
                 dc.DrawRectangle(Pens.BackgroundColor, null, GetShape(p, rect, t));
             }
@@ -82,7 +82,7 @@ namespace SingleDetectGuiCore.Code.Gui
         {
             if (!IsDrawEnabled) return;
 
-            foreach (var p in dots.Where(p => p != null && p.Visible))
+            foreach (var p in dots.Where(p => p != null))
             {
                 dc.DrawRectangle(GetColor(t), null, GetShape(p, rect, t));
             }

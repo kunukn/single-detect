@@ -68,7 +68,7 @@ namespace KNearestNeighborConsole
 
             // Init algo
             ISingleDetectAlgorithm algo =
-                new SingleDetectAlgorithm(new Points { Data = points.Data }, rect, StrategyType.Grid);
+                new SingleDetectAlgorithm(points, rect, StrategyType.Grid);
 
             // Use algo
             var origin = points.Data.First();

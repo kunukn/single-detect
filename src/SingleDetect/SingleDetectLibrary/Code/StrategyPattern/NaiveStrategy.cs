@@ -34,7 +34,7 @@ namespace SingleDetectLibrary.Code.StrategyPattern
                     if (i == j) continue;
 
                     var p2 = s.Points[j];
-                    var dist = p1.Distance(p2);
+                    var dist = p1.Distance(p2.X, p2.Y);
                     if (!(dist > s.Rect_.MaxDistance))
                     {
                         add = false;
@@ -70,7 +70,7 @@ namespace SingleDetectLibrary.Code.StrategyPattern
                 var p1 = s.Points[i];
                 if (p.Equals(p1)) continue;
 
-                var dist = p.Distance(p1);
+                var dist = p.Distance(p1.X, p1.Y);
                 s.Knn.NNs.Data.Add(new PDist { Point = p1, Distance = dist });
             }
 

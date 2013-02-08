@@ -7,7 +7,7 @@ namespace SingleDetectLibrary.Code.Data
 {
     public class Points : IPoints
     {
-        public List<IP> Data { get; set; }        
+        public List<IP> Data { get; set; }
         public Points()
         {
             Data = new List<IP>();
@@ -30,13 +30,17 @@ namespace SingleDetectLibrary.Code.Data
         public override string ToString()
         {
             var sb = new StringBuilder();
-            foreach (var p in Data) sb.Append(string.Format("[{0}] ",p));            
+            foreach (var p in Data) sb.Append(string.Format("[{0}] ", p));
             return sb.ToString();
         }
 
         public void Round(int decimals)
         {
-            foreach (var p in Data) p.Round(decimals);
+            foreach (var p in Data)
+            {
+                p.X = Math.Round(p.X, decimals);
+                p.Y = Math.Round(p.Y, decimals);
+            }
         }
     }
 }

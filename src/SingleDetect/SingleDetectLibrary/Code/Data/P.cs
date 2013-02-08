@@ -7,8 +7,7 @@ namespace SingleDetectLibrary.Code.Data
     {
         private static int _counter;
 
-        public virtual int Uid { get; private set; }
-        public virtual bool Visible { get; set; }
+        public virtual int Uid { get; private set; }        
         public virtual GridIndex GridIndex { get; set; }
         public virtual double X { get; set; }
         public virtual double Y { get; set; }
@@ -19,7 +18,6 @@ namespace SingleDetectLibrary.Code.Data
         {
             Uid = ++_counter;
             GridIndex = new GridIndex();
-            Visible = true;
         }
 
         public override bool Equals(object obj)
@@ -31,11 +29,6 @@ namespace SingleDetectLibrary.Code.Data
         public override int GetHashCode()
         {
             return Uid.GetHashCode();
-        }
-
-        public virtual double Distance(IP p)
-        {
-            return Distance(p.X, p.Y);
         }
 
         // Euclidean distance
@@ -51,12 +44,6 @@ namespace SingleDetectLibrary.Code.Data
         public override string ToString()
         {
             return string.Format("Id: {0}, X: {1}, Y: {2}", Uid, X, Y);
-        }
-
-        public virtual void Round(int decimals)
-        {
-            X = Math.Round(X, decimals);
-            Y = Math.Round(Y, decimals);
-        }
+        }      
     }
 }

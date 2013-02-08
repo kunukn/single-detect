@@ -42,7 +42,7 @@ namespace SingleDetectConsole
                            {
                                XMin = -300, XMax = 300, 
                                YMin = -200, YMax = 200,
-                               MaxDistance = 11,
+                               MaxDistance = 10,
                            };
             rect.Validate();
      
@@ -63,7 +63,7 @@ namespace SingleDetectConsole
 
             // Init algo
             ISingleDetectAlgorithm algo =
-                new SingleDetectAlgorithm(new Points{Data = points.Data}, rect, StrategyType.Grid);
+                new SingleDetectAlgorithm(points, rect, StrategyType.Grid);
 
             // Use algo
             var duration = algo.UpdateSingles();

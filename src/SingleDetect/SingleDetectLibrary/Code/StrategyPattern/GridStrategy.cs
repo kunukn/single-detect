@@ -32,7 +32,7 @@ namespace SingleDetectLibrary.Code.StrategyPattern
             {
                 var neighbors = s.GridContainer.GetGridNeighborContent(p);
                 var add = neighbors
-                    .Select(p.Distance)
+                    .Select(i => i.Distance(p.X,p.Y))
                     .All(dist => dist > s.Rect_.MaxDistance);
 
                 if (add) s.Singles.Add(p);
@@ -83,7 +83,7 @@ namespace SingleDetectLibrary.Code.StrategyPattern
 
                 foreach (var p in list)
                 {
-                    var dist = nn.Origin.Distance(p);
+                    var dist = nn.Origin.Distance(p.X, p.Y);
                     if (dist < i * square) currRing.Add(new PDist { Point = p, Distance = dist });
                     else nextRing.Add(new PDist { Point = p, Distance = dist });
                 }
