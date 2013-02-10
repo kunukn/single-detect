@@ -146,7 +146,7 @@ namespace Kunukn.KNearestNeighborGui
                                {
                                    X = Rect.XMin + (int)Rect.Width / 2, 
                                    Y = Rect.YMin + (int)Rect.Height / 2, 
-                                   //Type = 3
+                                   //Type = 3 // nearest neighbor by same type only ?
                                });
 
                 var rand = new Random();
@@ -156,7 +156,7 @@ namespace Kunukn.KNearestNeighborGui
                     {
                         X = rand.Next((int)(Rect.XMin), (int)(Rect.XMax)),
                         Y = rand.Next((int)(Rect.YMin), (int)(Rect.YMax)),
-                        //Type = rand.Next(3)+1,
+                        //Type = rand.Next(3)+1, // nearest neighbor by same type only ?
                     });
                 }
 
