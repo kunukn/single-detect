@@ -2,9 +2,11 @@ Single Detect with C#
 =============
 
 Detect singles and K-nearest neighbors in 2D dimension space
-* Console code usage example
-* Gui code usage example
+* Console code usage examples for K-nearest neighbors (knn) and singles
+* Gui code usage examples for knn and singles
 * Algorithm strategy option between Grid, Naive and KdTree
+* Option to apply knn on same type points only
+* Euclidean distance is used
 
 <br>
 
