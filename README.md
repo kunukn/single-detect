@@ -27,4 +27,5 @@ K-nearest neighbor
 
 Nearest neighbors by same type only. The origin is the red and the same type is the purples. 
 The nearest neighbors are the purples and are slightly larger in size.
-![K Nearest Neighbor](https://raw.github.com/kunukn/single-detect/master/img/knn.gif2 "knn image2")
+
+![K Nearest Neighbor](https://raw.github.com/kunukn/single-detect/master/img/knn2.gif "knn image2")
