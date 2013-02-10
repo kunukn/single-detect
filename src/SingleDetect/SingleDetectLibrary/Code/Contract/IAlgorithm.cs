@@ -14,15 +14,14 @@ namespace Kunukn.SingleDetectLibrary.Code.Contract
         void UpdateIndex(IP p);     // update gridbox ref for p
         GridContainer GridContainer { get; }
         AlgorithmStrategy Strategy { get; }
-        void SetAlgorithmStrategy(AlgorithmStrategy algorithmStrategy); // set the algo type used for calc
-        bool KnnSameTypeOnly { get; set; } // only apply nkk on same type flag
+        void SetAlgorithmStrategy(AlgorithmStrategy algorithmStrategy); // set the algo type used for calc        
 
         // Single select
         long UpdateSingles();
         List<IP> Singles { get; }
 
         // KNN
-        long UpdateKnn(IP p, int k);
+        long UpdateKnn(IP p, int k, bool knnSameTypeOnly = false);
         NearestNeighbor Knn { get;}
     }
 }

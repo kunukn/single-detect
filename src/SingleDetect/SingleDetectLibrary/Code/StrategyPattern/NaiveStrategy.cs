@@ -54,8 +54,9 @@ namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
         /// <param name="s"></param>
         /// <param name="p"></param>
         /// <param name="k"></param>
+        /// /// <param name="knnSameTypeOnly"></param>
         /// <returns></returns>
-        public override long UpdateKnn(IAlgorithm s, IP p, int k)
+        public override long UpdateKnn(IAlgorithm s, IP p, int k, bool knnSameTypeOnly)
         {
             var sw = new Stopwatch();
             sw.Start();
@@ -69,7 +70,7 @@ namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
             {
                 var p1 = s.Points[i];
                 if (p.Equals(p1)) continue; // don't include origin
-                if(s.KnnSameTypeOnly && p.Type != p1.Type) continue; // only same type used
+                if (knnSameTypeOnly && p.Type != p1.Type) continue; // only same type used
 
                 var dist = p.Distance(p1.X, p1.Y);
                 s.Knn.NNs.Add(new PDist { Point = p1, Distance = dist });

@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Linq;
 using Kunukn.SingleDetectLibrary.Code.Contract;
 using Kunukn.SingleDetectLibrary.Code.Data;
-using Kunukn.SingleDetectLibrary.Code.Grid;
 
 namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
 {
@@ -43,7 +42,7 @@ namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
         }
 
         // O(n * m) where m is grid cells
-        public override long UpdateKnn(IAlgorithm s, IP p, int k)
+        public override long UpdateKnn(IAlgorithm s, IP p, int k, bool knnSameTypeOnly = false)
         {
             var sw = new Stopwatch();
             sw.Start();
@@ -52,14 +51,14 @@ namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
             s.Knn.Clear();
             s.Knn.Origin = p;
             s.Knn.K = k;
-            UpdateKnnGridStrategy(s, max);
+            UpdateKnnGridStrategy(s, max, knnSameTypeOnly);
 
             sw.Stop();
             return sw.ElapsedMilliseconds;
         }
 
         // K nearest neighbor
-        protected void UpdateKnnGridStrategy(IAlgorithm s, int max)
+        protected void UpdateKnnGridStrategy(IAlgorithm s, int max, bool knnSameTypeOnly)
         {
             var g = s.GridContainer;
             var nn = s.Knn;
@@ -86,7 +85,7 @@ namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
                 if (i == 1) list.AddRange(g.GetSet(nn.Origin).Where(a => !a.Equals(nn.Origin)).ToList());
 
                 // Only NN on same type if set
-                if (s.KnnSameTypeOnly) list = list.Where(a => a.Type == nn.Origin.Type).ToList();
+                if (knnSameTypeOnly) list = list.Where(a => a.Type == nn.Origin.Type).ToList();
 
                 foreach (var p in list)
                 {
@@ -102,7 +101,7 @@ namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
             if (currRing.Count < nn.K)
             {
                 // Only NN on same type if set
-                currRing.AddRange(s.KnnSameTypeOnly
+                currRing.AddRange(knnSameTypeOnly
                                       ? nextRing.Where(a => a.Point.Type == nn.Origin.Type).ToList()
                                       : nextRing);
             }

@@ -58,8 +58,9 @@ namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
         /// <param name="s"></param>
         /// <param name="origin"></param>
         /// <param name="k"></param>
+        /// <param name="knnSameTypeOnly"></param>        
         /// <returns></returns>
-        public override long UpdateKnn(IAlgorithm s, IP origin, int k)
+        public override long UpdateKnn(IAlgorithm s, IP origin, int k, bool knnSameTypeOnly)
         {
             var sw = new Stopwatch();
             sw.Start();

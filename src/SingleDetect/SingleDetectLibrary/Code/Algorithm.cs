@@ -21,8 +21,7 @@ namespace Kunukn.SingleDetectLibrary.Code
         public NearestNeighbor Knn { get; private set; }               
         public GridContainer GridContainer { get; private set; }
         public AlgorithmStrategy Strategy { get; private set; }
-        public bool KnnSameTypeOnly { get; set; }
-
+        
         public Algorithm(
             IPoints points, Rectangle rect, StrategyType type = StrategyType.Grid, ILog2 log = null)
         {
@@ -62,10 +61,10 @@ namespace Kunukn.SingleDetectLibrary.Code
             return Strategy.UpdateSingles(this);            
         }
        
-        public long UpdateKnn(IP p, int k)
+        public long UpdateKnn(IP p, int k, bool knnSameTypeOnly = false)
         {
             UpdateIndex(p);
-            return Strategy.UpdateKnn(this, p, k);            
+            return Strategy.UpdateKnn(this, p, k, knnSameTypeOnly);            
         }
 
         // Used when p position has been updated

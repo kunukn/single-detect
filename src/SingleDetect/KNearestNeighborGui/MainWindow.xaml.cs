@@ -57,8 +57,9 @@ namespace Kunukn.KNearestNeighborGui
         // For KNN: Defining the grid length
                                                          MaxDistance = 20,
                                                      };        
-        private const bool IsDrawEnabled = true;     
-      
+        private const bool IsDrawEnabled = true;
+        private const bool KnnSameTypeOnly = false;
+
         #endregion  ** config **
 
         #region ** img **
@@ -162,10 +163,7 @@ namespace Kunukn.KNearestNeighborGui
 
 
                 _stopwatch.Start();
-                _algorithm = new Algorithm(new Points { Data = points }, Rect, StrategyType.Grid, _log)
-                                 {
-                                     KnnSameTypeOnly = false
-                                 };
+                _algorithm = new Algorithm(new Points {Data = points}, Rect, StrategyType.Grid, _log);
                 _animation = new Animation(_algorithm, Rect);
 
                 _stopwatch.Stop();
@@ -221,7 +219,7 @@ namespace Kunukn.KNearestNeighborGui
 
                 // Update KNN
                 var origin = _algorithm.Points[0]; // first item as origin
-                _elapsedAlgoUpdateKnn = string.Format("msec {0}", _algorithm.UpdateKnn(origin, K));
+                _elapsedAlgoUpdateKnn = string.Format("msec {0}", _algorithm.UpdateKnn(origin, K, KnnSameTypeOnly));
 
                 // Draw updated KNN                            
                 DrawUtil.DrawDots(dc, new[] { origin }, Rect, ShapeType.Selected);
