@@ -9,18 +9,18 @@ using Kunukn.SingleDetectLibrary.Code.Grid;
 namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
 {
     public class GridStrategy : AlgorithmStrategy
-    {        
+    {
         public override string Name
         {
             get { return "Grid Strategy"; }
         }
-        
+
         /// <summary>
         /// O(n * m)  where m is grid cells 
         /// </summary>
         /// <param name="s"></param>
         /// <returns></returns>
-        public override long UpdateSingles(ISingleDetectAlgorithm s)
+        public override long UpdateSingles(IAlgorithm s)
         {
             var sw = new Stopwatch();
             sw.Start();
@@ -32,7 +32,7 @@ namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
             {
                 var neighbors = s.GridContainer.GetGridNeighborContent(p);
                 var add = neighbors
-                    .Select(i => i.Distance(p.X,p.Y))
+                    .Select(i => i.Distance(p.X, p.Y))
                     .All(dist => dist > s.Rect_.MaxDistance);
 
                 if (add) s.Singles.Add(p);
@@ -43,7 +43,7 @@ namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
         }
 
         // O(n * m) where m is grid cells
-        public override long UpdateKnn(ISingleDetectAlgorithm s, IP p, int k)
+        public override long UpdateKnn(IAlgorithm s, IP p, int k)
         {
             var sw = new Stopwatch();
             sw.Start();
@@ -51,16 +51,20 @@ namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
 
             s.Knn.Clear();
             s.Knn.Origin = p;
-            s.Knn.K = k;            
-            UpdateKnnGridStrategy(s.GridContainer,s.Knn,s.Rect_.Square,max);
+            s.Knn.K = k;
+            UpdateKnnGridStrategy(s, max);
 
             sw.Stop();
             return sw.ElapsedMilliseconds;
         }
 
         // K nearest neighbor
-        protected void UpdateKnnGridStrategy(GridContainer g, NearestNeighbor nn, double square, int max)
-        {            
+        protected void UpdateKnnGridStrategy(IAlgorithm s, int max)
+        {
+            var g = s.GridContainer;
+            var nn = s.Knn;
+            var square = s.Rect_.Square;
+
             var currRing = new List<IPDist>();
             var nextRing = new List<IPDist>();
 
@@ -72,17 +76,17 @@ namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
                     if (p.Distance < i * square) currRing.Add(p);
                     else temp.Add(p);
                 }
-                
+
                 nextRing.Clear();
                 nextRing.AddRange(temp);
 
                 var list = g.GetRing(nn.Origin, i);
-                
+
                 // First 9 squares, dont include origin
                 if (i == 1) list.AddRange(g.GetSet(nn.Origin).Where(a => !a.Equals(nn.Origin)).ToList());
 
-                // Only NN on same type if type is set for origin
-                if (nn.Origin.Type > 0) list = list.Where(a => a.Type == nn.Origin.Type).ToList();                
+                // Only NN on same type if set
+                if (s.KnnSameTypeOnly) list = list.Where(a => a.Type == nn.Origin.Type).ToList();
 
                 foreach (var p in list)
                 {
@@ -97,13 +101,13 @@ namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
 
             if (currRing.Count < nn.K)
             {
-                // Only NN on same type if type is set for origin          
-                currRing.AddRange(nn.Origin.Type > 0
+                // Only NN on same type if set
+                currRing.AddRange(s.KnnSameTypeOnly
                                       ? nextRing.Where(a => a.Point.Type == nn.Origin.Type).ToList()
                                       : nextRing);
             }
 
-            currRing.Sort();            
+            currRing.Sort();
             nn.NNs = currRing.Count > nn.K ? currRing.Take(nn.K).ToList() : currRing.ToList();
         }
     }

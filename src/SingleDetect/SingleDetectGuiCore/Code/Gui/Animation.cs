@@ -7,13 +7,13 @@ namespace Kunukn.SingleDetectGuiCore.Code.Gui
 {
     public class Animation
     {        
-        private readonly ISingleDetectAlgorithm _algo;
+        private readonly IAlgorithm _algo;
         private readonly Rectangle _rect;
         readonly Random _rand = new Random();
 
         public HashSet<IP> Moving { get; private set; }
 
-        public Animation(ISingleDetectAlgorithm algorithm, Rectangle rect)
+        public Animation(IAlgorithm algorithm, Rectangle rect)
         {
             _algo = algorithm;
             _rect = rect;            

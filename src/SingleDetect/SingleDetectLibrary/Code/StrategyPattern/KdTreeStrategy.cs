@@ -24,7 +24,7 @@ namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
             Tree = KdTree<Vector<double>, double>.Construct(2, vectors.ToArray());
         }
                         
-        public override long UpdateSingles(ISingleDetectAlgorithm s)
+        public override long UpdateSingles(IAlgorithm s)
         {
             var sw = new Stopwatch();
             sw.Start();
@@ -59,7 +59,7 @@ namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
         /// <param name="origin"></param>
         /// <param name="k"></param>
         /// <returns></returns>
-        public override long UpdateKnn(ISingleDetectAlgorithm s, IP origin, int k)
+        public override long UpdateKnn(IAlgorithm s, IP origin, int k)
         {
             var sw = new Stopwatch();
             sw.Start();

@@ -34,7 +34,7 @@ namespace Kunukn.KNearestNeighborGui
         private readonly string _elapsedAlgoInit;
         private string _elapsedAlgoUpdateKnn;
         public readonly Random Rand = new Random();
-        readonly ISingleDetectAlgorithm _algorithm;
+        readonly IAlgorithm _algorithm;
         private readonly Animation _animation;
 
         // Always finish current frame update before next frame is started
@@ -145,8 +145,8 @@ namespace Kunukn.KNearestNeighborGui
                 points.Add(new P
                                {
                                    X = Rect.XMin + (int)Rect.Width / 2, 
-                                   Y = Rect.YMin + (int)Rect.Height / 2, 
-                                   //Type = 3 // nearest neighbor by same type only ?
+                                   Y = Rect.YMin + (int)Rect.Height / 2,
+                                   Type = 3,
                                });
 
                 var rand = new Random();
@@ -156,13 +156,16 @@ namespace Kunukn.KNearestNeighborGui
                     {
                         X = rand.Next((int)(Rect.XMin), (int)(Rect.XMax)),
                         Y = rand.Next((int)(Rect.YMin), (int)(Rect.YMax)),
-                        //Type = rand.Next(3)+1, // nearest neighbor by same type only ?
+                        Type = rand.Next(3)+1,
                     });
                 }
 
 
                 _stopwatch.Start();
-                _algorithm = new SingleDetectAlgorithm(new Points { Data = points }, Rect, StrategyType.Grid, _log);
+                _algorithm = new Algorithm(new Points { Data = points }, Rect, StrategyType.Grid, _log)
+                                 {
+                                     KnnSameTypeOnly = false
+                                 };
                 _animation = new Animation(_algorithm, Rect);
 
                 _stopwatch.Stop();

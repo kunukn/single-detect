@@ -60,13 +60,13 @@
     <Compile Include="Code\Enum.cs" />
     <Compile Include="Code\Grid\GridContainer.cs" />
     <Compile Include="Code\Logging\NoLog.cs" />
-    <Compile Include="Code\Contract\ISingleDetectAlgorithm.cs" />
+    <Compile Include="Code\Contract\IAlgorithm.cs" />
     <Compile Include="Code\Data\GridIndex.cs" />
     <Compile Include="Code\Data\MySet.cs" />
     <Compile Include="Code\Data\P.cs" />
     <Compile Include="Code\Grid\Grid.cs" />
     <Compile Include="Code\MathUtil\M.cs" />
-    <Compile Include="Code\SingleDetectAlgorithm.cs" />
+    <Compile Include="Code\Algorithm.cs" />
     <Compile Include="Code\StrategyPattern\AlgorithmStrategy.cs" />
     <Compile Include="Code\StrategyPattern\GridStrategy.cs" />
     <Compile Include="Code\StrategyPattern\KdTreeStrategy.cs" />

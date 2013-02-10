@@ -17,7 +17,7 @@ namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
         /// </summary>
         /// <param name="s"></param>
         /// <returns></returns>
-        public override long UpdateSingles(ISingleDetectAlgorithm s)
+        public override long UpdateSingles(IAlgorithm s)
         {
             var sw = new Stopwatch();
             sw.Start();
@@ -55,7 +55,7 @@ namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
         /// <param name="p"></param>
         /// <param name="k"></param>
         /// <returns></returns>
-        public override long UpdateKnn(ISingleDetectAlgorithm s, IP p, int k)
+        public override long UpdateKnn(IAlgorithm s, IP p, int k)
         {
             var sw = new Stopwatch();
             sw.Start();
@@ -68,7 +68,8 @@ namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
             for (var i = 0; i < n; i++)
             {
                 var p1 = s.Points[i];
-                if (p.Equals(p1)) continue;
+                if (p.Equals(p1)) continue; // don't include origin
+                if(s.KnnSameTypeOnly && p.Type != p1.Type) continue; // only same type used
 
                 var dist = p.Distance(p1.X, p1.Y);
                 s.Knn.NNs.Add(new PDist { Point = p1, Distance = dist });
@@ -76,11 +77,8 @@ namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
 
             s.Knn.NNs = s.Knn.NNs.OrderBy(i => i.Distance).ToList();
             k = k > n ? n : k;
-
-            // Only NN on same type if type is set for origin
-            s.Knn.NNs = p.Type > 0 ? 
-                s.Knn.NNs.Where(a => a.Point.Type == p.Type).Take(k).ToList() : 
-                s.Knn.NNs.Take(k).ToList();
+            
+            s.Knn.NNs = s.Knn.NNs.Take(k).ToList();
 
             sw.Stop();
             return sw.ElapsedMilliseconds;

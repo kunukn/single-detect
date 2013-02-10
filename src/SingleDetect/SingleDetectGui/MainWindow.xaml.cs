@@ -34,7 +34,7 @@ namespace Kunukn.SingleDetectGui
         private readonly string _elapsedAlgoInit;
         private string _elapsedAlgoSingleDetect;
         public readonly Random Rand = new Random();
-        readonly ISingleDetectAlgorithm _algorithm;
+        readonly IAlgorithm _algorithm;
         private readonly Animation _animation;
 
         // Always finish current frame update before next frame is started
@@ -151,7 +151,7 @@ namespace Kunukn.SingleDetectGui
                 }
 
                 _stopwatch.Start();                
-                _algorithm = new SingleDetectAlgorithm(new Points { Data = points }, Rect, StrategyType.Grid, _log);
+                _algorithm = new Algorithm(new Points { Data = points }, Rect, StrategyType.Grid, _log);
                 _animation = new Animation(_algorithm, Rect);
 
                 _stopwatch.Stop();

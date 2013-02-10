@@ -62,8 +62,8 @@ namespace Kunukn.SingleDetectConsole
             points.Round(3);
 
             // Init algo
-            ISingleDetectAlgorithm algo =
-                new SingleDetectAlgorithm(points, rect, StrategyType.Grid);
+            IAlgorithm algo =
+                new Algorithm(points, rect, StrategyType.Grid);
 
             // Use algo
             var duration = algo.UpdateSingles();

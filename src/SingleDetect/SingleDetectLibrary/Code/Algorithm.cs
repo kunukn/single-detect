@@ -12,7 +12,7 @@ namespace Kunukn.SingleDetectLibrary.Code
     /// Author: Kunuk Nykjaer    
     /// MIT license        
     /// </summary>
-    public class SingleDetectAlgorithm : ISingleDetectAlgorithm
+    public class Algorithm : IAlgorithm
     {        
         public Rectangle Rect_ { get; private set; }
         private readonly ILog2 _log;
@@ -21,8 +21,9 @@ namespace Kunukn.SingleDetectLibrary.Code
         public NearestNeighbor Knn { get; private set; }               
         public GridContainer GridContainer { get; private set; }
         public AlgorithmStrategy Strategy { get; private set; }
+        public bool KnnSameTypeOnly { get; set; }
 
-        public SingleDetectAlgorithm(
+        public Algorithm(
             IPoints points, Rectangle rect, StrategyType type = StrategyType.Grid, ILog2 log = null)
         {
             _log = log ?? new NoLog();
