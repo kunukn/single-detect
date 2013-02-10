@@ -76,7 +76,11 @@ namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
 
             s.Knn.NNs = s.Knn.NNs.OrderBy(i => i.Distance).ToList();
             k = k > n ? n : k;
-            s.Knn.NNs = s.Knn.NNs.Take(k).ToList();
+
+            // Only NN on same type if type is set for origin
+            s.Knn.NNs = p.Type > 0 ? 
+                s.Knn.NNs.Where(a => a.Point.Type == p.Type).Take(k).ToList() : 
+                s.Knn.NNs.Take(k).ToList();
 
             sw.Stop();
             return sw.ElapsedMilliseconds;

@@ -5,9 +5,15 @@ namespace Kunukn.SingleDetectGuiCore.Code.Gui
     public static class Pens
     {    
         public static readonly SolidColorBrush DotColor = new SolidColorBrush { Color = Color.FromRgb(0, 0, 0) };
+        public static readonly SolidColorBrush DotColorType1 = new SolidColorBrush { Color = Color.FromRgb(0, 220, 0) };
+        public static readonly SolidColorBrush DotColorType2 = new SolidColorBrush { Color = Color.FromRgb(0, 220, 220) };
+        public static readonly SolidColorBrush DotColorType3 = new SolidColorBrush { Color = Color.FromRgb(200, 0, 220) };
+        
         public static readonly SolidColorBrush DotColorSelected = new SolidColorBrush { Color = Color.FromRgb(200, 0, 0) };
         public static readonly SolidColorBrush DotColorSingle = new SolidColorBrush { Color = Color.FromRgb(255, 0, 0) };
+        
         public static readonly SolidColorBrush DotColorNearestNeighbor = new SolidColorBrush { Color = Color.FromRgb(255, 130, 171) };
+        
         public static readonly SolidColorBrush BackgroundColor = new SolidColorBrush { Color = Color.FromRgb(255, 255, 255) };
         public static readonly SolidColorBrush GrayColor = new SolidColorBrush { Color = Color.FromRgb(230, 230, 230) };
 

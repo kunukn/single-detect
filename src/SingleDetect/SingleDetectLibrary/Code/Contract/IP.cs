@@ -11,6 +11,8 @@ namespace Kunukn.SingleDetectLibrary.Code.Contract
         double Y { get; set; }        
         double Distance(double x, double y);             
         GridIndex GridIndex { get; set; }
+        //Categories Categories { get; set; }
+        int Type { get; set; }
 
         object Data { get; set; } // Data container for anything, use it as you like
     }

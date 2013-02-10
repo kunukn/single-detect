@@ -2,9 +2,11 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
+using Kunukn.SingleDetectLibrary.Code;
 using Kunukn.SingleDetectLibrary.Code.Contract;
 using Kunukn.SingleDetectLibrary.Code.Data;
 using Kunukn.SingleDetectLibrary.Code.MathUtil;
+using Kunukn.SingleDetectLibrary.Code.Util;
 
 namespace Kunukn.SingleDetectGuiCore.Code.Gui
 {
@@ -33,22 +35,28 @@ namespace Kunukn.SingleDetectGuiCore.Code.Gui
             }
         }
 
-        static SolidColorBrush GetColor(ShapeType st = ShapeType.Default)
+        static SolidColorBrush GetColor(IP p, ShapeType st = ShapeType.Default)
         {
             switch (st)
             {
                 case ShapeType.Single:
                     return Pens.DotColorSingle;
                 case ShapeType.NearestNeighbor:
+                    if (p.Type == 1) return Pens.DotColorType1;
+                    if (p.Type == 2) return Pens.DotColorType2;
+                    if (p.Type == 3) return Pens.DotColorType3;
                     return Pens.DotColorNearestNeighbor;
                 case ShapeType.Selected:
                     return Pens.DotColorSelected;
                 case ShapeType.Default:
                 default:
-                    return Pens.DotColor;
+                    if (p.Type == 1) return Pens.DotColorType1;
+                    if (p.Type == 2) return Pens.DotColorType2;
+                    if (p.Type == 3) return Pens.DotColorType3;
+                    return Pens.DotColor; // default
             }
         }
-      
+
         public static void RedrawDots(DrawingContext dc, ICollection<IP> dots, Rectangle rect, ShapeType t = ShapeType.Default)
         {
             if (!IsDrawEnabled) return;
@@ -56,7 +64,7 @@ namespace Kunukn.SingleDetectGuiCore.Code.Gui
             foreach (var p in dots.Where(p => p != null))
             {
                 dc.DrawRectangle(Pens.BackgroundColor, null, GetShape(p, rect, t));
-                dc.DrawRectangle(GetColor(ShapeType.Default), null, GetShape(p, rect, ShapeType.Default));
+                dc.DrawRectangle(GetColor(p, ShapeType.Default), null, GetShape(p, rect, ShapeType.Default));
             }
         }
 
@@ -84,7 +92,7 @@ namespace Kunukn.SingleDetectGuiCore.Code.Gui
 
             foreach (var p in dots.Where(p => p != null))
             {
-                dc.DrawRectangle(GetColor(t), null, GetShape(p, rect, t));
+                dc.DrawRectangle(GetColor(p, t), null, GetShape(p, rect, t));
             }
         }
 

@@ -11,6 +11,8 @@ namespace Kunukn.SingleDetectLibrary.Code.Data
 
         public virtual int Uid { get; private set; }        
         public virtual GridIndex GridIndex { get; set; }
+        //public virtual Categories Categories { get; set; }
+        public virtual int Type { get; set; }
         public virtual double X { get; set; }
         public virtual double Y { get; set; }
 

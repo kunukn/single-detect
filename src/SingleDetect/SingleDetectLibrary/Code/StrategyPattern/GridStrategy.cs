@@ -77,9 +77,12 @@ namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
                 nextRing.AddRange(temp);
 
                 var list = g.GetRing(nn.Origin, i);
-
+                
                 // First 9 squares, dont include origin
                 if (i == 1) list.AddRange(g.GetSet(nn.Origin).Where(a => !a.Equals(nn.Origin)).ToList());
+
+                // Only NN on same type if type is set for origin
+                if (nn.Origin.Type > 0) list = list.Where(a => a.Type == nn.Origin.Type).ToList();                
 
                 foreach (var p in list)
                 {
@@ -94,7 +97,10 @@ namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
 
             if (currRing.Count < nn.K)
             {
-                currRing.AddRange(nextRing);
+                // Only NN on same type if type is set for origin          
+                currRing.AddRange(nn.Origin.Type > 0
+                                      ? nextRing.Where(a => a.Point.Type == nn.Origin.Type).ToList()
+                                      : nextRing);
             }
 
             currRing.Sort();            

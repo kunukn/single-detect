@@ -42,10 +42,10 @@ namespace Kunukn.KNearestNeighborGui
 
         #region ** config **
 
-        public const int K = 100; // K nearest neighbors
-        public const int DotsCount = 1000; // dots      
-        public static readonly int DotsMovingCount = 100; // moving dots per frame
-        const int Dotsize = 1; // draw dot size    
+        public const int K = 10; // K nearest neighbors
+        public const int DotsCount = 100; // dots      
+        public static readonly int DotsMovingCount = 10; // moving dots per frame
+        const int Dotsize = 2; // draw dot size    
 
         // View port
         private static readonly Rectangle Rect = new Rectangle
@@ -142,7 +142,12 @@ namespace Kunukn.KNearestNeighborGui
                 var points = new List<IP>();
                 
                 // Center p as origin for nearest neighbors
-                points.Add(new P { X = Rect.XMin + (int)Rect.Width / 2, Y = Rect.YMin + (int)Rect.Height / 2, });
+                points.Add(new P
+                               {
+                                   X = Rect.XMin + (int)Rect.Width / 2, 
+                                   Y = Rect.YMin + (int)Rect.Height / 2, 
+                                   //Type = 3
+                               });
 
                 var rand = new Random();
                 for (var i = 0; i < DotsCount; i++)
@@ -151,6 +156,7 @@ namespace Kunukn.KNearestNeighborGui
                     {
                         X = rand.Next((int)(Rect.XMin), (int)(Rect.XMax)),
                         Y = rand.Next((int)(Rect.YMin), (int)(Rect.YMax)),
+                        //Type = rand.Next(3)+1,
                     });
                 }
 
