@@ -31,5 +31,5 @@ The pink colors are the nearest neighbors and are slightly larger in size.
 
 ![K Nearest Neighbor](https://raw.github.com/kunukn/single-detect/master/img/knn2.gif "knn image2")
 
-Nearest neighbors by same type only. The origin is the red and the same type is the purple colors. <br>
-The nearest neighbors are slightly larger in size.
+Nearest neighbors by same type only. The origin is the red and the same type are all the purple colors. <br>
+The identified nearest neighbors are slightly larger in size (Only supported in Naive and Grid strategy algorithm).
