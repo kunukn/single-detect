@@ -47,7 +47,7 @@ namespace Kunukn.SingleDetectLibrary.Code.Data
         }
         public override string ToString()
         {
-            return string.Format("Id: {0}, X: {1}, Y: {2}", Uid, X, Y);
+            return string.Format("Id: {0}, X: {1}, Y: {2}, Type: {3}", Uid, X, Y, Type);
         }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
@@ -55,6 +55,7 @@ namespace Kunukn.SingleDetectLibrary.Code.Data
             info.AddValue("Uid", this.Uid);
             info.AddValue("X", this.X);
             info.AddValue("Y", this.Y);
+            info.AddValue("Type", this.Type);
         }
     }
 }

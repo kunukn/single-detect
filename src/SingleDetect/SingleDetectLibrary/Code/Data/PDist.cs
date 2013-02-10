@@ -40,8 +40,8 @@ namespace Kunukn.SingleDetectLibrary.Code.Data
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("X", this.Point.X);
-            info.AddValue("Y", this.Point.Y);
-            info.AddValue("Dist", this.Distance);
+            info.AddValue("Y", this.Point.Y);            
+            info.AddValue("Dist", this.Distance);            
         }
     }
 }
