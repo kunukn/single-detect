@@ -51,12 +51,12 @@ namespace Kunukn.KNearestNeighborConsole
             };
             rect.Validate();
 
-            const int k = 3;
+            const int k = 4;
 
             // Random points
             IPoints points = new Points();
             var rand = new Random();
-            for (var i = 0; i < 100; i++)
+            for (var i = 0; i < 500000; i++)
             {
                 var x = rect.XMin + rand.NextDouble() * rect.Width;
                 var y = rect.YMin + rand.NextDouble() * rect.Height;

@@ -50,7 +50,7 @@ namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
         }
         
         /// <summary>
-        /// Something like O(k * logk * n)
+        /// O(n log n)
         /// </summary>
         /// <param name="s"></param>
         /// <param name="p"></param>
@@ -65,9 +65,7 @@ namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
             s.Knn.Clear();
             s.Knn.Origin = p;
             s.Knn.K = k;
-
-            var set = new SortedSet<IPDist>();
-
+            
             var n = s.Points.Count;
             for (var i = 0; i < n; i++)
             {
@@ -76,21 +74,13 @@ namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
                 if (knnSameTypeOnly && p.Type != p1.Type) continue; // only same type used
 
                 var dist = p.Distance(p1.X, p1.Y);
-
-                if (set.Count < k) set.Add(new PDist {Point = p1, Distance = dist});
-                else
-                {
-                    var m = set.Max;
-                    if(dist < m.Distance)
-                    {
-                        // replace
-                        set.Remove(m);
-                        set.Add(new PDist {Point = p1, Distance = dist});
-                    }
-                }                
+                s.Knn.NNs.Add(new PDist { Point = p1, Distance = dist });
             }
+
+            s.Knn.NNs = s.Knn.NNs.OrderBy(i => i.Distance).ToList();
+            k = k > n ? n : k;
             
-            s.Knn.NNs = set.ToList();
+            s.Knn.NNs = s.Knn.NNs.Take(k).ToList();
 
             sw.Stop();
             return sw.ElapsedMilliseconds;

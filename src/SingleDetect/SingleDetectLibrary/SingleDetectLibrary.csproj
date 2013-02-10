@@ -68,9 +68,9 @@
     <Compile Include="Code\MathUtil\M.cs" />
     <Compile Include="Code\Algorithm.cs" />
     <Compile Include="Code\StrategyPattern\AlgorithmStrategy.cs" />
+    <Compile Include="Code\StrategyPattern\NaiveStrategy.cs" />
     <Compile Include="Code\StrategyPattern\GridStrategy.cs" />
     <Compile Include="Code\StrategyPattern\KdTreeStrategy.cs" />
-    <Compile Include="Code\StrategyPattern\NaiveStrategy.cs" />
     <Compile Include="Code\Util\CategoryUtil.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
