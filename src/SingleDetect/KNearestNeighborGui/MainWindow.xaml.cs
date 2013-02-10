@@ -42,9 +42,9 @@ namespace Kunukn.KNearestNeighborGui
 
         #region ** config **
 
-        public const int K = 10; // K nearest neighbors
-        public const int DotsCount = 100; // dots      
-        public static readonly int DotsMovingCount = 10; // moving dots per frame
+        public const int K = 100; // K nearest neighbors
+        public const int DotsCount = 1000; // dots      
+        public static readonly int DotsMovingCount = 100; // moving dots per frame
         const int Dotsize = 2; // draw dot size    
 
         // View port
