@@ -8,8 +8,8 @@ namespace Kunukn.SingleDetectLibrary.Code.Contract
     public interface IAlgorithm
     {
         // Shared
-        List<IP> Points { get; }    // all the points
-        Rectangle Rect_ { get; }    // the world boundary      
+        IList<IP> Points { get; }    // all the points
+        IRectangle Rect_ { get; }    // the world boundary      
         void UpdatePosition(IP p);  // update grid and gridbox ref for p
         void UpdateIndex(IP p);     // update gridbox ref for p
         GridContainer GridContainer { get; }
@@ -18,7 +18,7 @@ namespace Kunukn.SingleDetectLibrary.Code.Contract
 
         // Single select
         long UpdateSingles();
-        List<IP> Singles { get; }
+        IList<IP> Singles { get; }
 
         // KNN
         long UpdateKnn(IP p, int k, bool knnSameTypeOnly = false);

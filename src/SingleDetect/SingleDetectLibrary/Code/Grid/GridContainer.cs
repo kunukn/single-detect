@@ -12,9 +12,9 @@ namespace Kunukn.SingleDetectLibrary.Code.Grid
         private Grid Grid { get; set; }
         private double DX { get; set; } // delta x
         private double DY { get; set; } // delta y
-        private readonly Rectangle _rect;
+        private readonly IRectangle _rect;
 
-        public GridContainer(Rectangle rect, IEnumerable<IP> points)
+        public GridContainer(IRectangle rect, IEnumerable<IP> points)
         {
             _rect = rect;
             DX = rect.Square;
@@ -27,7 +27,10 @@ namespace Kunukn.SingleDetectLibrary.Code.Grid
         {
             var x = (int)((_rect.XO + a.X) / DX);
             var y = (int)((_rect.YO + a.Y) / DY);
-            if (x < 0 || y < 0) throw new ApplicationException(string.Format("Algo error: {0}", MethodBase.GetCurrentMethod()));
+
+            if (x < 0 || y < 0) throw new ApplicationException(
+                string.Format("Algo error: {0}", MethodBase.GetCurrentMethod())
+                );
 
             return new GridIndex { X = x, Y = y };
         }

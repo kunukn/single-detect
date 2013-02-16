@@ -35,6 +35,12 @@ namespace Kunukn.SingleDetectLibrary.Code.Data
             return Uid.GetHashCode();
         }      
 
+        
+        public virtual double Distance(P p)
+        {
+            return this.Distance(p.X, p.Y);
+        }
+
         // Euclidean distance
         public virtual double Distance(double x, double y)
         {

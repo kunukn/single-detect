@@ -14,16 +14,16 @@ namespace Kunukn.SingleDetectLibrary.Code
     /// </summary>
     public class Algorithm : IAlgorithm
     {        
-        public Rectangle Rect_ { get; private set; }
+        public IRectangle Rect_ { get; private set; }
         private readonly ILog2 _log;
-        public List<IP> Points { get; private set; }
-        public List<IP> Singles { get; private set; }
+        public IList<IP> Points { get; private set; }
+        public IList<IP> Singles { get; private set; }
         public NearestNeighbor Knn { get; private set; }               
         public GridContainer GridContainer { get; private set; }
         public AlgorithmStrategy Strategy { get; private set; }
         
         public Algorithm(
-            IPoints points, Rectangle rect, StrategyType type = StrategyType.Grid, ILog2 log = null)
+            IPoints points, IRectangle rect, StrategyType type = StrategyType.Grid, ILog2 log = null)
         {
             _log = log ?? new NoLog();
             Rect_ = rect;           
