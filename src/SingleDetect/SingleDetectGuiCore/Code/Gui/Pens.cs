@@ -16,13 +16,19 @@ namespace Kunukn.SingleDetectGuiCore.Code.Gui
         
         public static readonly SolidColorBrush BackgroundColor = new SolidColorBrush { Color = Color.FromRgb(255, 255, 255) };
         public static readonly SolidColorBrush GrayColor = new SolidColorBrush { Color = Color.FromRgb(230, 230, 230) };
-
+        
         public static readonly Pen PenGrid = new Pen(GrayColor, 0.1)
         {
             StartLineCap = PenLineCap.Round,
             EndLineCap = PenLineCap.Round,
         };
-       
+
+        public static readonly Pen PenGrid2 = new Pen(new SolidColorBrush { Color = Color.FromRgb(0, 0, 0) }, 0.1)
+        {
+            StartLineCap = PenLineCap.Round,
+            EndLineCap = PenLineCap.Round,
+        };
+
         public static readonly Pen PenBackground = new Pen(BackgroundColor, 0.1)
         {
             StartLineCap = PenLineCap.Round,
@@ -32,6 +38,7 @@ namespace Kunukn.SingleDetectGuiCore.Code.Gui
         static Pens()
         {
             PenGrid.Freeze();
+            PenGrid2.Freeze();
             PenBackground.Freeze();       
         }
     }    

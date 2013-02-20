@@ -54,7 +54,6 @@
     <Compile Include="Code\Contract\IP.cs" />
     <Compile Include="Code\Contract\ILog2.cs" />
     <Compile Include="Code\Data\SortedList2.cs" />
-    <Compile Include="Code\Data\PP.cs" />
     <Compile Include="Code\Data\KnnConfiguration.cs" />
     <Compile Include="Code\Data\Points.cs" />
     <Compile Include="Code\Data\NearestNeighbor.cs" />

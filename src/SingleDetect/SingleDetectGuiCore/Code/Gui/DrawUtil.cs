@@ -96,11 +96,11 @@ namespace Kunukn.SingleDetectGuiCore.Code.Gui
             }
         }
 
-        public static void DrawGrid(DrawingContext dc, bool showGrid, Rectangle rect)
+        public static void DrawGrid(DrawingContext dc, bool showGrid, Rectangle rect, Pen color = null)
         {
             if (!IsDrawEnabled) return;
 
-            var pen = showGrid ? Pens.PenGrid : Pens.PenBackground;
+            var pen = showGrid ? (color ?? Pens.PenGrid) : Pens.PenBackground;
             double dw = rect.Width / rect.XGrid; // delta w
             for (var i = 0; i <= rect.XGrid; i++)
             {

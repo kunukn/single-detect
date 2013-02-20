@@ -193,26 +193,16 @@ namespace Kunukn.SingleDetectGui
             {                
                 _animation.SelectMovingDots(DotsMovingCount);
 
-                // Clear prev frame singles
-                DrawUtil.RedrawDots(dc, _algorithm.Singles, Rect, ShapeType.Single);
+                DrawUtil.RedrawDots(dc, _algorithm.Singles, Rect, ShapeType.Single); // Clear prev frame singles
+                DrawUtil.ClearDots(dc, _animation.Moving, Rect); // Clear prev frame moving dots
 
-                // Clear prev frame moving dots                
-                DrawUtil.ClearDots(dc, _animation.Moving, Rect);
+                _animation.UpdateMovingPosition(min, max); // Update moving pos
 
-                // Update moving pos                
-                _animation.UpdateMovingPosition(min, max);
+                _elapsedAlgoSingleDetect = string.Format("msec {0}", _algorithm.UpdateSingles()); // Update single detection
 
-                // Draw updated pos                                
-                DrawUtil.DrawDots(dc, _animation.Moving, Rect);
-
-                // Update single detection
-                _elapsedAlgoSingleDetect = string.Format("msec {0}", _algorithm.UpdateSingles());
-                
-                // Draw updated singles                                
-                DrawUtil.DrawDots(dc, _algorithm.Singles, Rect, ShapeType.Single);
-
-                var showGrid = SliderLeft == 1; // toggle                
-                DrawUtil.DrawGrid(dc, showGrid, Rect);
+                DrawUtil.DrawDots(dc, _animation.Moving, Rect); // Draw updated pos                
+                DrawUtil.DrawDots(dc, _algorithm.Singles, Rect, ShapeType.Single); // Draw updated singles                
+                DrawUtil.DrawGrid(dc, SliderLeft == 1, Rect);
 
                 dc.Close();
             }

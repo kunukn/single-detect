@@ -48,8 +48,8 @@ namespace Kunukn.KNearestNeighborGui
 
         #region ** config **
         
-        public const int DotsCount = 1000; // dots      
-        public static readonly int DotsMovingCount = 50; // moving dots per frame
+        public const int DotsCount = 100; // dots      
+        public static readonly int DotsMovingCount = 10; // moving dots per frame
         const int Dotsize = 2; // draw dot size    
 
         // View port
@@ -62,15 +62,16 @@ namespace Kunukn.KNearestNeighborGui
 
                                                          // For Single detect: Dots where nearest neighbor has distance larger than this are single dots
                                                          // For KNN: Defining the grid length
-                                                         MaxDistance = 20,
+                                                         MaxDistance = 40,
                                                      };
         private const bool IsDrawEnabled = true;
         private static readonly KnnConfiguration Configuration = new KnnConfiguration
                                                                         {
-                                                                            K = 100,
+                                                                            K = 10,
                                                                             SameTypeOnly = false, 
-                                                                            MaxDistance = null
+                                                                            //MaxDistance = 50
                                                                         };
+
         private const bool IsMouseMoveEnabled = true;
 
         #endregion  ** config **
@@ -218,30 +219,21 @@ namespace Kunukn.KNearestNeighborGui
                 // Draw all points always
                 // Draw on the drawing context
                 using (DrawingContext dc = _drawingVisual.RenderOpen())
-                {                    
-                    _animation.SelectMovingDots(DotsMovingCount);
-                    
-                    // Update moving pos                
-                    _animation.UpdateMovingPosition(min, max);
-                                                            
-                    // Update KNN                    
-                    _elapsedAlgoUpdateKnn = string.Format("msec {0}", _algorithm.UpdateKnn(_origin, Configuration));
-
-                    // Clear all
-                    DrawUtil.ClearBackground(dc, Rect);
+                {                 
+                    // --- logic
+                    _animation.SelectMovingDots(DotsMovingCount); // Select p to be moved
+                    _animation.UpdateMovingPosition(min, max); // Update moving pos
+                    _elapsedAlgoUpdateKnn = string.Format("msec {0}", _algorithm.UpdateKnn(_origin, Configuration)); // Update KNN
 
                     var nns = _algorithm.Knn.GetNNs();
                     var notnns = PointUtil.Exclusive(nns, _algorithm.Points);
 
-                    // Draw all not nearest neighbors
-                    DrawUtil.DrawDots(dc, notnns, Rect);
-
-                    // Draw updated KNN                                                
-                    DrawUtil.DrawDots(dc, nns, Rect, ShapeType.NearestNeighbor);
-                    DrawUtil.DrawDots(dc, new[] { _origin }, Rect, ShapeType.Selected);
-
-                    var showGrid = SliderLeft == 1; // toggle                
-                    DrawUtil.DrawGrid(dc, showGrid, Rect);
+                    // --- Draw
+                    DrawUtil.ClearBackground(dc, Rect); // Clear all
+                    DrawUtil.DrawDots(dc, notnns, Rect); // Draw all not nearest neighbors
+                    DrawUtil.DrawDots(dc, nns, Rect, ShapeType.NearestNeighbor); // Draw updated KNN
+                    DrawUtil.DrawDots(dc, new[] { _origin }, Rect, ShapeType.Selected);                    
+                    DrawUtil.DrawGrid(dc, SliderLeft == 1, Rect, Pens.PenGrid2);
 
                     dc.Close();                                        
                 }
@@ -258,27 +250,17 @@ namespace Kunukn.KNearestNeighborGui
                     // Clear prev frame knn
                     DrawUtil.RedrawDots(dc, new[] {_algorithm.Knn.Origin}, Rect, ShapeType.Selected);
                     DrawUtil.RedrawDots(dc, _algorithm.Knn.GetNNs(), Rect, ShapeType.NearestNeighbor);
+                    DrawUtil.ClearDots(dc, _animation.Moving, Rect); // Clear prev frame moving dots
 
-                    // Clear prev frame moving dots                
-                    DrawUtil.ClearDots(dc, _animation.Moving, Rect);
-
-                    // Update moving pos                
-                    _animation.UpdateMovingPosition(min, max);
-
-                    // Draw updated pos                                
-                    DrawUtil.DrawDots(dc, _animation.Moving, Rect);
-
-                    // Update KNN                    
-                    _elapsedAlgoUpdateKnn = string.Format("msec {0}", _algorithm.UpdateKnn(_origin, Configuration));
-
+                    _animation.UpdateMovingPosition(min, max); // Update moving pos                    
+                    _elapsedAlgoUpdateKnn = string.Format("msec {0}", _algorithm.UpdateKnn(_origin, Configuration)); // Update KNN
                     var nns = _algorithm.Knn.GetNNs();
 
                     // Draw updated KNN                                                
+                    DrawUtil.DrawDots(dc, _animation.Moving, Rect); // Draw updated pos
                     DrawUtil.DrawDots(dc, nns, Rect, ShapeType.NearestNeighbor);
-                    DrawUtil.DrawDots(dc, new[] { _origin }, Rect, ShapeType.Selected);
-
-                    var showGrid = SliderLeft == 1; // toggle                
-                    DrawUtil.DrawGrid(dc, showGrid, Rect);
+                    DrawUtil.DrawDots(dc, new[] { _origin }, Rect, ShapeType.Selected);                    
+                    DrawUtil.DrawGrid(dc, SliderLeft == 1, Rect);
 
                     dc.Close();
                 }
