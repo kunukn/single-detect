@@ -42,23 +42,25 @@ namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
         }
 
         // O(n * m) where m is grid cells
-        public override long UpdateKnn(IAlgorithm s, IP p, int k, bool knnSameTypeOnly = false)
+        public override long UpdateKnn(IAlgorithm s, IP p, KnnConfiguration conf)
         {
+            if (conf == null) conf = new KnnConfiguration();
+            
             var sw = new Stopwatch();
             sw.Start();
             var max = Math.Max(s.Rect_.XGrid, s.Rect_.YGrid);
 
             s.Knn.Clear();
             s.Knn.Origin = p;
-            s.Knn.K = k;
-            UpdateKnnGridStrategy(s, max, knnSameTypeOnly);
+            s.Knn.K = conf.K;
+            UpdateKnnGridStrategy(s, max, conf);
 
             sw.Stop();
             return sw.ElapsedMilliseconds;
         }
 
         // K nearest neighbor
-        protected void UpdateKnnGridStrategy(IAlgorithm s, int max, bool knnSameTypeOnly)
+        protected void UpdateKnnGridStrategy(IAlgorithm s, int max, KnnConfiguration conf)
         {
             var g = s.GridContainer;
             var nn = s.Knn;
@@ -85,27 +87,34 @@ namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
                 if (i == 1) list.AddRange(g.GetSet(nn.Origin).Where(a => !a.Equals(nn.Origin)).ToList());
 
                 // Only NN on same type if set
-                if (knnSameTypeOnly) list = list.Where(a => a.Type == nn.Origin.Type).ToList();
+                if (conf.SameTypeOnly) list = list.Where(a => a.Type == nn.Origin.Type).ToList();
 
+                var dataWasAdded = false;
                 foreach (var p in list)
                 {
                     var dist = nn.Origin.Distance(p.X, p.Y);
+                    if(dist >= conf.MaxDistance) continue; // not within max distance
+
                     if (dist < i * square) currRing.Add(new PDist { Point = p, Distance = dist });
                     else nextRing.Add(new PDist { Point = p, Distance = dist });
+                    dataWasAdded = true;
                 }
 
-                if (currRing.Count >= nn.K) break;
+                if(conf.MaxDistance.HasValue && !dataWasAdded) break; // max distance used and no new data was added, then we are done
+                if (currRing.Count >= nn.K) break; // enough neighbors? then done
             }
 
 
             if (currRing.Count < nn.K)
             {
                 // Only NN on same type if set
-                currRing.AddRange(knnSameTypeOnly
+                currRing.AddRange(conf.SameTypeOnly
                                       ? nextRing.Where(a => a.Point.Type == nn.Origin.Type).ToList()
                                       : nextRing);
-            }
 
+                if (conf.MaxDistance.HasValue) currRing = currRing.Where(i => i.Distance < conf.MaxDistance.Value).ToList();
+            }
+            
             currRing.Sort();
             nn.NNs = currRing.Count > nn.K ? currRing.Take(nn.K).ToList() : currRing.ToList();
         }

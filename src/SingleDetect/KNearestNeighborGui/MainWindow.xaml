@@ -18,7 +18,7 @@
             <Slider DockPanel.Dock="top" Width="100" Value="{Binding Path=SliderTop}" Minimum="10" Maximum="5000" ToolTip="Millisec. per Update"/> <!-- msec -->
             <Slider DockPanel.Dock="Left" Height="40" Orientation="Vertical" Margin="0,0,0,23" Value="{Binding Path=SliderLeft}" Minimum="0" Maximum="1" ToolTip="Show grid"/>
             <Slider DockPanel.Dock="Bottom" Width="100" Value="{Binding Path=SliderBottom}" Minimum="0" Maximum="20" ToolTip="Movement speed"/>
-            <Image Source="{Binding Path=Img}" x:Name="_image" Width="600" Height="500"/>
+            <Image Source="{Binding Path=Img}" x:Name="_image" Width="600" Height="500" MouseMove="Image_MouseMove" />
         </DockPanel>
 
   

@@ -61,10 +61,10 @@ namespace Kunukn.SingleDetectLibrary.Code
             return Strategy.UpdateSingles(this);            
         }
        
-        public long UpdateKnn(IP p, int k, bool knnSameTypeOnly = false)
+        public long UpdateKnn(IP p, KnnConfiguration configuration)
         {
             UpdateIndex(p);
-            return Strategy.UpdateKnn(this, p, k, knnSameTypeOnly);            
+            return Strategy.UpdateKnn(this, p, configuration);
         }
 
         // Used when p position has been updated

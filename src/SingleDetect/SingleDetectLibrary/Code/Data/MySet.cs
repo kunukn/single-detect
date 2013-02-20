@@ -9,6 +9,8 @@ namespace Kunukn.SingleDetectLibrary.Code.Data
         {
             if(base.Contains(t))
             {
+                return false;
+
                 throw new ApplicationException(
                     string.Format("Set already contains: {0}",t));
             }

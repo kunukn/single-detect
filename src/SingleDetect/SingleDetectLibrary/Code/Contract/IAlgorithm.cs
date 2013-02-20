@@ -21,7 +21,7 @@ namespace Kunukn.SingleDetectLibrary.Code.Contract
         IList<IP> Singles { get; }
 
         // KNN
-        long UpdateKnn(IP p, int k, bool knnSameTypeOnly = false);
+        long UpdateKnn(IP p, KnnConfiguration configuration);
         NearestNeighbor Knn { get;}
     }
 }

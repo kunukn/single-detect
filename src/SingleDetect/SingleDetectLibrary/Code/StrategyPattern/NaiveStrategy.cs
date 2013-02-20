@@ -12,7 +12,7 @@ namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
         {
             get { return "Naive Strategy"; }
         }
-        
+
         /// <summary>
         ///  O(n^2)
         /// </summary>
@@ -48,52 +48,77 @@ namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
             sw.Stop();
             return sw.ElapsedMilliseconds;
         }
-        
+
         /// <summary>
         /// Something like O(k * logk * n)
         /// </summary>
         /// <param name="s"></param>
         /// <param name="p"></param>
         /// <param name="k"></param>
-        /// /// <param name="knnSameTypeOnly"></param>
+        /// <param name="conf"></param>
         /// <returns></returns>
-        public override long UpdateKnn(IAlgorithm s, IP p, int k, bool knnSameTypeOnly)
+        public override long UpdateKnn(IAlgorithm s, IP p, KnnConfiguration conf)
         {
+            if (conf == null) conf = new KnnConfiguration();
+
             var sw = new Stopwatch();
             sw.Start();
 
             s.Knn.Clear();
             s.Knn.Origin = p;
-            s.Knn.K = k;
+            s.Knn.K = conf.K;
 
             var set = new SortedSet<IPDist>();
+            var debug = new List<IPDist>();
 
             var n = s.Points.Count;
             for (var i = 0; i < n; i++)
             {
                 var p1 = s.Points[i];
-                if (p.Equals(p1)) continue; // don't include origin
-                if (knnSameTypeOnly && p.Type != p1.Type) continue; // only same type used
+                if (p.Equals(p1))  continue; // don't include origin
+                if (conf.SameTypeOnly && p.Type != p1.Type)  continue; // only same type used
 
                 var dist = p.Distance(p1.X, p1.Y);
+                if (dist >= conf.MaxDistance) continue;
+                
+                var pdist = new PDist {Point = p1, Distance = dist};
+                debug.Add(pdist);
 
-                if (set.Count < k) set.Add(new PDist {Point = p1, Distance = dist});
+                if (set.Count < conf.K) set.Add(pdist);
                 else
-                {
+                {                   
                     var m = set.Max;
-                    if(dist < m.Distance)
+                    if (dist < m.Distance)
                     {
                         // replace
                         set.Remove(m);
-                        set.Add(new PDist {Point = p1, Distance = dist});
+                        set.Add(pdist);
                     }
-                }                
+                }
             }
-            
+
             s.Knn.NNs = set.ToList();
+
+            //debug = debug.OrderBy(i => i.Distance).ToList();
+            //Validate(s.Knn.NNs, debug);
 
             sw.Stop();
             return sw.ElapsedMilliseconds;
+        }
+
+
+        void Validate(IList<IPDist> knn, IList<IPDist> all)
+        {            
+            for (int i = 0; i < knn.Count; i++)
+            {
+                var a = knn[i];
+                var b = all[i];
+
+                if(a.Point.Uid != b.Point.Uid)
+                {
+                    
+                }
+            }
         }
     }
 }

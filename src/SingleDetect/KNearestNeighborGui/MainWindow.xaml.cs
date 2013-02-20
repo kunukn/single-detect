@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Text;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
@@ -14,6 +15,7 @@ using Kunukn.SingleDetectLibrary.Code;
 using Kunukn.SingleDetectLibrary.Code.Contract;
 using Kunukn.SingleDetectLibrary.Code.Data;
 using Kunukn.SingleDetectLibrary.Code.Logging;
+using Kunukn.SingleDetectLibrary.Code.Util;
 
 namespace Kunukn.KNearestNeighborGui
 {
@@ -36,29 +38,37 @@ namespace Kunukn.KNearestNeighborGui
         public readonly Random Rand = new Random();
         readonly IAlgorithm _algorithm;
         private readonly Animation _animation;
+        private readonly P _origin;
 
         // Always finish current frame update before next frame is started
         private bool _isRunningFrameUpdate;
 
         #region ** config **
-
-        public const int K = 100; // K nearest neighbors
+        
         public const int DotsCount = 1000; // dots      
-        public static readonly int DotsMovingCount = 100; // moving dots per frame
+        public static readonly int DotsMovingCount = 50; // moving dots per frame
         const int Dotsize = 2; // draw dot size    
 
         // View port
         private static readonly Rectangle Rect = new Rectangle
                                                      {
-                                                         XMin = 0, YMin = 0, 
-                                                         XMax = 600, YMax = 500,
+                                                         XMin = 0,
+                                                         YMin = 0,
+                                                         XMax = 600,
+                                                         YMax = 500,
 
-        // For Single detect: Dots where nearest neighbor has distance larger than this are single dots
-        // For KNN: Defining the grid length
+                                                         // For Single detect: Dots where nearest neighbor has distance larger than this are single dots
+                                                         // For KNN: Defining the grid length
                                                          MaxDistance = 20,
-                                                     };        
+                                                     };
         private const bool IsDrawEnabled = true;
-        private const bool KnnSameTypeOnly = false;
+        private static readonly KnnConfiguration Configuration = new KnnConfiguration
+                                                                        {
+                                                                            K = 100,
+                                                                            SameTypeOnly = false, 
+                                                                            MaxDistance = null
+                                                                        };
+        private const bool IsMouseMoveEnabled = false;
 
         #endregion  ** config **
 
@@ -107,7 +117,7 @@ namespace Kunukn.KNearestNeighborGui
         #endregion sliders
 
         static void Init()
-        {            
+        {
             Rect.Validate();
             DrawUtil.IsDrawEnabled = IsDrawEnabled;
             DrawUtil.Init(Dotsize);
@@ -141,13 +151,13 @@ namespace Kunukn.KNearestNeighborGui
                 InitializeComponent(); // wpf
 
                 var points = new List<IP>();
-                
+
                 // Center p as origin for nearest neighbors
-                points.Add(new P
+                points.Add(_origin = new P
                                {
-                                   X = Rect.XMin + (int)Rect.Width / 2, 
+                                   X = Rect.XMin + (int)Rect.Width / 2,
                                    Y = Rect.YMin + (int)Rect.Height / 2,
-                                   Type = 3,
+                                   //Type = 3,
                                });
 
                 var rand = new Random();
@@ -157,13 +167,13 @@ namespace Kunukn.KNearestNeighborGui
                     {
                         X = rand.Next((int)(Rect.XMin), (int)(Rect.XMax)),
                         Y = rand.Next((int)(Rect.YMin), (int)(Rect.YMax)),
-                        Type = rand.Next(3)+1,
+                        //Type = rand.Next(3) + 1,
                     });
                 }
 
 
                 _stopwatch.Start();
-                _algorithm = new Algorithm(new Points {Data = points}, Rect, StrategyType.Grid, _log);
+                _algorithm = new Algorithm(new Points { Data = points }, Rect, StrategyType.Grid, _log);
                 _animation = new Animation(_algorithm, Rect);
 
                 _stopwatch.Stop();
@@ -199,37 +209,82 @@ namespace Kunukn.KNearestNeighborGui
 
             _stopwatch.Start();
 
-            // Draw on the drawing context
-            using (DrawingContext dc = _drawingVisual.RenderOpen())
+
+            if (IsMouseMoveEnabled)
             {
-                _animation.SelectMovingDots(DotsMovingCount);
-                
-                // Clear prev frame knn
-                DrawUtil.RedrawDots(dc, new[] { _algorithm.Knn.Origin }, Rect, ShapeType.Selected);
-                DrawUtil.RedrawDots(dc, _algorithm.Knn.GetNNs(), Rect, ShapeType.NearestNeighbor);
+                // Draw all points always
+                // Draw on the drawing context
+                using (DrawingContext dc = _drawingVisual.RenderOpen())
+                {                    
+                    _animation.SelectMovingDots(DotsMovingCount);
+                    
+                    // Update moving pos                
+                    _animation.UpdateMovingPosition(min, max);
+                                                            
+                    // Update KNN                    
+                    _elapsedAlgoUpdateKnn = string.Format("msec {0}", _algorithm.UpdateKnn(_origin, Configuration));
 
-                // Clear prev frame moving dots                
-                DrawUtil.ClearDots(dc, _animation.Moving, Rect);
+                    // Clear all
+                    DrawUtil.ClearBackground(dc, Rect);
 
-                // Update moving pos                
-                _animation.UpdateMovingPosition(min, max);
+                    var nns = _algorithm.Knn.GetNNs();
+                    var notnns = PointUtil.Exclusive(nns, _algorithm.Points);
 
-                // Draw updated pos                                
-                DrawUtil.DrawDots(dc, _animation.Moving, Rect);
+                    // Draw all not nearest neighbors
+                    DrawUtil.DrawDots(dc, notnns, Rect);
 
-                // Update KNN
-                var origin = _algorithm.Points[0]; // first item as origin
-                _elapsedAlgoUpdateKnn = string.Format("msec {0}", _algorithm.UpdateKnn(origin, K, KnnSameTypeOnly));
+                    // Draw updated KNN                                                
+                    DrawUtil.DrawDots(dc, nns, Rect, ShapeType.NearestNeighbor);
+                    DrawUtil.DrawDots(dc, new[] { _origin }, Rect, ShapeType.Selected);
 
-                // Draw updated KNN                            
-                DrawUtil.DrawDots(dc, new[] { origin }, Rect, ShapeType.Selected);
-                DrawUtil.DrawDots(dc, _algorithm.Knn.GetNNs(), Rect, ShapeType.NearestNeighbor);
+                    var showGrid = SliderLeft == 1; // toggle                
+                    DrawUtil.DrawGrid(dc, showGrid, Rect);
 
-                var showGrid = SliderLeft == 1; // toggle                
-                DrawUtil.DrawGrid(dc, showGrid, Rect);
-
-                dc.Close();
+                    dc.Close();                                        
+                }
             }
+
+            else
+            {
+                // Draw updates only
+                // Draw on the drawing context
+                using (DrawingContext dc = _drawingVisual.RenderOpen())
+                {
+                    _animation.SelectMovingDots(DotsMovingCount);
+
+                    // Clear prev frame knn
+                    DrawUtil.RedrawDots(dc, new[] {_algorithm.Knn.Origin}, Rect, ShapeType.Selected);
+                    DrawUtil.RedrawDots(dc, _algorithm.Knn.GetNNs(), Rect, ShapeType.NearestNeighbor);
+
+                    // Clear prev frame moving dots                
+                    DrawUtil.ClearDots(dc, _animation.Moving, Rect);
+
+                    // Update moving pos                
+                    _animation.UpdateMovingPosition(min, max);
+
+                    // Draw updated pos                                
+                    DrawUtil.DrawDots(dc, _animation.Moving, Rect);
+
+                    // Update KNN                    
+                    _elapsedAlgoUpdateKnn = string.Format("msec {0}", _algorithm.UpdateKnn(_origin, Configuration));
+
+                    var nns = _algorithm.Knn.GetNNs();
+                    //var notnns = PointUtil.Exclusive(nns, _algorithm.Points);
+
+                    // Draw all not nearest neighbors
+                    //DrawUtil.DrawDots(dc, notnns, Rect);
+
+                    // Draw updated KNN                                                
+                    DrawUtil.DrawDots(dc, nns, Rect, ShapeType.NearestNeighbor);
+                    DrawUtil.DrawDots(dc, new[] { _origin }, Rect, ShapeType.Selected);
+
+                    var showGrid = SliderLeft == 1; // toggle                
+                    DrawUtil.DrawGrid(dc, showGrid, Rect);
+
+                    dc.Close();
+                }
+            }
+
 
             _stopwatch.Stop();
 
@@ -258,8 +313,28 @@ namespace Kunukn.KNearestNeighborGui
             _dispatcherTimer.Interval = TimeSpan.FromMilliseconds(SliderTop); // update
             _renderTargetBitmap.Render(_drawingVisual); // Render the drawing to the bitmap
 
-            _stopwatch.Reset();            
+            _stopwatch.Reset();
             _isRunningFrameUpdate = false;
+        }
+
+
+
+        private void Image_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        {            
+            if(!IsMouseMoveEnabled) return;
+
+            var pos = e.GetPosition((Image)sender);
+            if (_origin == null) return;
+
+            var x = (int)pos.X;
+            var y = (int)pos.Y;
+
+            if (x >= Rect.XMax || x <= Rect.XMin) return;
+            if (y >= Rect.YMax || y <= Rect.YMin ) return;
+
+            // update
+            _origin.X = x;
+            _origin.Y = y;                     
         }
     }
 }

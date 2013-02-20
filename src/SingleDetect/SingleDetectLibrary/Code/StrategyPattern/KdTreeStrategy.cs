@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using MathNet.Numerics.LinearAlgebra.Double;
@@ -58,19 +59,23 @@ namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
         /// <param name="s"></param>
         /// <param name="origin"></param>
         /// <param name="k"></param>
-        /// <param name="knnSameTypeOnly"></param>        
+        /// <param name="conf"></param>        
         /// <returns></returns>
-        public override long UpdateKnn(IAlgorithm s, IP origin, int k, bool knnSameTypeOnly)
+        public override long UpdateKnn(IAlgorithm s, IP origin, KnnConfiguration conf)
         {
+            if (conf == null) conf = new KnnConfiguration();
+            if (conf.SameTypeOnly) throw new NotImplementedException();
+            if (conf.MaxDistance.HasValue) throw new NotImplementedException();
+
             var sw = new Stopwatch();
             sw.Start();
 
             var vector = new DenseVector(new[] { origin.X, origin.Y });
-            var nn = Tree.FindNearestNNeighbors(vector, k).ToList();
+            var nn = Tree.FindNearestNNeighbors(vector, conf.K).ToList();
 
             s.Knn.Clear();
             s.Knn.Origin = origin;
-            s.Knn.K = k;
+            s.Knn.K = conf.K;
             foreach (var i in nn)
             {
                 var p = new P { X = i[0], Y = i[1] };

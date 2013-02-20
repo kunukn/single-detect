@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading;
 using Kunukn.SingleDetectLibrary.Code;
 using Kunukn.SingleDetectLibrary.Code.Contract;
+using Kunukn.SingleDetectLibrary.Code.Data;
 using Kunukn.SingleDetectLibrary.Code.StrategyPattern;
 using System.Linq;
 using P = Kunukn.SingleDetectLibrary.Code.Data.P;
@@ -51,7 +52,7 @@ namespace Kunukn.KNearestNeighborConsole
             };
             rect.Validate();
 
-            const int k = 4;
+            var conf = new KnnConfiguration { K = 4 };
 
             // Random points
             IPoints points = new Points();
@@ -75,7 +76,7 @@ namespace Kunukn.KNearestNeighborConsole
             // Use algo
             
             var origin = new P { X = 0, Y = 0 };                        
-            var duration = algo.UpdateKnn(origin, k);
+            var duration = algo.UpdateKnn(origin, conf);
 
             // Print result
             WL(string.Format("{0} msec. {1}:", algo.Strategy.Name, duration));
@@ -89,7 +90,7 @@ namespace Kunukn.KNearestNeighborConsole
             algo.SetAlgorithmStrategy(new NaiveStrategy());
 
             // Use algo
-            duration = algo.UpdateKnn(origin, k);
+            duration = algo.UpdateKnn(origin, conf);
 
             // Print result
             WL(string.Format("\n{0} msec. {1}:", algo.Strategy.Name, duration));

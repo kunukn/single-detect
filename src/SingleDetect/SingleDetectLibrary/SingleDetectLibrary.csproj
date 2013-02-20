@@ -53,6 +53,7 @@
     <Compile Include="Code\Contract\IPoints.cs" />
     <Compile Include="Code\Contract\IP.cs" />
     <Compile Include="Code\Contract\ILog2.cs" />
+    <Compile Include="Code\Data\KnnConfiguration.cs" />
     <Compile Include="Code\Data\Points.cs" />
     <Compile Include="Code\Data\NearestNeighbor.cs" />
     <Compile Include="Code\Data\PDist.cs" />
@@ -72,6 +73,7 @@
     <Compile Include="Code\StrategyPattern\GridStrategy.cs" />
     <Compile Include="Code\StrategyPattern\KdTreeStrategy.cs" />
     <Compile Include="Code\Util\CategoryUtil.cs" />
+    <Compile Include="Code\Util\PointUtil.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
