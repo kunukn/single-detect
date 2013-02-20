@@ -12,7 +12,7 @@ namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
 {
     public class NaiveStrategy : AlgorithmStrategy
     {
-        private ILog2 _log;
+        private readonly ILog2 _log;
 
         public override string Name
         {
@@ -60,12 +60,11 @@ namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
             return sw.ElapsedMilliseconds;
         }
 
-        /// <summary>
-        /// Something like O(k * logk * n)
+        /// <summary>        
+        /// O(n * k * logk)  // much faster than O(n logn) for k << n
         /// </summary>
         /// <param name="s"></param>
-        /// <param name="p"></param>
-        /// <param name="k"></param>
+        /// <param name="p"></param>       
         /// <param name="conf"></param>
         /// <returns></returns>
         public override long UpdateKnn(IAlgorithm s, IP p, KnnConfiguration conf)
@@ -78,27 +77,31 @@ namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
             s.Knn.Clear();
             s.Knn.Origin = p;
             s.Knn.K = conf.K;
-                       
-            var all = new List<IPDist>();
+
+            //var all = new List<IPDist>();
+            var sortedList2 = new SortedList2();
 
             var n = s.Points.Count;
             for (var i = 0; i < n; i++)
             {
                 var p1 = s.Points[i];
-                if (p.Equals(p1))  continue; // don't include origin
-                if (conf.SameTypeOnly && p.Type != p1.Type)  continue; // only same type used
+                if (p.Equals(p1)) continue; // don't include origin
+                if (conf.SameTypeOnly && p.Type != p1.Type) continue; // only same type used
 
                 var dist = p.Distance(p1.X, p1.Y);
                 if (dist >= conf.MaxDistance) continue;
-                
-                var pdist = new PDist {Point = p1, Distance = dist};
-                all.Add(pdist);                
+
+                var pdist = new PDist { Point = p1, Distance = dist };
+
+                //all.Add(pdist);
+                sortedList2.Add(pdist, conf.K);
             }
+
+            //s.Knn.NNs = all.OrderBy(i => i.Distance).Take(conf.K).ToList(); // O(n logn)
+            s.Knn.NNs = sortedList2.GetAll(); // O(n * k * logk)
             
-            s.Knn.NNs = all.OrderBy(i => i.Distance).Take(conf.K).ToList();
-                        
             sw.Stop();
             return sw.ElapsedMilliseconds;
-        }     
+        }        
     }
 }

@@ -10,7 +10,7 @@ namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
 {
     public class GridStrategy : AlgorithmStrategy
     {        
-        private ILog2 _log;
+        private readonly ILog2 _log;
 
         public override string Name
         {

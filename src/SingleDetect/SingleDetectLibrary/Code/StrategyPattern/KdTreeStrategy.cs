@@ -13,7 +13,7 @@ namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
 {
     public class KdTreeStrategy : AlgorithmStrategy
     {
-        private ILog2 _log;
+        private readonly ILog2 _log;
         public KdTree<Vector<double>, double> Tree { get; set; }
 
         public override string Name

@@ -27,7 +27,9 @@ namespace Kunukn.KNearestNeighborGui
     public partial class MainWindow
     {
         private readonly Stopwatch _stopwatch = new Stopwatch();
-        private readonly ILog2 _log = new NoLog(); // new Log4Net();
+        
+        private readonly ILog2 _log = new NoLog();
+        //private readonly ILog2 _log = new Log4Net();
 
         readonly DispatcherTimer _dispatcherTimer;
         readonly RenderTargetBitmap _renderTargetBitmap =
@@ -174,7 +176,7 @@ namespace Kunukn.KNearestNeighborGui
 
 
                 _stopwatch.Start();
-                _algorithm = new Algorithm(new Points { Data = points }, Rect, StrategyType.Grid, _log);                
+                _algorithm = new Algorithm(new Points { Data = points }, Rect, StrategyType.Grid, _log);
                 _animation = new Animation(_algorithm, Rect);
 
                 _stopwatch.Stop();

@@ -52,7 +52,7 @@ namespace Kunukn.KNearestNeighborConsole
             };
             rect.Validate();
 
-            var conf = new KnnConfiguration { K = 4 };
+            var conf = new KnnConfiguration { K = 100 };
 
             // Random points
             IPoints points = new Points();
