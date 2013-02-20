@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Kunukn.SingleDetectLibrary.Code.Logging;
 using MathNet.Numerics.LinearAlgebra.Double;
 using MathNet.Numerics.LinearAlgebra.Generic;
 using Kunukn.SingleDetectLibrary.Code.Contract;
@@ -12,15 +13,17 @@ namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
 {
     public class KdTreeStrategy : AlgorithmStrategy
     {
+        private ILog2 _log;
         public KdTree<Vector<double>, double> Tree { get; set; }
 
         public override string Name
         {
             get { return "KdTree Strategy"; }
         }
-
-        public KdTreeStrategy(IEnumerable<IP> points)
+        
+        public KdTreeStrategy(IEnumerable<IP> points, ILog2 log = null)
         {
+            _log = log ?? new NoLog();
             var vectors = points.Select(p => new DenseVector(new[] { p.X, p.Y })).ToList();
             Tree = KdTree<Vector<double>, double>.Construct(2, vectors.ToArray());
         }

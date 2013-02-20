@@ -4,15 +4,24 @@ using System.Diagnostics;
 using System.Linq;
 using Kunukn.SingleDetectLibrary.Code.Contract;
 using Kunukn.SingleDetectLibrary.Code.Data;
+using Kunukn.SingleDetectLibrary.Code.Logging;
 
 namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
 {
     public class GridStrategy : AlgorithmStrategy
-    {
+    {        
+        private ILog2 _log;
+
         public override string Name
         {
             get { return "Grid Strategy"; }
         }
+
+        public GridStrategy(ILog2 log = null)
+        {
+            _log = log ?? new NoLog();
+        }
+
 
         /// <summary>
         /// O(n * m)  where m is grid cells 

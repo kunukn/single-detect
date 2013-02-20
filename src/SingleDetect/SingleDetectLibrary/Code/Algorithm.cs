@@ -36,10 +36,10 @@ namespace Kunukn.SingleDetectLibrary.Code
             switch (type)
             {
                 case StrategyType.Naive:
-                    Strategy = new NaiveStrategy();
+                    Strategy = new NaiveStrategy(_log);
                     break;
                 case StrategyType.Grid:
-                    Strategy = new GridStrategy();
+                    Strategy = new GridStrategy(_log);
                     break;
                 case StrategyType.KdTree:
                     Strategy = new KdTreeStrategy(Points);

@@ -15,6 +15,7 @@ using Kunukn.SingleDetectLibrary.Code;
 using Kunukn.SingleDetectLibrary.Code.Contract;
 using Kunukn.SingleDetectLibrary.Code.Data;
 using Kunukn.SingleDetectLibrary.Code.Logging;
+using Kunukn.SingleDetectLibrary.Code.StrategyPattern;
 using Kunukn.SingleDetectLibrary.Code.Util;
 
 namespace Kunukn.KNearestNeighborGui
@@ -26,7 +27,7 @@ namespace Kunukn.KNearestNeighborGui
     public partial class MainWindow
     {
         private readonly Stopwatch _stopwatch = new Stopwatch();
-        private readonly ILog2 _log = new NoLog(); //new Log4Net();
+        private readonly ILog2 _log = new NoLog(); // new Log4Net();
 
         readonly DispatcherTimer _dispatcherTimer;
         readonly RenderTargetBitmap _renderTargetBitmap =
@@ -68,7 +69,7 @@ namespace Kunukn.KNearestNeighborGui
                                                                             SameTypeOnly = false, 
                                                                             MaxDistance = null
                                                                         };
-        private const bool IsMouseMoveEnabled = false;
+        private const bool IsMouseMoveEnabled = true;
 
         #endregion  ** config **
 
@@ -173,7 +174,7 @@ namespace Kunukn.KNearestNeighborGui
 
 
                 _stopwatch.Start();
-                _algorithm = new Algorithm(new Points { Data = points }, Rect, StrategyType.Grid, _log);
+                _algorithm = new Algorithm(new Points { Data = points }, Rect, StrategyType.Grid, _log);                
                 _animation = new Animation(_algorithm, Rect);
 
                 _stopwatch.Stop();
@@ -269,10 +270,6 @@ namespace Kunukn.KNearestNeighborGui
                     _elapsedAlgoUpdateKnn = string.Format("msec {0}", _algorithm.UpdateKnn(_origin, Configuration));
 
                     var nns = _algorithm.Knn.GetNNs();
-                    //var notnns = PointUtil.Exclusive(nns, _algorithm.Points);
-
-                    // Draw all not nearest neighbors
-                    //DrawUtil.DrawDots(dc, notnns, Rect);
 
                     // Draw updated KNN                                                
                     DrawUtil.DrawDots(dc, nns, Rect, ShapeType.NearestNeighbor);

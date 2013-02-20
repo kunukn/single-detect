@@ -1,16 +1,27 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
+using System.Text;
 using Kunukn.SingleDetectLibrary.Code.Contract;
 using Kunukn.SingleDetectLibrary.Code.Data;
+using Kunukn.SingleDetectLibrary.Code.Logging;
 
 namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
 {
     public class NaiveStrategy : AlgorithmStrategy
     {
+        private ILog2 _log;
+
         public override string Name
         {
             get { return "Naive Strategy"; }
+        }
+
+        public NaiveStrategy(ILog2 log = null)
+        {
+            _log = log ?? new NoLog();
         }
 
         /// <summary>
@@ -67,9 +78,8 @@ namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
             s.Knn.Clear();
             s.Knn.Origin = p;
             s.Knn.K = conf.K;
-
-            var set = new SortedSet<IPDist>();
-            var debug = new List<IPDist>();
+                       
+            var all = new List<IPDist>();
 
             var n = s.Points.Count;
             for (var i = 0; i < n; i++)
@@ -82,43 +92,13 @@ namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
                 if (dist >= conf.MaxDistance) continue;
                 
                 var pdist = new PDist {Point = p1, Distance = dist};
-                debug.Add(pdist);
-
-                if (set.Count < conf.K) set.Add(pdist);
-                else
-                {                   
-                    var m = set.Max;
-                    if (dist < m.Distance)
-                    {
-                        // replace
-                        set.Remove(m);
-                        set.Add(pdist);
-                    }
-                }
+                all.Add(pdist);                
             }
-
-            s.Knn.NNs = set.ToList();
-
-            //debug = debug.OrderBy(i => i.Distance).ToList();
-            //Validate(s.Knn.NNs, debug);
-
+            
+            s.Knn.NNs = all.OrderBy(i => i.Distance).Take(conf.K).ToList();
+                        
             sw.Stop();
             return sw.ElapsedMilliseconds;
-        }
-
-
-        void Validate(IList<IPDist> knn, IList<IPDist> all)
-        {            
-            for (int i = 0; i < knn.Count; i++)
-            {
-                var a = knn[i];
-                var b = all[i];
-
-                if(a.Point.Uid != b.Point.Uid)
-                {
-                    
-                }
-            }
-        }
+        }     
     }
 }
