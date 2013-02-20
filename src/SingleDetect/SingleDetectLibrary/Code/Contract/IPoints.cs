@@ -6,7 +6,7 @@ namespace Kunukn.SingleDetectLibrary.Code.Contract
 {
     public interface IPoints : ISerializable
     {
-        IList<IP> Data { get; set; }
+        List<IP> Data { get; set; }
         void Round(int decimals);
         int Count { get; }        
         IP this[int i] { get; set; }

@@ -9,7 +9,7 @@ namespace Kunukn.SingleDetectLibrary.Code.Data
     [Serializable]
     public class Points : IPoints, ISerializable
     {
-        public IList<IP> Data { get; set; }
+        public List<IP> Data { get; set; }
         public Points()
         {
             Data = new List<IP>();
