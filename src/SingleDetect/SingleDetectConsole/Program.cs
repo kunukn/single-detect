@@ -33,11 +33,14 @@ namespace Kunukn.SingleDetectConsole
             WL(string.Format("\nElapsed: {0}", sw.Elapsed.ToString()));
             WL(string.Format("Press a key to exit ... "));
             Console.ReadKey();
-        }         
-
+        }   
+      
+        /// <summary>
+        /// Run fast and slow version with same  test data and display the running time
+        /// </summary>
         static void Run()
         {
-            // Config
+            // Config, test data showing ability to use negative positions
             var rect = new Rectangle
                            {
                                XMin = -300, XMax = 300, 

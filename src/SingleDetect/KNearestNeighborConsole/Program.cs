@@ -39,9 +39,12 @@ namespace Kunukn.KNearestNeighborConsole
             Console.ReadKey();
         }
 
+        /// <summary>
+        /// Run fast and slow version with same  test data and display the running time
+        /// </summary>
         static void Run()
         {                      
-            // Config
+            // Config, test data showing ability to use negative positions
             var rect = new Rectangle
             {
                 XMin = -200,
