@@ -106,6 +106,7 @@ namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
 
                     if (dist < i * square) currRing.Add(new PDist { Point = p, Distance = dist });
                     else nextRing.Add(new PDist { Point = p, Distance = dist });
+
                     dataWasAdded = true;
                 }
 

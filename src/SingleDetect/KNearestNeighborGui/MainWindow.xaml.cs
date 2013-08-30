@@ -67,7 +67,7 @@ namespace Kunukn.KNearestNeighborGui
         private const bool IsDrawEnabled = true;
         private static readonly KnnConfiguration Configuration = new KnnConfiguration
                                                                         {
-                                                                            K = 10,
+                                                                            K = 20,
                                                                             SameTypeOnly = false, 
                                                                             //MaxDistance = 50
                                                                         };
@@ -159,11 +159,12 @@ namespace Kunukn.KNearestNeighborGui
                 // Center p as origin for nearest neighbors
                 points.Add(_origin = new P
                                {
-                                   X = Rect.XMin + (int)Rect.Width / 2,
-                                   Y = Rect.YMin + (int)Rect.Height / 2,
+                                   X = Rect.XMin + (int)(Rect.Width / 2),
+                                   Y = Rect.YMin + (int)(Rect.Height / 2),
                                    //Type = 3,
                                });
 
+                // Add random points
                 var rand = new Random();
                 for (var i = 0; i < DotsCount; i++)
                 {
