@@ -1,0 +1,78 @@
+﻿<html>
+    <head>
+        <title>K-nearest neighbor in 2D dimension space</title>
+    </head>
+    <body>
+        <h2>K-nearest neighbor</h2>
+
+        There are miscellaneous algorithms for <a href="http://en.wikipedia.org/wiki/Nearest_neighbor_search" title="nearest neighbor search" target="_blank">searching nearest neighbors</a>. 
+
+        An alternative method is to use grid indexing strategy.
+        Slowly expand the grid boxes from the center to find the <a href="http://en.wikipedia.org/wiki/K-nearest_neighbor_algorithm" title="knn" target="_blank">k-nearest neighbors</a>.
+        The grid is used as a filtering mechanism to reduce the search space.
+
+        This works fast for distributed data across the space and is a good alternative algorithm for dynamic data that changes position frequently. 
+
+        <h3>Reference links:</h3>
+        <a href="https://github.com/kunukn/single-detect" title="https://github.com/kunukn/single-detect" target="_blank">Project implemented in C# is available at Github:</a>
+        <a href="http://www.slac.stanford.edu/cgi-wrap/getdoc/slac-r-186.pdf" title="a  survey of techniques for fixed  radius near neighbor searching" target="_blank">A  survey of techniques for fixed  radius near neighbor searching:</a>
+
+<br/>
+        <img src="img/knn.png" alt="knn" />
+<br/>
+        The origin is in ring 0. 
+        The origin can anywhere in the box and the distance to test on first iteration must be at least 1 x grid distance. The first iteration starts with data from ring 0 and 1.
+<br/>
+        <strong>The algorithm goes like this:</strong>
+        <pre>
+i = 0
+Point origin
+list currRing = empty
+list nextRing = empty
+list temp
+while all rings not explored
+   i = i + 1
+   temp = empty
+   for all point in nextRing test distance between origin and point
+       if distance is within i * grid put it in currRing
+       else put it in temp
+
+   nextRing = empty
+   Add all from temp to nextRing
+
+   temp = empty
+   if(i==1) temp = points from ring 0 and ring 1
+   else temp = points from ring i
+
+   For all point in temp test distance between origin and point
+       if distance is within i * grid put it in currRing
+       else put it in nextRing
+
+   If there are at least k points in currRing then exit while loop
+end while loop
+
+if currRing count is &lt; k then add all from nextRing to currRing
+
+sort currRing by distance
+take first k from currRing
+</pre>
+
+        <span> </span>
+
+        <hr/>
+
+        <span> </span>
+<br/>
+        <img src="img/knn_example2.gif" alt="knn example" />
+<br/>
+        <strong>Grid version algorithm:</strong>
+        Apply algorithm described above.
+        Searching: <code>O(n * m)</code> where m is grid cells and k &lt;&lt; n.
+        <br/>
+        <br/>
+        <strong>Naive version algorithm:</strong>
+        For origin point check the distance to every other point.
+        Take k first items sorted by distance.
+        Searching: <code>O(n log n)</code>
+    </body>
+</html>

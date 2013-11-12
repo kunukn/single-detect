@@ -1,0 +1,187 @@
+﻿<html>
+    <head>
+        <title>Single detection in 2D dimension</title>
+    </head>
+    <body>
+        
+        <h2>Single detection</h2>
+
+Here I define single detection as data which has a certain minimum distance to every other data.
+It can be used for <a href="http://en.wikipedia.org/wiki/Anomaly_detection" title="anomaly detection" target="_blank">anomaly detection</a> or <a href="http://en.wikipedia.org/wiki/Outlier" title="outlier" target="_blank">outlier</a> detection of data set. It can also be used for <a href="http://en.wikipedia.org/wiki/Collision_detection" title="collision detection" target="_blank">collision detection</a>.
+
+<h3>Reference links: </h3>
+        <a href="https://github.com/kunukn/single-detect" title="https://github.com/kunukn/single-detect" target="_blank">Project implemented in C# is available at Github:</a><br/>
+<a href="http://www.slac.stanford.edu/cgi-wrap/getdoc/slac-r-186.pdf" title="a  survey of techniques for fixed  radius near neighbor searching" target="_blank">A  survey of techniques for fixed  radius near neighbor searching:</a><br/>
+        <br/>
+
+
+Given a list of points in 2D dimension how can you find the ones which are not close to the other points?
+
+I will include my <a href="http://en.wikipedia.org/wiki/Big_O_notation" title="big o" target="_blank">Big O notation</a> calculations and some test runs of the implementations.
+
+There is a naive implementation in <code>O(n<sup>2</sup>)</code>. 
+There are also better alternatives which runs faster than the naive version.
+
+First generate a grid of squares like this and put all your data in the grid according to their positions in the dimension.
+        <br/>
+<img src="img/singledetect1.png" alt="grid layout" />
+        <br/>
+In the figure above there is a single item illustrated with a red dot inside the blue box.
+
+For anomaly detection iterate the grid boxes and find those which has a single item inside a box. Those items are candidate as an anomaly item. If there are multiple items inside the blue box then it cannot be a candidate as an anomaly item because of the distance constraint. The candidate can be anywhere inside the box, thus the outer circle shows which areas that must be examined. If there is no other item inside the outer circle, then we know the candidate is an anomaly. On worst case 20 boxes must be examined as illustrated above.
+
+<a href="http://en.wikipedia.org/wiki/Euclidean_distance" title="euclidean" target="_blank">
+Euclidean distance</a> is used.
+The relation between the max distance and grid square distance can be calculated using Pythagoras.<br />
+Max Distance = c<br />
+Grid box distance = a<br />
+<pre>c<sup>2</sup> = a<sup>2</sup> + a<sup>2</sup> =&gt; a = sqrt( (c<sup>2</sup>) / 2)</pre>
+<br />
+
+<strong>Naive version algorithm:</strong>
+For all the points check the distance to every other point.
+Searching: <code>O(n<sup>2</sup>)</code>
+
+
+<strong>Grid version algorithm:</strong>
+Insert all the items in the grid buckets. 
+Take the neighbor items of the candidate item's grid. You will select items from 20 boxes as a worst case. Then iterate all the items and test the distance. If all the distance are above the maximum allowed then the candidate is detected as an anomaly.
+
+This algorithm is much better than the naive version, runs very fast and is relatively simple to implement. Each grid box is a bucket of items. Use a <a href="http://en.wikipedia.org/wiki/Hash_table" title="Hash table" target="_blank">Hash table</a> for each bucket.
+Inserting the items into the grids take <code>O(n)</code>. Removing and inserting an item takes <code>O(1)</code>. 
+Searching for anomalies take <code>O(m * n)</code>.
+
+If there are A anomalies in the data set and m grids this algorithm will run in:<br />
+Initialization: <code>O(n + m)</code> + Searching: <code>O(m * A * n/A)</code> =&gt; <code>O(m * n)</code>
+
+<strong>K-d tree with nearest neighbor algorithm:</strong>
+Insert all the items in the grid buckets takes O(n). 
+Do also apply a <a href="http://en.wikipedia.org/wiki/K-d_tree" title="k-d tree" target="_blank">K-d tree</a> data structure. From the candidate item's in the box apply the first <a href="http://en.wikipedia.org/wiki/Nearest_neighbor_search" title="nearest neighbor" target="_blank">nearest neighbor</a> algorithm. If the distance is above maximum allowed then it is detected as an anomaly.
+
+It take <code>O(n log n)</code> time to generate the K-d tree. The nearest neighbor search takes 
+<code>O(log n)</code>.
+Removing and inserting an item takes <code>O(log n)</code>. If there are A anomalies in the data set and m grids then searching for anomalies take <code>O(m * A * log n)</code>.
+
+This algorithm will run in:<br />
+initialization: <code>O(m + n * log n)</code> + Searching: <code>O(m * A * log n)</code> <br />
+
+<strong>Test results</strong>
+With my test runs of items randomly distributed data the grid version performs best. The naive version is very slow. The K-d Tree version is much faster than the naive version.
+
+I found this <a href="http://blog.noldorin.com/2011/03/kd-trees-for-dotnet/" title="k-d tree C#" target="_blank">C# K-d Tree implementation</a> with nearest neighbor search which I used for testing the algorithm.
+
+        <br/>
+        Sample picture:
+        <br/>
+        <br/>
+<img src="img/singledetectresult2.gif" alt="test result" />
+        <br/>
+<span> </span>
+
+<hr />
+
+<span> </span>
+
+The test runs are the time to detect the anomalies, the searching running time.
+The data structure initialization is not included. 
+For n = 1.000.000.
+K-d Tree it took about 30 seconds.
+Grid and Naive about 2 seconds.
+
+<span> </span>
+<pre>
+Random distributed, n = 100
+Algorithm:     Milli seconds:   Single detection found:
+NeighborGrid       12                   40
+K-d Tree          128                   40
+Naive               2                   40
+</pre>
+<span> </span>
+
+<hr />
+
+<pre>
+Random distributed, n = 10.000
+Algorithm:     Milli seconds:   Single detection found:
+NeighborGrid       141                  8384
+K-d Tree          2543                  8384
+Naive            36421                  8384
+</pre>
+<span> </span>
+
+<hr />
+
+<pre>
+Random distributed, n = 20.000
+Grid: 4286 x 3572
+MaxDistance: 0.2
+
+Algorithm:     Milli seconds:   Single detection found:
+NeighborGrid       1434                   18682
+K-d Tree           5878                   18682
+Naive             129401                  18682
+</pre>
+<span> </span>
+
+<hr />
+
+<pre>
+Random distributed, n = 30.000
+Grid: 1705 x 1421
+MaxDistance: 0.5
+
+Algorithm:     Milli seconds:   Single detection found:
+NeighborGrid        521                     27100
+K-d Tree            7936                    27100
+Naive               slow                  
+</pre>
+<span> </span>
+grid size is smaller thus the NeighborGrid runs fast.
+<span> </span>
+
+<hr />
+
+<pre>
+Random distributed, n = 50.000
+Grid: 4286 x 3572
+MaxDistance: 0.2
+
+Algorithm:     Milli seconds:   Single detection found:
+NeighborGrid        1472                   42268
+K-d Tree           13361                   42268
+Naive              very slow                  
+</pre>
+<span> </span>
+
+<hr />
+<span> </span>
+
+<pre>
+Random distributed, n = 1.000.000
+Grid: 1705 x 1421
+MaxDistance: 0.5
+
+Algorithm:     Milli seconds:   Single detection found:
+NeighborGrid           983              35824
+K-d Tree             23966              35824
+Naive              forever                  
+</pre>
+<span> </span>
+
+<hr />
+<span> </span>
+
+<strong>Conclusion</strong>
+These are just sample runs from random distributed data.
+If the number of anomalies were very high and the data set were different then the K-d Tree algorithm might run faster. I would guess that the data set would have to be very specific and not likely to be a common scenario. I have given my best estimated Big O running time analysis for the algorithms.
+
+The algorithm runs fast because of the single item grid box test. First they iterate the grid and skip every grid box except for those who has a single item inside. If you expect few anomalies for large data set then this would run very fast because most grid boxes would be skipped for further examination. Thus the running time for anomaly search is closer to <code>O(m)</code> for <code>A &lt;&lt; n</code>.
+
+If you are working with dynamic data where positions changes, then the Grid algorithm will run faster because of the <code>O(1)</code> operations. With K-d tree you will have to rebuild the tree occasionally and delete/update takes <code>O(log n)</code>.
+
+
+        Sample picture for n = 100
+        <br/>
+<img src="img/singledetectresult.gif" alt="test result" />
+    </body>
+</html>

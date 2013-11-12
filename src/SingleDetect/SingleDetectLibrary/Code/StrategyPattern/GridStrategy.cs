@@ -8,11 +8,11 @@ using Kunukn.SingleDetectLibrary.Code.Logging;
 
 namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
 {
-    public class GridStrategy : AlgorithmStrategy
+    public class GridStrategy : IAlgorithmStrategy
     {        
         private readonly ILog2 _log;
 
-        public override string Name
+        public string Name
         {
             get { return "Grid Strategy"; }
         }
@@ -28,7 +28,7 @@ namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
         /// </summary>
         /// <param name="s"></param>
         /// <returns></returns>
-        public override long UpdateSingles(IAlgorithm s)
+        public long UpdateSingles(IAlgorithm s)
         {
             var sw = new Stopwatch();
             sw.Start();
@@ -41,7 +41,7 @@ namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
                 var neighbors = s.GridContainer.GetGridNeighborContent(p);
                 var add = neighbors
                     .Select(i => i.Distance(p.X, p.Y))
-                    .All(dist => dist > s.Rect_.MaxDistance);
+                    .All(dist => dist > s.Rectangle.MaxDistance);
 
                 if (add) s.Singles.Add(p);
             }
@@ -51,13 +51,13 @@ namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
         }
 
         // O(n * m) where m is grid cells
-        public override long UpdateKnn(IAlgorithm s, IP p, KnnConfiguration conf)
+        public long UpdateKnn(IAlgorithm s, IP p, KnnConfiguration conf)
         {
             if (conf == null) conf = new KnnConfiguration();
             
             var sw = new Stopwatch();
             sw.Start();
-            var max = Math.Max(s.Rect_.XGrid, s.Rect_.YGrid);
+            var max = Math.Max(s.Rectangle.XGrid, s.Rectangle.YGrid);
 
             s.Knn.Clear();
             s.Knn.Origin = p;
@@ -73,7 +73,7 @@ namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
         {
             var g = s.GridContainer;
             var nn = s.Knn;
-            var square = s.Rect_.Square;
+            var square = s.Rectangle.Square;
 
             var currRing = new List<IPDist>();
             var nextRing = new List<IPDist>();

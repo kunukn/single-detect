@@ -1,18 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Diagnostics;
 using Kunukn.SingleDetectLibrary.Code.Contract;
 using Kunukn.SingleDetectLibrary.Code.Data;
 using Kunukn.SingleDetectLibrary.Code.Logging;
 
 namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
 {
-    public class NaiveStrategy : AlgorithmStrategy
+    public class NaiveStrategy : IAlgorithmStrategy
     {
         private readonly ILog2 _log;
 
-        public override string Name
+        public string Name
         {
             get { return "Naive Strategy"; }
         }
@@ -27,7 +24,7 @@ namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
         /// </summary>
         /// <param name="s"></param>
         /// <returns></returns>
-        public override long UpdateSingles(IAlgorithm s)
+        public long UpdateSingles(IAlgorithm s)
         {
             var sw = new Stopwatch();
             sw.Start();
@@ -45,7 +42,7 @@ namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
 
                     var p2 = s.Points[j];
                     var dist = p1.Distance(p2.X, p2.Y);
-                    if (!(dist > s.Rect_.MaxDistance))
+                    if (!(dist > s.Rectangle.MaxDistance))
                     {
                         add = false;
                         break;
@@ -65,9 +62,9 @@ namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
         /// <param name="p"></param>       
         /// <param name="conf"></param>
         /// <returns></returns>
-        public override long UpdateKnn(IAlgorithm s, IP p, KnnConfiguration conf)
+        public long UpdateKnn(IAlgorithm s, IP p, KnnConfiguration conf)
         {
-            if (conf == null) conf = new KnnConfiguration();
+            conf = conf ?? new KnnConfiguration();
 
             var sw = new Stopwatch();
             sw.Start();
@@ -76,8 +73,8 @@ namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
             s.Knn.Origin = p;
             s.Knn.K = conf.K;
 
-            //var all = new List<IPDist>();
-            var sortedList2 = new SortedList2();
+            //var all = new List<IPDist>(); // naive version
+            var sortedList2 = new SortedList2();  // better naive version
 
             var n = s.Points.Count;
             for (var i = 0; i < n; i++)
@@ -91,12 +88,12 @@ namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
 
                 var pdist = new PDist { Point = p1, Distance = dist };
 
-                //all.Add(pdist);
-                sortedList2.Add(pdist, conf.K);
+                //all.Add(pdist); // naive version
+                sortedList2.Add(pdist, conf.K);  // better naive version
             }
 
             //s.Knn.NNs = all.OrderBy(i => i.Distance).Take(conf.K).ToList(); // O(n logn)
-            s.Knn.NNs = sortedList2.GetAll(); // O(n * k * logk)
+            s.Knn.NNs = sortedList2.GetAll(); // O(n * k * logk) // better naive version
             
             sw.Stop();
             return sw.ElapsedMilliseconds;

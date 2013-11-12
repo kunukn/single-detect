@@ -9,12 +9,12 @@ namespace Kunukn.SingleDetectLibrary.Code.Contract
     {
         // Shared
         IList<IP> Points { get; }    // all the points
-        IRectangle Rect_ { get; }    // the world boundary      
+        IRectangle Rectangle { get; }    // the world boundary      
         void UpdatePosition(IP p);  // update grid and gridbox ref for p
         void UpdateIndex(IP p);     // update gridbox ref for p
         GridContainer GridContainer { get; }
-        AlgorithmStrategy Strategy { get; }
-        void SetAlgorithmStrategy(AlgorithmStrategy algorithmStrategy); // set the algo type used for calc        
+        IAlgorithmStrategy Strategy { get; }
+        void SetAlgorithmStrategy(IAlgorithmStrategy algorithmStrategy); // set the algo type used for calc        
 
         // Single select
         long UpdateSingles();

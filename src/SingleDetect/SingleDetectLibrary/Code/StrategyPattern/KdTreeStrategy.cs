@@ -11,12 +11,12 @@ using KdTree;
 
 namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
 {
-    public class KdTreeStrategy : AlgorithmStrategy
+    public class KdTreeStrategy : IAlgorithmStrategy
     {
         private readonly ILog2 _log;
         public KdTree<Vector<double>, double> Tree { get; set; }
 
-        public override string Name
+        public string Name
         {
             get { return "KdTree Strategy"; }
         }
@@ -28,7 +28,7 @@ namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
             Tree = KdTree<Vector<double>, double>.Construct(2, vectors.ToArray());
         }
                         
-        public override long UpdateSingles(IAlgorithm s)
+        public long UpdateSingles(IAlgorithm s)
         {
             var sw = new Stopwatch();
             sw.Start();
@@ -45,7 +45,7 @@ namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
                     var x = i[0];
                     var y = i[1];
                     var dist = p.Distance(x, y);
-                    if (dist > s.Rect_.MaxDistance) s.Singles.Add(p);
+                    if (dist > s.Rectangle.MaxDistance) s.Singles.Add(p);
                 }
             }
 
@@ -64,7 +64,7 @@ namespace Kunukn.SingleDetectLibrary.Code.StrategyPattern
         /// <param name="k"></param>
         /// <param name="conf"></param>        
         /// <returns></returns>
-        public override long UpdateKnn(IAlgorithm s, IP origin, KnnConfiguration conf)
+        public long UpdateKnn(IAlgorithm s, IP origin, KnnConfiguration conf)
         {
             if (conf == null) conf = new KnnConfiguration();
             if (conf.SameTypeOnly) throw new NotImplementedException();

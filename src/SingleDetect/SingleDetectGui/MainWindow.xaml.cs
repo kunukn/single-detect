@@ -213,14 +213,14 @@ namespace Kunukn.SingleDetectGui
             sb.AppendFormat("\n\nDetect Singles: \n\n");
             sb.AppendFormat("{0}\n", _algorithm.Strategy.Name);
             sb.AppendFormat("Singles: {0}\n", _algorithm.Singles.Count);
-            sb.AppendFormat("MaxDistance: {0}\n", _algorithm.Rect_.MaxDistance);
-            sb.AppendFormat("Square: {0}\n\n", _algorithm.Rect_.Square);
+            sb.AppendFormat("MaxDistance: {0}\n", _algorithm.Rectangle.MaxDistance);
+            sb.AppendFormat("Square: {0}\n\n", _algorithm.Rectangle.Square);
             sb.AppendFormat("SliderTop\nmsec per frame: {0}\n\n", SliderTop);
             sb.AppendFormat("SliderLeft\nshow grid: {0}\n\n", SliderLeft);
             sb.AppendFormat("SliderBottom\nmovement speed: {0}\n\n", SliderBottom);
             sb.AppendFormat("dots: {0}\n", _algorithm.Points.Count);
             sb.AppendFormat("moving dots: {0}\n", _animation.Moving.Count);
-            sb.AppendFormat("grid: {0};{1}\n", _algorithm.Rect_.XGrid, _algorithm.Rect_.YGrid);
+            sb.AppendFormat("grid: {0};{1}\n", _algorithm.Rectangle.XGrid, _algorithm.Rectangle.YGrid);
             sb.AppendFormat("Draw enabled: {0}\n", DrawUtil.IsDrawEnabled);
             sb.AppendFormat("\nElapsed Algo Init: \n{0}\n", _elapsedAlgoInit);
             sb.AppendFormat("\nElapsed Algo Single detect: \n{0}\n", _elapsedAlgoSingleDetect);

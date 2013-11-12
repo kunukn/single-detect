@@ -27,7 +27,7 @@ namespace Kunukn.KNearestNeighborGui
     public partial class MainWindow
     {
         private readonly Stopwatch _stopwatch = new Stopwatch();
-        
+
         private readonly ILog2 _log = new NoLog();
         //private readonly ILog2 _log = new Log4Net();
 
@@ -47,7 +47,7 @@ namespace Kunukn.KNearestNeighborGui
         private bool _isRunningFrameUpdate;
 
         #region ** config **
-        
+
         public const int DotsCount = 100; // dots      
         public static readonly int DotsMovingCount = 10; // moving dots per frame
         const int Dotsize = 2; // draw dot size    
@@ -68,7 +68,7 @@ namespace Kunukn.KNearestNeighborGui
         private static readonly KnnConfiguration Configuration = new KnnConfiguration
                                                                         {
                                                                             K = 10,
-                                                                            SameTypeOnly = false, 
+                                                                            SameTypeOnly = false,
                                                                             //MaxDistance = 50
                                                                         };
 
@@ -152,11 +152,12 @@ namespace Kunukn.KNearestNeighborGui
                 Img = _renderTargetBitmap;  // Set up the image source
                 this.DataContext = this;    // Enable the controls to bind to the properties
 
-                InitializeComponent(); // wpf
+                InitializeComponent(); // WPF
 
                 var points = new List<IP>();
 
                 // Center p as origin for nearest neighbors
+                // set and add origin
                 points.Add(_origin = new P
                                {
                                    X = Rect.XMin + (int)Rect.Width / 2,
@@ -177,7 +178,10 @@ namespace Kunukn.KNearestNeighborGui
 
 
                 _stopwatch.Start();
-                _algorithm = new Algorithm(new Points { Data = points }, Rect, StrategyType.Grid, _log);
+                
+                _algorithm = new Algorithm(new Points { Data = points }, Rect, log: _log);
+                _algorithm.SetAlgorithmStrategy(new GridStrategy(_log));
+
                 _animation = new Animation(_algorithm, Rect);
 
                 _stopwatch.Stop();
@@ -219,7 +223,7 @@ namespace Kunukn.KNearestNeighborGui
                 // Draw all points always
                 // Draw on the drawing context
                 using (DrawingContext dc = _drawingVisual.RenderOpen())
-                {                 
+                {
                     // --- logic
                     _animation.SelectMovingDots(DotsMovingCount); // Select p to be moved
                     _animation.UpdateMovingPosition(min, max); // Update moving pos
@@ -232,10 +236,10 @@ namespace Kunukn.KNearestNeighborGui
                     DrawUtil.ClearBackground(dc, Rect); // Clear all
                     DrawUtil.DrawDots(dc, notnns, Rect); // Draw all not nearest neighbors
                     DrawUtil.DrawDots(dc, nns, Rect, ShapeType.NearestNeighbor); // Draw updated KNN
-                    DrawUtil.DrawDots(dc, new[] { _origin }, Rect, ShapeType.Selected);                    
+                    DrawUtil.DrawDots(dc, new[] { _origin }, Rect, ShapeType.Selected);
                     DrawUtil.DrawGrid(dc, SliderLeft == 1, Rect, Pens.PenGrid2);
 
-                    dc.Close();                                        
+                    dc.Close();
                 }
             }
 
@@ -248,7 +252,7 @@ namespace Kunukn.KNearestNeighborGui
                     _animation.SelectMovingDots(DotsMovingCount);
 
                     // Clear prev frame knn
-                    DrawUtil.RedrawDots(dc, new[] {_algorithm.Knn.Origin}, Rect, ShapeType.Selected);
+                    DrawUtil.RedrawDots(dc, new[] { _algorithm.Knn.Origin }, Rect, ShapeType.Selected);
                     DrawUtil.RedrawDots(dc, _algorithm.Knn.GetNNs(), Rect, ShapeType.NearestNeighbor);
                     DrawUtil.ClearDots(dc, _animation.Moving, Rect); // Clear prev frame moving dots
 
@@ -259,7 +263,7 @@ namespace Kunukn.KNearestNeighborGui
                     // Draw updated KNN                                                
                     DrawUtil.DrawDots(dc, _animation.Moving, Rect); // Draw updated pos
                     DrawUtil.DrawDots(dc, nns, Rect, ShapeType.NearestNeighbor);
-                    DrawUtil.DrawDots(dc, new[] { _origin }, Rect, ShapeType.Selected);                    
+                    DrawUtil.DrawDots(dc, new[] { _origin }, Rect, ShapeType.Selected);
                     DrawUtil.DrawGrid(dc, SliderLeft == 1, Rect);
 
                     dc.Close();
@@ -276,14 +280,14 @@ namespace Kunukn.KNearestNeighborGui
             //sb.AppendFormat(_algorithm.Knn.NNs.Aggregate("", (a, b) => a + b + "\n"));
             sb.AppendFormat("K: {0}\n", _algorithm.Knn.K);
             sb.AppendFormat("NNs: {0}\n", _algorithm.Knn.NNs.Count);
-            sb.AppendFormat("MaxDistance: {0}\n", _algorithm.Rect_.MaxDistance);
-            sb.AppendFormat("Square: {0}\n\n", _algorithm.Rect_.Square);
+            sb.AppendFormat("MaxDistance: {0}\n", _algorithm.Rectangle.MaxDistance);
+            sb.AppendFormat("Square: {0}\n\n", _algorithm.Rectangle.Square);
             sb.AppendFormat("SliderTop\nmsec per frame: {0}\n\n", SliderTop);
             sb.AppendFormat("SliderLeft\nshow grid: {0}\n\n", SliderLeft);
             sb.AppendFormat("SliderBottom\nmovement speed: {0}\n\n", SliderBottom);
             sb.AppendFormat("dots: {0}\n", _algorithm.Points.Count);
             sb.AppendFormat("moving dots: {0}\n", _animation.Moving.Count);
-            sb.AppendFormat("grid: {0};{1}\n", _algorithm.Rect_.XGrid, _algorithm.Rect_.YGrid);
+            sb.AppendFormat("grid: {0};{1}\n", _algorithm.Rectangle.XGrid, _algorithm.Rectangle.YGrid);
             sb.AppendFormat("Draw enabled: {0}\n", DrawUtil.IsDrawEnabled);
             sb.AppendFormat("\nElapsed Algo Init: \n{0}\n", _elapsedAlgoInit);
             sb.AppendFormat("\nElapsed Algo update Knn: \n{0}\n", _elapsedAlgoUpdateKnn);
@@ -301,8 +305,8 @@ namespace Kunukn.KNearestNeighborGui
 
 
         private void Image_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
-        {            
-            if(!IsMouseMoveEnabled) return;
+        {
+            if (!IsMouseMoveEnabled) return;
 
             var pos = e.GetPosition((Image)sender);
             if (_origin == null) return;
@@ -311,11 +315,11 @@ namespace Kunukn.KNearestNeighborGui
             var y = (int)pos.Y;
 
             if (x >= Rect.XMax || x <= Rect.XMin) return;
-            if (y >= Rect.YMax || y <= Rect.YMin ) return;
+            if (y >= Rect.YMax || y <= Rect.YMin) return;
 
             // update
             _origin.X = x;
-            _origin.Y = y;                     
+            _origin.Y = y;
         }
     }
 }

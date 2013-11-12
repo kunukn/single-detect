@@ -69,7 +69,7 @@
     <Compile Include="Code\Grid\Grid.cs" />
     <Compile Include="Code\MathUtil\M.cs" />
     <Compile Include="Code\Algorithm.cs" />
-    <Compile Include="Code\StrategyPattern\AlgorithmStrategy.cs" />
+    <Compile Include="Code\Contract\IAlgorithmStrategy.cs" />
     <Compile Include="Code\StrategyPattern\NaiveStrategy.cs" />
     <Compile Include="Code\StrategyPattern\GridStrategy.cs" />
     <Compile Include="Code\StrategyPattern\KdTreeStrategy.cs" />
@@ -78,6 +78,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Document\img\singledetect1.png" />
+    <Content Include="Document\img\singledetectresult.gif" />
+    <Content Include="Document\img\singledetectresult2.gif" />
+    <Content Include="Document\SingleDetectBlog.html" />
+    <Content Include="Document\img\knn.png" />
+    <Content Include="Document\img\knn_example2.gif" />
+    <Content Include="Document\KnnBlog.html" />
     <Content Include="Readme.txt" />
   </ItemGroup>
   <ItemGroup>
