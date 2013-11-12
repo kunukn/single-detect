@@ -39,9 +39,12 @@ namespace Kunukn.KNearestNeighborConsole
             Console.ReadKey();
         }
 
+        /// <summary>
+        /// Run fast and slow version with same  test data and display the running time
+        /// </summary>
         static void Run()
-        {                      
-            // Config
+        {
+            // Config, test data showing ability to use negative positions
             var rect = new Rectangle
             {
                 XMin = -200,
@@ -52,7 +55,12 @@ namespace Kunukn.KNearestNeighborConsole
             };
             rect.Validate();
 
-            var conf = new KnnConfiguration { K = 100 };
+            var conf = new KnnConfiguration
+                           {
+                               K = 100, 
+                               SameTypeOnly = false, 
+                               MaxDistance = null
+                           };
 
             // Random points
             IPoints points = new Points();
@@ -70,12 +78,11 @@ namespace Kunukn.KNearestNeighborConsole
             points.Round(3);
 
             // Init algo
-            IAlgorithm algo =
-                new Algorithm(points, rect, StrategyType.Grid);
+            IAlgorithm algo = new Algorithm(points, rect, StrategyType.Grid);
 
             // Use algo
-            
-            var origin = new P { X = 0, Y = 0 };                        
+
+            var origin = new P { X = 0, Y = 0 };
             var duration = algo.UpdateKnn(origin, conf);
 
             // Print result
