@@ -3,7 +3,7 @@ Single Detect with C#
 
 Detect singles and K-nearest neighbors in 2D dimension space
 * Console code usage examples for K-nearest neighbors (knn) and singles
-* Gui code usage examples for knn and singles (WPF with animation, i.e. dynamic data)
+* Gui code usage examples for knn and singles (WPF with animation and mouse interaction, i.e. dynamic data)
 * Algorithm strategy option between Grid, Naive and KdTree
 * Option to apply knn on same type points only
 * Euclidean distance is used
@@ -29,6 +29,7 @@ About K-nearest neighbor? Read this [blog](http://kunuk.wordpress.com/2013/01/21
 ![K Nearest Neighbor](https://raw.github.com/kunukn/single-detect/master/img/knn.gif "knn image")
 
 The origin in the center is the red color. <br>
+You can move the mouse pointer around and the neighbors will be updated.<br>
 The pink colors are the nearest neighbors and are slightly larger in size.
 
 ![K Nearest Neighbor](https://raw.github.com/kunukn/single-detect/master/img/knn2.gif "knn image2")
