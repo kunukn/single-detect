@@ -495,16 +495,41 @@ namespace KdTree
             }
             else
             {
+
+                /*
+                 <ADDED> was added after I received a friendly email with possible bug in the code.                
+                 
+                 Quote
+                 
+                 "I came across a strange bug you may not have discovered. 
+                 In your Findmin method, if the TValue is a value type not a reference type all hell breaks loose when removing nodes. 
+                 Also, I noted that you cannot actually remove all the nodes from your data structure 
+                 (the root always remains) but I wouldn't call that a bug."                 
+                 
+                 */
+
                 // Find node with minimum value in sub-tree of current node.
                 var nodeLocation = this.locationGetter(node.Value);
                 var leftMinValue = FindMinimum(node.LeftChild, splittingDimension, depth + 1);
                 var rightMinValue = FindMinimum(node.RightChild, splittingDimension, depth + 1);
+
                 var leftMinValueBetter = leftMinValue != null &&
                     fieldComparer.Compare(this.locationGetter(leftMinValue)[splittingDimension],
                     nodeLocation[splittingDimension]) < 0;
+
+                // <ADDED>
+                if (leftMinValue.Equals(default(TValue)))
+                    leftMinValueBetter = false;
+                //  </ADDED>
+
                 var rightMinValueBetter = rightMinValue != null &&
                     fieldComparer.Compare(this.locationGetter(rightMinValue)[splittingDimension],
                     nodeLocation[splittingDimension]) < 0;
+
+                // <ADDED>
+                if (rightMinValue.Equals(default(TValue)))
+                    rightMinValueBetter = false;
+                //  </ADDED>
 
                 if (leftMinValueBetter && !rightMinValueBetter)
                     return leftMinValue;

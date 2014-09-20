@@ -95,6 +95,7 @@ namespace Kunukn.KNearestNeighborConsole
 
             // Update strategy
             algo.SetAlgorithmStrategy(new NaiveStrategy());
+            //algo.SetAlgorithmStrategy(new KdTreeStrategy(points.Data));
 
             // Use algo
             duration = algo.UpdateKnn(origin, conf);
